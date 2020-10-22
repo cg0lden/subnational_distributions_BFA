@@ -3,34 +3,41 @@
 library(tidyverse)
 library(haven)
 library(here)
+library(janitor)
 library(SPADE.RIVMNwCore)
 
 # Load the Zambia data from the Stata file
 
-zambia <- read_dta(here("data", "Zambia fg24.dta"))
+zambia <- read_dta(here("data", "Zambia fg24.dta")) %>% clean_names()
 
 
 # Limit to variables needed for analysis
-zambia_b12 <- zambia %>%
-  group_by(hid, pid, Recall) %>%
-  summarize(sum_b12 = sum(VIT_B12_MCG))
+zambia_nut <- zambia %>%
+  group_by(hid, pid, recall) %>%
+  summarize(sum_b12 = sum(vit_b12_mcg),
+            sum_iron = sum(iron_mg),
+            sum_zinc = sum(zinc_mg),
+            sum_vita = sum(vit_a_mcg_rae)
+  )
+
 
 # Merge in identifiers, incl age/sex
-zambia_b12_merge<-zambia %>%
-  select(agey, sex, hid, pid, Recall) %>%
-  distinct() # drop duplicates (since there is one observation per food item)
+zambia_merge <- zambia %>%
+  dplyr::select( agey, sex, recall, hid, pid) %>%
+    distinct() 
+# drop duplicates (since there is one observation per food item)
   
 # Rename and format variables for spade
-zambia_b12_spade <- zambia_b12 %>% left_join(zambia_b12_merge, by=c("hid", "pid", "Recall")) %>%
-  rename(age=agey, b12=sum_b12) %>%
+zambia_spade <- zambia_nut %>% left_join(zambia_merge, by=c("hid", "pid", "recall")) %>%
+  rename(age=agey, b12=sum_b12, iron = sum_iron, zinc = sum_zinc, vita=sum_vita) %>%
   mutate(hid=as.character(hid),
          pid=as.character(pid)) %>%
   mutate(id=paste0(hid, pid)) %>%
-  mutate(mday = Recall) %>%
+  mutate(mday = recall) %>%
   ungroup() %>%
-  select(id, age, sex, mday, b12)
+  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita)
 
-zambia_b12_spade$id <- as.integer(zambia_b12_spade$id)
+zambia_spade$id <- as.integer(zambia_spade$id)
 
 # 5 1-4 years
 #6 5-9 years
@@ -51,10 +58,10 @@ zambia_b12_spade$id <- as.integer(zambia_b12_spade$id)
 #21 80 plus
 
 # Make separate datasets for men and women
-f.spade_wom <- zambia_b12_spade %>%
+f.spade_wom <- zambia_spade %>%
   filter(sex==2)
 
-f.spade_men <- zambia_b12_spade %>%
+f.spade_men <- zambia_spade %>%
   filter(sex==1)
 
 # Running Spade
