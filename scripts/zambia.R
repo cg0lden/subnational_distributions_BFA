@@ -58,29 +58,21 @@ zambia_spade$id <- as.integer(zambia_spade$id)
 #21 80 plus
 
 # Make separate datasets for men and women
-f.spade_wom <- zambia_spade %>%
+zambia_wom <- zambia_spade %>%
   filter(sex==2)
 
-f.spade_men <- zambia_spade %>%
-  filter(sex==1)
-
-# Running Spade
-
+# Save the dataset and run the spade program in a separate file WITHOUT tidyverse
 # For women
-f.spade(frml.ia=b12~fp(age),
-        frml.if=b12~fp(age),
-        data=f.spade_wom,
-        seed=10,
-        min.age=1,
-        max.age=69,
-        sex.lab="female"
-)
+# f.spade(frml.ia=b12~fp(age),
+#         frml.if=b12~fp(age),
+#         data=zambia_wom,
+#         seed=10,
+#         min.age=18,
+#         max.age=69,
+#         sex.lab="female"
+# )
 # output.name = "b12_zambia",
 # spade.output.path = here("Results", "Zambia_women")
 #age.classes=c(1-4, 5-9, 10-14, 15-19, 20-24, 25-29, 30-34, 35-39, 40-44, 
-              45-49, 50-54, 55-59, 60-64, 65-70),
+              # 45-49, 50-54, 55-59, 60-64, 65-70),
 
-
-view(f.spade)
-
-sum(b)

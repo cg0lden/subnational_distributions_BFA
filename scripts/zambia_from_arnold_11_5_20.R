@@ -148,9 +148,9 @@ f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), data=zambia_wom_2, seed=123,
 #                          overall mean of habitual intakes = 3.362
 #    difference of mean HI mean from (weighted) sample mean = 11.861 %
 
-# Remove first 8 
+# Remove first 9 
 zambia_wom_2 <- zambia_wom
-for( idid in names(res)[1:8])
+for( idid in names(res)[1:9])
   zambia_wom_2 <- zambia_wom_2[zambia_wom_2$id != idid, ]
 
 f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), data=zambia_wom_2, seed=123,
@@ -220,4 +220,7 @@ summary(zambia_wom$id)
 
 # Need to get ratio of var inner/outer down
 
-zambia_wom_pos <- aggregate(zambia_wom_pos, by=id, FUN=diff
+zambia_wom_pos <- aggregate(zambia_wom_pos$b12, by=list(zambia_wom_pos$id), FUN=diff)
+
+f.spade
+
