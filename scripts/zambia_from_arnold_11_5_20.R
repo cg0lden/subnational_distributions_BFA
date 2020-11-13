@@ -148,16 +148,25 @@ f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), data=zambia_wom_2, seed=123,
 #                          overall mean of habitual intakes = 3.362
 #    difference of mean HI mean from (weighted) sample mean = 11.861 %
 
+<<<<<<< HEAD
 # Remove first 9 
 zambia_wom_2 <- zambia_wom
 for( idid in names(res)[1:9])
+=======
+# Remove first 5 
+zambia_wom_2 <- zambia_wom
+for( idid in names(res)[1:5])
+>>>>>>> 8c83fb6c757f7f9058c1363cede2fc90b05365c8
   zambia_wom_2 <- zambia_wom_2[zambia_wom_2$id != idid, ]
 
 f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), data=zambia_wom_2, seed=123,
         min.age=18,max.age=67,sex="female", dgts.distr = 2)
 
 summary(zambia_wom$id)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8c83fb6c757f7f9058c1363cede2fc90b05365c8
 # Last part of the output
 
 #within-individual variance  = 2.38
@@ -217,6 +226,7 @@ summary(zambia_wom$id)
 # to remove, so remove of the persons with a high variance only the lowest
 # because then they are partecipating but not in the calculation of
 # the variances (between en within person).
+<<<<<<< HEAD
 
 # Need to get ratio of var inner/outer down
 
@@ -224,3 +234,5 @@ zambia_wom_pos <- aggregate(zambia_wom_pos$b12, by=list(zambia_wom_pos$id), FUN=
 
 f.spade
 
+=======
+>>>>>>> 8c83fb6c757f7f9058c1363cede2fc90b05365c8
