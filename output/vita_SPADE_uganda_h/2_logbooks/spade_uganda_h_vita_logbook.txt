@@ -1,0 +1,104 @@
+
+
+========================================
+=====   Information about SPADE    =====
+========================================
+f.spade:
+   Date              = Fri Nov 13 10:07:19 2020
+   Version           = 4_0_79
+   Engine            = R and Fortran
+
+========================================
+=====  Information about the data  =====
+========================================
+
+   Dataset            = uganda_h
+   Compound           = vita
+   Selection          = women ; age 20-67
+   Weights            = no weights used
+   Backtransformation by pseudo-sampling, with per person 100 
+   pseudo persons (before use of weights and/or population data)
+
+   Populaton datatset = no population data used
+
+========================================
+=====  Extra info about the data   =====
+========================================
+
+See file 
+   spade_uganda_h_vita_output_details.txt
+
+==================================================
+=====             Model results              =====
+==================================================
+   Model for intake amount   : vita ~ fp(age)
+   Model for intake frequency: "no.if"
+   Survey weights            : no weights used
+
+=====   Model results  for  amounts    =====
+
+   Box Cox transformation with lambda = 0.132  (0.1,0.17)
+
+   Model fit of mixed effect model for the transformed amounts
+Linear mixed model fit by REML ['lmerMod']
+Formula: intake.trans ~ I((age/100)^1) + (1 | id)
+   Data: spade.dt.ia
+Weights: spade.dt.ia[, weights.name]
+
+REML criterion at convergence: 3786.2
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.48989 -0.58621 -0.00323  0.56669  2.17628 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 4.950    2.225   
+ Residual             7.114    2.667   
+Number of obs: 717, groups:  id, 547
+
+Fixed effects:
+               Estimate Std. Error t value
+(Intercept)      8.9003     0.5769  15.427
+I((age/100)^1)   2.1815     1.5950   1.368
+
+Correlation of Fixed Effects:
+            (Intr)
+I((/100)^1) -0.970
+
+   within-individual variance  = 7.11
+   between-individual variance = 4.95
+   ratio var.inner/var.between for intake amounts = 1.44
+
+* * *  Statistics of observed and habitual intakes  * * *
+                             (weighted) sample mean intake = 1152.49
+                          overall mean of habitual intakes = 1192.389
+    difference of mean HI mean from (weighted) sample mean = 3.462 %
+
+spade output table
+             AM     P5    P10    P25     P50     P75     P90     P95
+(20,67] 1193.69 187.45 271.16 482.48  877.53 1542.82 2486.14 3259.94
+(20,25] 1074.05 175.36 243.79 435.73  782.80 1417.07 2241.94 2921.96
+(25,29] 1116.72 177.03 253.99 445.95  821.45 1440.76 2353.97 3069.33
+(29,34] 1153.89 183.24 265.82 472.56  851.39 1484.74 2397.00 3101.75
+(34,39] 1216.95 186.05 275.05 496.24  896.76 1564.52 2486.91 3316.65
+(39,44] 1260.90 198.92 285.80 518.23  928.07 1643.17 2608.13 3452.20
+(44,49] 1311.18 210.29 307.56 521.86  978.28 1690.68 2676.44 3541.88
+(49,54] 1346.25 219.67 302.18 545.24 1018.37 1748.74 2820.24 3641.73
+(54,59] 1444.20 248.15 344.69 596.75 1006.12 1809.07 2948.24 4125.29
+(59,64] 1502.93 255.10 363.76 638.01 1096.82 1927.31 3069.00 4163.86
+
+Confidence intervals: check first the plots and logbooks,
+next use f.spade.bootstrap.
+
+===================================================================== 
+   The SPADE output is saved in 
+   output/vita_SPADE_uganda_h/ 
+ 
+   -  Diagnostic plots       can be found in    1_plots 
+   -  Log files              can be found in    2_logbooks 
+   -  Excel output tables    can be found in    3_excel_tables 
+
+   -  The model and table R-binaries in   4_r_binaries 
+      are saved for experts in R 
+=====================================================================
