@@ -1,40 +1,48 @@
-# SPADE for estimating distributions
+# Prep data for SPADE calculations
+# Created by Simone Passarelli on 11/10/20
 # Uganda Harvest Plus dataset
 
 library(tidyverse)
 library(haven)
 library(here)
-library(SPADE.RIVMNwCore)
 library(janitor)
 
 # Load the Zambia data from the Stata file
 
-uganda_h <- read_dta(here("data", "Uganda HPlus fg24.dta")) %>% clean_names()
+uganda_hplus <- read_dta(here("data", "raw", "Uganda HPlus fg24.dta")) %>% clean_names()
 
 # Limit to variables needed for analysis
-uganda_h_nut <- uganda_h %>%
+uganda_h_nut <- uganda_hplus %>%
   select(!(id)) %>%
   rename(id= ind_id, recall=recall_d) %>%
   group_by(id, recall) %>%
-  summarize(sum_b12 = sum(vit_b12),
-            sum_iron = sum(iron_mg),
-            sum_zinc = sum(zinc_mg),
-            sum_vita = sum(vit_a_mc)
+  summarize(b12 = sum(vit_b12),
+            iron = sum(iron_mg),
+            zinc = sum(zinc_mg),
+            vita = sum(vit_a_mc)
   )
 
 # Merge in identifiers, incl age/sex
-uganda_h_merge<-uganda_h %>%
+uganda_h_merge<-uganda_hplus %>%
+  select(!(id)) %>%
+  rename(id= ind_id, recall=recall_d) %>%
   select(ageyears, gender, id, recall) %>%
   distinct() # drop duplicates (since there is one observation per food item)
 
 # Rename and format variables for spade
 uganda_h_nut_spade <- uganda_h_nut %>% left_join(uganda_h_merge, by=c("id", "recall")) %>%
-  rename(age=ageyears, sex=gender, b12=sum_b12, sum_iron = iron, sum_zinc = zinc, sum_vita=vita) %>%
+  rename(age=ageyears, sex=gender) %>%
   mutate(mday = recall) %>%
   ungroup() %>%
   select(id, age, sex, mday, b12, iron, zinc, vita)
 
-uganda_h_nut_spade$id <- as.integer(uganda_h_nut_spade$id)
+uganda_h <- uganda_h_nut_spade %>% group_by(id) %>%
+  mutate(id = cur_group_id())
+
+# Look at how many recalls we have by day
+table(table(uganda_h$id))
+# 1   2 
+# 401 180 
 
 # 5 1-4 years
 #6 5-9 years
@@ -54,25 +62,57 @@ uganda_h_nut_spade$id <- as.integer(uganda_h_nut_spade$id)
 #20 75-79 years
 #21 80 plus
 
-# Make separate datasets for men and women
-f.spade_wom <- uganda_h_nut_spade %>%
-  filter(sex==2)
+summary(uganda_h)
 
-f.spade_men <- uganda_h_nut_spade %>%
-  filter(sex==1)
+# Look at the observations with age missing
+uganda_h_missings <- uganda_h[is.na(uganda_h$age), ] # shows you the missings
+uganda_h_missings 
+# There are 32 missing ages: fill these in where possible with second day of obs
+# Most missing age values can't be recovered because only one recall or missing both
+# Define the impute mean function
 
-# Running Spade
+impute.mean <- function(x) replace(x, is.na(x), mean(x, na.rm = TRUE))
 
-# For women
-f.spade(frml.ia=b12~fp(age),
-        frml.if=b12~fp(age),
-        data=f.spade_wom,
-        seed=10,
-        min.age=1,
-        max.age=69,
-        sex.lab="female",
-        output.name = "b12_uganda_h",
-        spade.output.path = here("results", "uganda_h_women"),
-        age.classes=c(1-4, 5-9, 10-14, 15-19, 20-24, 25-29, 30-34, 35-39, 40-44, 45-49, 50-54, 55-59, 60-64, 65-70)
-)
+# To repair missing id's
+uganda_h <- uganda_h %>% 
+  group_by(id) %>%
+  mutate(age= case_when(age <18 ~ NA_real_ , TRUE~age)) %>% 
+  # replace 0's for age as NA so can impute mean when we have a second entry
+  # this is also the case for some low numbers, eg age 2, so do the same
+  mutate(age2 = impute.mean(age)) %>% #impute missing ages with the mean of age for second entry
+  mutate(age = age2) %>%
+  select(!age2) %>% 
+  filter(!is.na(age)) %>% #dropped the two observations that with missing age
+  # in the case where there are different ages for same individual, take the max age
+  filter(age>=18) %>% #only keep ages >= 18 because only adults in this sample
+  ungroup %>%
+  mutate(age = as.integer(age))
+
+# The next scripts sets the age the the first age (min(age)) when age is different
+
+ids_data <- unique(uganda_h$id)
+for (idid in ids_data){
+  data.id <- uganda_h[uganda_h$id == idid, ]
+  if(nrow(data.id) > 1){
+    uganda_h[uganda_h$id == idid,"age"] <- 
+      min(uganda_h[uganda_h$id == idid,"age"])
+  }
+}
+
+is.integer(uganda_h$age)
+is.integer(uganda_h$id)
+
+summary(uganda_h) #no more NA values
+table(table(uganda_h$sex))
+
+# It seems like there is one observation listed as man instead of woman
+uganda_h_wom <- uganda_h %>%
+mutate(sex=2)
+
+
+# Save separate datasets for men and women
+save(uganda_h, file=here("data", "processed", "uganda_h"), replace) 
+
+
+
 
