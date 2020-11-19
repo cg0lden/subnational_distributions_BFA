@@ -4,4 +4,5 @@
 .Ruserdata
 
 documentation/
-data/
+data/processed/
+data/raw/
