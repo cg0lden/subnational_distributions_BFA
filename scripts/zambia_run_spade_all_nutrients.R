@@ -9,7 +9,6 @@ library(here)
 # DO NOT load tidyverse because it makes spade mad!
 load(here("data", "processed", "zambia_wom"))
 
-summary(zambia_wom)
 
 ###########################################################
 # 1. RUN SPADE FOR B12
@@ -51,10 +50,12 @@ for (idid in names(res))
 
 summary(tapply(zambia_wom_pos$b12,  zambia_wom_pos$id, var))
 
-# Remove first 8 
+# Remove first 5 
 zambia_wom_2 <- zambia_wom
-for( idid in names(res)[1:8])
+for( idid in names(res)[1:5])
   zambia_wom_2 <- zambia_wom_2[zambia_wom_2$id != idid, ]
+
+zambia_wom_2 <- zambia_wom_2$b12 <100
 
 f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
         data=zambia_wom_2, seed=123,
@@ -95,8 +96,6 @@ f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
 
 # 4. RUN SPADE FOR VIT A
 
-
-# only positive intake values for iron so use 1 part model
 f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
         data=zambia_wom, seed=123,
         min.age=18,max.age=67,sex="female", dgts.distr = 2, 
@@ -104,6 +103,26 @@ f.spade(frml.ia=vita~fp(age), frml.if="no.if",
         output.name = "Zambia_wom_vita",
         spade.output.path = "output/vita_SPADE_zambia/")
 
+##################################################################
 
+# 5. RUN SPADE FOR CALCIUM
 
+f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
+        data=zambia_wom, seed=123,
+        min.age=18,max.age=67,sex="female", dgts.distr = 2, 
+        age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
+        output.name = "Zambia_wom_calc",
+        spade.output.path = "output/calc_SPADE_zambia/")
+
+##################################################################
+
+# 6. RUN SPADE FOR RED MEAT
+
+# Have to use two part model because so many zeroes
+f.spade(frml.ia=red_meat~fp(age),  frml.if=red_meat~cs(age), 
+        data=zambia_wom, seed=123,
+        min.age=18,max.age=67,sex="female", dgts.distr = 2, 
+        age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
+        output.name = "Zambia_wom_calc",
+        spade.output.path = "output/red_meat_SPADE_zambia/")
 

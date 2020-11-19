@@ -14,13 +14,37 @@ uganda_hplus <- read_dta(here("data", "raw", "Uganda HPlus fg24.dta")) %>% clean
 # Limit to variables needed for analysis
 uganda_h_nut <- uganda_hplus %>%
   select(!(id)) %>%
-  rename(id= ind_id, recall=recall_d) %>%
+  rename(id= ind_id, recall=recall_d, weight_food = weight_f) %>%
   group_by(id, recall) %>%
+  mutate(red_meat= case_when(descr=="BEEF,HIGH FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="BEEF,HIGHFAT,FRESH,ROASTED" ~ weight_food,
+                             descr=="BEEF,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="BEEF,LEAN,FRESH,BOILED" ~ weight_food,
+                             descr=="BEEF,LEAN,FRESH,ROASTED" ~ weight_food,
+                             descr=="GOAT,HIGH FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="GOAT,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="GOAT,LEAN,FRESH,BOILED" ~ weight_food,
+                             descr=="PORK,HIGH FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="PORK,HIGH FAT,FRESH,FRIED" ~ weight_food,
+                             descr=="PORK,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
+                             descr=="BEEF,LIVER,BOILED" ~ weight_food,
+                             descr=="BEEF,KIDNEY,BOILED" ~ weight_food,
+                             descr=="BEEF,LUNG,BOILED" ~ weight_food,
+                             descr=="BEEF,TRIPE,BOILED" ~ weight_food,
+                             descr=="BEEF,TROTTER (EMOLOKONY),BOILED" ~ weight_food,
+                             descr=="GOAT/LAMB,LIVER,BOILED" ~ weight_food,
+                             TRUE ~ 0 ) ) %>%
   summarize(b12 = sum(vit_b12),
             iron = sum(iron_mg),
             zinc = sum(zinc_mg),
-            vita = sum(vit_a_mc)
-  )
+            vita = sum(vit_a_mc),
+            calc = sum(calcium),
+            red_meat = sum(red_meat))
+ 
+   # omega_3 = sum (omega_3)
+
+# no processed meat listed in dataset
+# FIXIT: add omega 3 content once you have fish
 
 # Merge in identifiers, incl age/sex
 uganda_h_merge<-uganda_hplus %>%
@@ -34,7 +58,7 @@ uganda_h_nut_spade <- uganda_h_nut %>% left_join(uganda_h_merge, by=c("id", "rec
   rename(age=ageyears, sex=gender) %>%
   mutate(mday = recall) %>%
   ungroup() %>%
-  select(id, age, sex, mday, b12, iron, zinc, vita)
+  select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat)
 
 uganda_h <- uganda_h_nut_spade %>% group_by(id) %>%
   mutate(id = cur_group_id())

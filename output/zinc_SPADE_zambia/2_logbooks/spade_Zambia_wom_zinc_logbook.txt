@@ -4,7 +4,7 @@
 =====   Information about SPADE    =====
 ========================================
 f.spade:
-   Date              = Fri Nov 13 10:07:58 2020
+   Date              = Thu Nov 19 15:49:30 2020
    Version           = 4_0_79
    Engine            = R and Fortran
 

@@ -18,8 +18,9 @@ zambia <- read_dta(here( "data", "raw", "Zambia fg24.dta")) %>% clean_names()
 # Any intake (in grams per day) of meat preserved by smoking, curing,
 # salting, or addition of chemical preservatives
 
-zambia_meat <- zambia %>%
-  select(hid, pid, recall, descr, gdescr, weight_food) %>%
+
+# Limit to variables needed for analysis
+zambia_nut <- zambia %>%
   group_by(hid, pid, recall) %>%
   mutate(red_meat= case_when(descr=="BEEF,HIGH FAT,FRESH,BOILED" ~ weight_food,
                              descr=="BEEF,KIDNEY,BOILED" ~ weight_food,
@@ -46,39 +47,39 @@ zambia_meat <- zambia %>%
                              descr=="RAT,DRIED,BOILED" ~ weight_food,
                              descr=="RAT,FRESH,ROASTED" ~ weight_food,
                              TRUE ~ 0)) %>%
-        mutate(processed_meat = case_when(gdescr=="MEATS, POULTRY, AND INSECTS" & str_detect(descr, "SAUSAGE") ~ weight_food,
+  mutate(processed_meat = case_when(gdescr=="MEATS, POULTRY, AND INSECTS" & str_detect(descr, "SAUSAGE") ~ weight_food,
                                     gdescr=="MEATS, POULTRY, AND INSECTS" & str_detect(descr, "SMOKED") ~ weight_food,
-                                    TRUE ~ 0))
-         
-                             
-                             
-                             
-                            
+                                    TRUE ~ 0)) %>%
+  summarize(b12 = sum(vit_b12_mcg),
+            iron = sum(iron_mg),
+            zinc = sum(zinc_mg),
+            vita = sum(vit_a_mcg_rae),
+            calc = sum(calcium_mg),
+            red_meat = sum(red_meat),
+            processed_meat = sum(processed_meat),
+            red_processed_meat = sum(red_meat, processed_meat))
 
-# Limit to variables needed for analysis
-zambia_nut <- zambia %>%
-  group_by(hid, pid, recall) %>%
-  summarize(sum_b12 = sum(vit_b12_mcg),
-            sum_iron = sum(iron_mg),
-            sum_zinc = sum(zinc_mg),
-            sum_vita = sum(vit_a_mcg_rae) )
-
+            # FIXIT add omega 3 once we have fish,
+# mutate(omega_3 = case_when(gdescr==""))
+           # sum_omega3 = sum(omega_3))
 
 # Merge in identifiers, incl age/sex
 zambia_merge <- zambia %>%
   dplyr::select( agey, sex, recall, hid, pid) %>%
     distinct() 
 # drop duplicates (since there is one observation per food item)
+
+# drop duplicates (since there is one observation per food item)
   
 # Rename and format variables for spade
 zambia_spade <- zambia_nut %>% left_join(zambia_merge, by=c("hid", "pid", "recall")) %>%
-  rename(age=agey, b12=sum_b12, iron = sum_iron, zinc = sum_zinc, vita=sum_vita) %>%
+  rename(age=agey) %>%
   mutate(hid=as.character(hid),
          pid=as.character(pid)) %>%
   mutate(id=paste0(hid, pid)) %>%
   mutate(mday = recall) %>%
   ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita)
+  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat)
 
 zambia_spade$id <- as.integer(zambia_spade$id)
 

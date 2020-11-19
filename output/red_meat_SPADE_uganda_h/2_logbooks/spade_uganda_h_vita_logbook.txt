@@ -1,0 +1,171 @@
+
+
+========================================
+=====   Information about SPADE    =====
+========================================
+f.spade:
+   Date              = Thu Nov 19 15:25:27 2020
+   Version           = 4_0_79
+   Engine            = R and Fortran
+
+========================================
+=====  Information about the data  =====
+========================================
+
+   Dataset            = uganda_h
+   Compound           = red_meat
+   Selection          = women ; age 20-67
+   Weights            = no weights used
+   Backtransformation by pseudo-sampling, with per person 100 
+   pseudo persons (before use of weights and/or population data)
+
+   Populaton datatset = no population data used
+
+========================================
+=====  Extra info about the data   =====
+========================================
+
+See file 
+   spade_uganda_h_vita_output_details.txt
+
+==================================================
+=====             Model results              =====
+==================================================
+   Model for intake amount   : red_meat ~ fp(age)
+   Model for intake frequency: red_meat ~ cs(age) , sigma.formula =    ~ 1
+   Survey weights            : no weights used
+
+=====   Model results  for frequency   =====
+
+
+Family:  c("BB", "Beta Binomial") 
+Fitting method: RS() 
+
+Call:  gamlss(formula = frml.if.use, family = BB, data = spade.dt.if,  
+    weights = gamlss.wghts, method = RS(), control = gamlss.control(trace = FALSE,  
+        c.crit = 0.1, n.cyc = 100), i.control = glim.control()) 
+
+Mu Coefficients:
+(Intercept)      cs(age)  
+   -0.91950     -0.02193  
+Sigma Coefficients:
+(Intercept)  
+     -2.551  
+
+ Degrees of Freedom for the fit: 6.001 Residual Deg. of Freedom   541 
+Global Deviance:     559.641 
+            AIC:     571.642 
+            SBC:     597.472 
+******************************************************************
+Family:  c("BB", "Beta Binomial") 
+
+Call:  gamlss(formula = frml.if.use, family = BB, data = spade.dt.if,  
+    weights = gamlss.wghts, method = RS(), control = gamlss.control(trace = FALSE,  
+        c.crit = 0.1, n.cyc = 100), i.control = glim.control()) 
+
+Fitting method: RS() 
+
+------------------------------------------------------------------
+Mu link function:  logit
+Mu Coefficients:
+            Estimate Std. Error t value Pr(>|t|)  
+(Intercept) -0.91950    0.42217  -2.178   0.0298 *
+cs(age)     -0.02193    0.01201  -1.826   0.0685 .
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+------------------------------------------------------------------
+Sigma link function:  log
+Sigma Coefficients:
+            Estimate Std. Error t value Pr(>|t|)  
+(Intercept)   -2.551      1.289  -1.979   0.0483 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+------------------------------------------------------------------
+NOTE: Additive smoothing terms exist in the formulas: 
+ i) Std. Error for smoothers are for the linear effect only. 
+ii) Std. Error for the linear terms may not be reliable. 
+------------------------------------------------------------------
+No. of observations in the fit:  547 
+Degrees of Freedom for the fit:  6.000639
+      Residual Deg. of Freedom:  540.9994 
+                      at cycle:  3 
+ 
+Global Deviance:     559.6409 
+            AIC:     571.6421 
+            SBC:     597.4716 
+******************************************************************
+               Estimate Std. Error   t value   Pr(>|t|)
+(Intercept) -0.91949692 0.42217143 -2.178018 0.02983506
+cs(age)     -0.02192891 0.01201194 -1.825592 0.06846181
+(Intercept) -2.55097464 1.28902010 -1.979003 0.04831764
+
+
+=====   Model results  for  amounts    =====
+
+   Box Cox transformation with lambda = 0.068  (-0.13,0.27)
+
+   Model fit of mixed effect model for the transformed amounts
+Linear mixed model fit by REML ['lmerMod']
+Formula: intake.trans ~ I((age/100)^1) + (1 | id)
+   Data: spade.dt.ia
+Weights: spade.dt.ia[, weights.name]
+
+REML criterion at convergence: 272
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-1.55139 -0.26290  0.01133  0.36444  1.76354 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 0.4472   0.6687  
+ Residual             0.2221   0.4713  
+Number of obs: 113, groups:  id, 108
+
+Fixed effects:
+               Estimate Std. Error t value
+(Intercept)      5.0470     0.3104  16.258
+I((age/100)^1)  -0.5088     0.8902  -0.572
+
+Correlation of Fixed Effects:
+            (Intr)
+I((/100)^1) -0.968
+
+   within-individual variance  = 0.222
+   between-individual variance = 0.447
+   ratio var.inner/var.between for intake amounts = 0.497
+
+* * *  Statistics of observed and habitual intakes  * * *
+                             (weighted) sample mean intake = 12.721
+                          overall mean of habitual intakes = 12.702
+    difference of mean HI mean from (weighted) sample mean = -0.146 %
+
+spade output table
+           AM   P5  P10  P25   P50   P75   P90   P95
+(20,67] 12.60 1.51 2.42 4.85  9.35 16.68 26.81 34.59
+(20,25] 20.08 4.14 5.83 9.73 16.44 26.10 39.42 48.70
+(25,29] 14.33 2.26 3.43 6.14 11.04 18.84 28.82 36.36
+(29,34] 11.49 1.44 2.32 4.54  8.61 15.27 24.44 31.29
+(34,39] 10.90 1.24 2.02 4.10  8.06 14.25 23.44 30.65
+(39,44] 10.73 1.37 2.19 4.15  7.94 14.10 22.81 29.37
+(44,49] 11.76 1.55 2.31 4.55  8.92 15.38 25.23 32.93
+(49,54] 11.39 1.63 2.34 4.74  8.45 14.59 24.15 31.78
+(54,59]  8.01 0.69 1.19 2.52  5.69 10.84 18.90 23.30
+(59,64]  6.16 0.30 0.56 1.61  3.98  7.90 15.02 20.75
+
+Confidence intervals: check first the plots and logbooks,
+next use f.spade.bootstrap.
+
+===================================================================== 
+   The SPADE output is saved in 
+   output/red_meat_SPADE_uganda_h/ 
+ 
+   -  Diagnostic plots       can be found in    1_plots 
+   -  Log files              can be found in    2_logbooks 
+   -  Excel output tables    can be found in    3_excel_tables 
+
+   -  The model and table R-binaries in   4_r_binaries 
+      are saved for experts in R 
+=====================================================================

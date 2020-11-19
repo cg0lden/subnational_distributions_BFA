@@ -1,0 +1,173 @@
+
+
+========================================
+=====   Information about SPADE    =====
+========================================
+f.spade:
+   Date              = Thu Nov 19 16:03:54 2020
+   Version           = 4_0_79
+   Engine            = R and Fortran
+
+========================================
+=====  Information about the data  =====
+========================================
+
+   Dataset            = zambia_wom
+   Compound           = red_meat
+   Selection          = women ; age 18-67
+   Weights            = no weights used
+   Backtransformation by pseudo-sampling, with per person 100 
+   pseudo persons (before use of weights and/or population data)
+
+   Populaton datatset = no population data used
+
+========================================
+=====  Extra info about the data   =====
+========================================
+
+See file 
+   spade_Zambia_wom_calc_output_details.txt
+
+==================================================
+=====             Model results              =====
+==================================================
+   Model for intake amount   : red_meat ~ fp(age)
+   Model for intake frequency: red_meat ~ cs(age) , sigma.formula =    ~ 1
+   Survey weights            : no weights used
+
+=====   Model results  for frequency   =====
+
+
+Family:  c("BB", "Beta Binomial") 
+Fitting method: RS() 
+
+Call:  gamlss(formula = frml.if.use, family = BB, data = spade.dt.if,  
+    weights = gamlss.wghts, method = RS(), control = gamlss.control(trace = FALSE,          c.crit = 0.1, n.cyc = 100), i.control = glim.control()) 
+
+Mu Coefficients:
+(Intercept)      cs(age)  
+   -1.91725     -0.01298  
+Sigma Coefficients:
+(Intercept)  
+     -2.393  
+
+ Degrees of Freedom for the fit: 5.999 Residual Deg. of Freedom   378 
+Global Deviance:     359.055 
+            AIC:     371.054 
+            SBC:     394.756 
+******************************************************************
+Family:  c("BB", "Beta Binomial") 
+
+Call:  gamlss(formula = frml.if.use, family = BB, data = spade.dt.if,  
+    weights = gamlss.wghts, method = RS(), control = gamlss.control(trace = FALSE,          c.crit = 0.1, n.cyc = 100), i.control = glim.control()) 
+
+Fitting method: RS() 
+
+------------------------------------------------------------------
+Mu link function:  logit
+Mu Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) -1.91725    0.59520  -3.221  0.00139 **
+cs(age)     -0.01298    0.01987  -0.653  0.51391   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+------------------------------------------------------------------
+Sigma link function:  log
+Sigma Coefficients:
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept)   -2.393      0.917  -2.609  0.00942 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+------------------------------------------------------------------
+NOTE: Additive smoothing terms exist in the formulas: 
+ i) Std. Error for smoothers are for the linear effect only. 
+ii) Std. Error for the linear terms may not be reliable. 
+------------------------------------------------------------------
+No. of observations in the fit:  384 
+Degrees of Freedom for the fit:  5.999406
+      Residual Deg. of Freedom:  378.0006 
+                      at cycle:  3 
+ 
+Global Deviance:     359.0555 
+            AIC:     371.0543 
+            SBC:     394.7558 
+******************************************************************
+               Estimate Std. Error    t value    Pr(>|t|)
+(Intercept) -1.91725374 0.59520207 -3.2211812 0.001386963
+cs(age)     -0.01298016 0.01986634 -0.6533745 0.513911055
+(Intercept) -2.39291355 0.91702718 -2.6094249 0.009424891
+
+
+=====   Model results  for  amounts    =====
+
+   Box Cox transformation with lambda = 0.402  (0.03,0.8)
+
+   Model fit of mixed effect model for the transformed amounts
+Linear mixed model fit by REML ['lmerMod']
+Formula: intake.trans ~ I((age/10)^1) + (1 | id)
+   Data: spade.dt.ia
+Weights: spade.dt.ia[, weights.name]
+
+REML criterion at convergence: 314.6
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.67931 -0.64950  0.07665  0.64372  2.23123 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 0.000    0.000   
+ Residual             7.664    2.768   
+Number of obs: 65, groups:  id, 60
+
+Fixed effects:
+              Estimate Std. Error t value
+(Intercept)    12.9385     1.5482   8.357
+I((age/10)^1)  -0.5947     0.5164  -1.151
+
+Correlation of Fixed Effects:
+            (Intr)
+I((g/10)^1) -0.975
+convergence code: 0
+boundary (singular) fit: see ?isSingular
+
+
+   within-individual variance  = 7.66
+   between-individual variance = 0
+   ratio var.inner/var.between for intake amounts = Inf
+
+* * *  Statistics of observed and habitual intakes  * * *
+                             (weighted) sample mean intake = 6.855
+                          overall mean of habitual intakes = 6.886
+    difference of mean HI mean from (weighted) sample mean = 0.458 %
+
+spade output table
+          AM   P5  P10  P25  P50   P75   P90   P95
+(18,64] 6.93 0.26 0.62 1.97 5.03  9.99 15.99 20.03
+(18,20] 5.80 0.14 0.37 1.33 3.64  8.24 14.41 18.62
+(20,25] 7.12 0.35 0.75 2.15 5.22 10.22 16.18 20.23
+(25,29] 8.35 0.70 1.28 3.01 6.59 12.01 18.13 22.03
+(29,34] 8.19 0.72 1.37 3.10 6.51 11.68 17.48 21.29
+(34,39] 6.06 0.27 0.54 1.68 4.31  8.81 14.13 17.75
+(39,44] 3.61 0.04 0.11 0.52 1.91  5.15  9.45 12.60
+(44,49] 2.72 0.01 0.04 0.27 1.31  3.70  7.56 10.68
+(49,54] 2.86 0.02 0.06 0.34 1.56  3.94  7.25  9.66
+(54,59] 3.15 0.04 0.18 0.67 1.98  4.47  7.71  9.55
+(59,64] 3.11 0.07 0.12 0.51 1.81  4.98  7.55 10.65
+
+Confidence intervals: check first the plots and logbooks,
+next use f.spade.bootstrap.
+
+===================================================================== 
+   The SPADE output is saved in 
+   output/red_meat_SPADE_zambia/ 
+ 
+   -  Diagnostic plots       can be found in    1_plots 
+   -  Log files              can be found in    2_logbooks 
+   -  Excel output tables    can be found in    3_excel_tables 
+
+   -  The model and table R-binaries in   4_r_binaries 
+      are saved for experts in R 
+=====================================================================

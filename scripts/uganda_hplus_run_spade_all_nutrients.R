@@ -57,9 +57,10 @@ summary(tapply(uganda_h_pos$b12,  uganda_h_pos$id, var))
    uganda_h_2 <- uganda_h_2[uganda_h_2$id != idid, ]
 
 range(uganda_h$age)
+range(uganda_h$b12)
 
 
-# RUN FOR B12
+# 1. RUN FOR B12
 f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
         data=uganda_h_2, seed=123,
         min.age=20,max.age=73,sex="female", dgts.distr = 2,  
@@ -125,7 +126,6 @@ f.spade(frml.ia=iron~fp(age),  frml.if="no.if",
 
 summary(uganda_h)
 
-# only positive intake values for iron so use 1 part model
 f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
         data=uganda_h, seed=123,
         min.age=20,max.age=67,sex="female", dgts.distr = 2, 
@@ -140,11 +140,35 @@ f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
 # Some extremely high intakes
 uganda_h_vita <- subset(uganda_h, vita<9000)
 
-# only positive intake values for iron so use 1 part model
 f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
         data=uganda_h, seed=123,
         min.age=20,max.age=67,sex="female", dgts.distr = 2, 
         age.classes=c(20, 25, 29, 34, 39, 44, 49, 54, 59, 64, 73),
         output.name = "uganda_h_vita",
         spade.output.path = "output/vita_SPADE_uganda_h/")
+
+##################################################################
+
+# 5. RUN SPADE FOR CALCIUM
+
+f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
+        data=uganda_h, seed=123,
+        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+        age.classes=c(20, 25, 29, 34, 39, 44, 49, 54, 59, 64, 73),
+        output.name = "uganda_h_vita",
+        spade.output.path = "output/calc_SPADE_uganda_h/")
+
+##################################################################
+
+# 6. RUN SPADE FOR RED MEAT
+range(uganda_h$red_meat)
+
+# Have to use 2-part model for red meat because 84% zeroes
+f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age), 
+        data=uganda_h, seed=123,
+        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+        age.classes=c(20, 25, 29, 34, 39, 44, 49, 54, 59, 64, 73),
+        output.name = "uganda_h_vita",
+        spade.output.path = "output/red_meat_SPADE_uganda_h/")
+
 
