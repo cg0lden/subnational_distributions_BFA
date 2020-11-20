@@ -133,8 +133,6 @@ table(table(uganda_h$sex))
 uganda_h_wom <- uganda_h %>%
 mutate(sex=2)
 
-
-# Save separate datasets for men and women
 save(uganda_h, file=here("data", "processed", "uganda_h"), replace) 
 
 
