@@ -55,14 +55,32 @@ zambia_wom_2 <- zambia_wom
 for( idid in names(res)[1:5])
   zambia_wom_2 <- zambia_wom_2[zambia_wom_2$id != idid, ]
 
-zambia_wom_2 <- zambia_wom_2$b12 <100
+zambia_wom_2 <- zambia_wom_2[zambia_wom_2$b12 <100,]
 
-f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
-        data=zambia_wom_2, seed=123,
+zambia_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
+        data=zambia_wom_2, seed=123,  backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2,  
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_b12",
         spade.output.path = "output/b12_SPADE_zambia/")
+
+#Using fitdist code from Alon
+q <- quantile(tmpageclassHI, c(0.05,0.1,0.25,0.50,0.75,0.9,0.95))
+p <- c(0.05,0.1,0.25,0.50,0.75,0.9,0.95)
+
+#It says that Weibull, lognormal, and gamma all worked
+
+fit.results <- rriskFitdist.perc(p,q, show.output = TRUE)
+plotDiagnostics.perc(fit.results)
+
+# Using code from Arnold to plot the back transofrmation (will have to do this for each age group)
+head(zambia_b12)
+tmpageclassHI <- zambia_b12[zambia_b12$age >= 18 & zambia_b12$age <= 67, "HI"]
+d <- density(tmpageclassHI)
+plot(d)
+plot(d, frame = FALSE, col = "steelblue", 
+     main = "Density") 
+plot2 <- abline(v = mean(tmpageclassHI), col = "red", lwd = 2)
 
 ##################################################################
 
