@@ -69,6 +69,7 @@ uganda_h_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age),
         spade.output.path = "output/uganda_h/")
 
 uganda_h_b12 <- subset(uganda_h_b12, select = c(age, HI))
+uganda_h_b12 <- uganda_h_b12[order(uganda_h_b12$age),]
 
 write.csv(uganda_h_b12, "all_intakes/uganda_h_w_b12.csv")
 
@@ -124,6 +125,8 @@ uganda_h_iron <- f.spade(frml.ia=iron~fp(age),  frml.if="no.if",
 # within to between ratio is still high (5.77) but might be because of 
 # small number of second day recalls
 uganda_h_iron <- subset(uganda_h_iron, select = c(age, HI))
+uganda_h_iron <- uganda_h_iron[order(uganda_h_iron$age),]
+
 
 write.csv(uganda_h_iron, "all_intakes/uganda_h_w_iron.csv")
 ##################################################################
@@ -140,6 +143,7 @@ uganda_h_zinc <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
         spade.output.path = "output/uganda_h/")
 
 uganda_h_zinc <- subset(uganda_h_zinc, select = c(age, HI))
+uganda_h_zinc <- uganda_h_zinc[order(uganda_h_zinc$age),]
 
 write.csv(uganda_h_zinc, "all_intakes/uganda_h_w_zinc.csv")
 
@@ -158,6 +162,7 @@ uganda_h_vita <-f.spade(frml.ia=vita~fp(age), frml.if="no.if",
         spade.output.path = "output/uganda_h/")
 
 uganda_h_vita <- subset(uganda_h_vita, select = c(age, HI))
+uganda_h_vita <- uganda_h_vita[order(uganda_h_vita$age),]
 
 write.csv(uganda_h_vita, "all_intakes/uganda_h_w_vita.csv")
 
@@ -173,6 +178,7 @@ uganda_h_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if",
         spade.output.path = "output/uganda_h/")
 
 uganda_h_calc <- subset(uganda_h_calc, select = c(age, HI))
+uganda_h_calc <- uganda_h_calc[order(uganda_h_calc$age),]
 
 write.csv(uganda_h_calc, "all_intakes/uganda_h_w_calc.csv")
 
@@ -190,6 +196,7 @@ uganda_h_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age),
         spade.output.path = "output/uganda_h/")
 
 uganda_h_red_meat <- subset(uganda_h_red_meat, select = c(age, HI))
+uganda_h_red_meat <- uganda_h_red_meat[order(uganda_h_red_meat$age),]
 
 write.csv(uganda_h_red_meat, "all_intakes/uganda_h_w_red_meat.csv")
 
@@ -209,5 +216,6 @@ uganda_h_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=proce
                              spade.output.path = "output/uganda_h/")
 
 uganda_h_processed_meat <- subset(uganda_h_processed_meat, select = c(age, HI))
+uganda_h_processed_meat <- uganda_h_processed_meat[order(uganda_h_processed_meat$age),]
 
 write.csv(uganda_h_processed_meat, "all_intakes/uganda_h_w_processed_meat.csv")

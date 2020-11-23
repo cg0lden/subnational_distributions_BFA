@@ -65,6 +65,7 @@ zambia_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age),
         spade.output.path = "output/zambia/")
 
 zambia_b12 <- subset(zambia_b12, select = c(age, HI))
+zambia_b12 <- zambia_b12[order(zambia_b12$age),]
 
 write.csv(zambia_b12, "all_intakes/zambia_w_b12.csv")
 
@@ -83,6 +84,7 @@ zambia_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if",
         spade.output.path = "output/zambia/")
 
 zambia_iron <- subset(zambia_iron, select = c(age, HI))
+zambia_iron <- zambia_iron[order(zambia_iron$age),]
 
 write.csv(zambia_iron, "all_intakes/zambia_w_iron.csv")
 ##################################################################
@@ -100,6 +102,7 @@ zambia_zinc <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
         spade.output.path = "output/zambia/")
 
 zambia_zinc <- subset(zambia_zinc, select = c(age, HI))
+zambia_zinc <- zambia_zinc[order(zambia_zinc$age),]
 
 write.csv(zambia_zinc, "all_intakes/zambia_w_zinc.csv")
 
@@ -115,6 +118,7 @@ zambia_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if",
         spade.output.path = "output/zambia/")
 
 zambia_vita <- subset(zambia_vita, select = c(age, HI))
+zambia_vita <- zambia_vita[order(zambia_vita$age),]
 
 write.csv(zambia_vita, "all_intakes/zambia_w_vita.csv")
 
@@ -130,6 +134,7 @@ zambia_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if",
         spade.output.path = "output/zambia/")
 
 zambia_calc <- subset(zambia_calc, select = c(age, HI))
+zambia_calc <- zambia_calc[order(zambia_calc$age),]
 
 write.csv(zambia_calc, "all_intakes/zambia_w_calc.csv")
 ##################################################################
@@ -145,6 +150,8 @@ zambia_red_meat <- f.spade(frml.ia=red_meat~fp(age),  frml.if=red_meat~cs(age),
         spade.output.path = "output/zambia/")
 
 zambia_red_meat <- subset(zambia_red_meat, select = c(age, HI))
+zambia_red_meat <- zambia_red_meat[order(zambia_red_meat$age),]
+
 
 write.csv(zambia_red_meat, "all_intakes/zambia_w_red_meat.csv")
 
@@ -163,5 +170,7 @@ zambia_processed_meat <- f.spade(frml.ia=processed_meat~fp(age),  frml.if=proces
         spade.output.path = "output/zambia/")
 
 zambia_processed_meat <- subset(zambia_processed_meat, select = c(age, HI))
+zambia_processed_meat <- zambia_processed_meat[order(zambia_processed_meat$age),]
+
 
 write.csv(zambia_processed_meat, "all_intakes/zambia_w_processed_meat.csv")
