@@ -25,22 +25,23 @@ mexico_nut <-  mexico %>%
                           red_processed_meat = sum(red_meat, processed_meat),
                    omega_3 = sum(f22d6_con_1, f20d5_con_1))
 
-
 # Merge in identifiers, incl age/sex
 mexico_merge <- mexico %>%
-  rename( age=edad, sex=sexo, recall=replica, id=folio) %>%
-  dplyr::select( age, sex, recall, id) %>%
-  distinct() 
+  rename( age=edad, sex=sexo, recall=replica, id=folio, weight=ponde_f) %>%
+  dplyr::select( age, sex, recall, id, weight)
 
+
+# mexico_merge_2 <-  merge(mexico_merge, mexico_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
 mexico_spade <- mexico_nut %>% 
   left_join(mexico_merge, by=c("id", "recall")) %>%
   mutate(mday = recall) %>%
   group_by(id) %>%
-  mutate(id = cur_group_id())
+  mutate(id = cur_group_id()) %>%
   ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat)
+  dplyr::select(id, weight, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat, omega_3) %>% 
+  mutate(id=as.integer(id))
 
   
   # Check for missing or differen ages
@@ -48,6 +49,16 @@ mexico_spade <- mexico_nut %>%
   mexico_missings   
 
 #No missing ages
+
+  #Replace weights with weight from day 1
+  ids_data <- unique(mexico_spade$id)
+  for (idid in ids_data){
+    data.id <- mexico_spade[mexico_spade$id == idid, ]
+    if(nrow(data.id) > 1){
+      mexico_spade[mexico_spade$id == idid,"weight"] <- 
+        min(mexico_spade[mexico_spade$id == idid,"weight"])
+    }
+  }
   
 #Replace any cases where the ages are different for the same individual
   
