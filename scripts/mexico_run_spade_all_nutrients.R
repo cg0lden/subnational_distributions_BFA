@@ -12,12 +12,8 @@ load(here("data", "processed", "mexico"))
 
 ###########################################################
 # Make separate datasets for men and women
-mexico_wom <- mexico_spade %>% 
-  filter(sex==2) 
-
-mexico_men <- mexico_spade %>% 
-  filter(sex==1) 
-
+mexico_wom <- subset(mexico_spade, sex==2)
+mexico_men <- subset(mexico_spade, sex==1)
 
 ###########################################################
 # 1. RUN SPADE FOR B12
@@ -25,15 +21,17 @@ mexico_men <- mexico_spade %>%
 # Variance is too low: work with the exceedingly high entries
 
 # Let's have a look at the highest b12 intakes
-summary(mexico_wom)
 
+summary(mexico_wom)
+summary(mexico_men)
 
 mexico_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
-                      data=mexico_wom_2, seed=123,  backtrans.nr = 3,
+                      data=mexico_wom, seed=123,  backtrans.nr = 3,
                       min.age=18,max.age=67,sex="female", dgts.distr = 2,  
                       age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
                       output.name = "mexico_wom_b12",
                       spade.output.path = "output/b12_SPADE_mexico/")
+
 
 #Using fitdist code from Alon
 q <- quantile(tmpageclassHI, c(0.05,0.1,0.25,0.50,0.75,0.9,0.95))
