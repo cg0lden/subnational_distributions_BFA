@@ -22,16 +22,37 @@ nhanes_day2 <- read_xpt(here("data", "raw", "NHANES", "DR2IFF_J.XPT")) %>%
 #append day 1 and day 2 data
 nhanes <- rbind(nhanes_day1, nhanes_day2)
 
+# Merge in and combine food group codes from GDQS when they are available
+
+nhanes_gdqs_meat <- read_dta(here("data", "raw", "NHANES", "FPED_DR_1516.dta")) %>% 
+  select(DR1IFDCD, DESCRIPTION, DR1I_PF_MEAT, DR1I_PF_CUREDMEAT) %>% 
+  clean_names() %>%
+  rename(code=dr1ifdcd) %>% 
+  filter(code >=20000000 & code < 30000000 , dr1i_pf_meat > 0 | dr1i_pf_curedmeat>0 ) %>% 
+  mutate(red = case_when(dr1i_pf_meat > 0  ~ 1, 
+                         TRUE ~ 0)) %>% 
+  mutate(processed = case_when(dr1i_pf_curedmeat > 0 ~ 1 , TRUE ~ 0)) %>% 
+  select(code, red, processed) %>% 
+  distinct()
+
 #Load demographic data for age and sex variables
-usa_merge <- read_xpt(here("data", "raw", "NHANES", "DEMO_J.XPT")) %>% clean_names() %>% 
+usa_merge <- read_xpt(here("data", "raw", "NHANES", "DEMO_J.XPT")) %>% 
+         clean_names() %>% 
   rename( age=ridageyr, sex=riagendr, id=seqn) %>%
   dplyr::select( age, sex, id) %>%
   distinct() 
 
-usa_nut <-  nhanes %>% 
-  mutate(red_meat = case_when(code >20000000 & code < 24000000 ~ amount, 
+nhanes1 <-  merge(nhanes, nhanes_gdqs_meat, by.all="code", all.x=T)
+
+# see how many meat values weren't classified by the gdqs codes
+meat_test <- nhanes1 %>% filter(code >=20000000 & code < 30000000) %>% filter(processed==0 & red==0)
+# None, they were all classified
+
+
+usa_nut <- nhanes1 %>% 
+  mutate(red_meat = case_when(red >0 ~ amount, 
          TRUE ~ 0),
-         processed_meat = case_when(code>=25000000 & code <26000000 ~ amount, TRUE ~ 0)) %>%
+         processed_meat = case_when(processed >0 ~ amount, TRUE ~ 0)) %>%
   group_by(id, mday) %>%
   summarize(b12 = sum(b12a, b12b),
             iron = sum(iron),
@@ -42,7 +63,7 @@ usa_nut <-  nhanes %>%
             processed_meat = sum(processed_meat),
             omega_3 = sum(epa, dha),
             weight1 = weight1,
-            weight2=weight2) %>% distinct()
+            weight2=weight2) %>% distinct() 
 
   
   # Rename and format variables for spade
@@ -73,7 +94,7 @@ usa_nut <-  nhanes %>%
   }
   
 # Update sampling weights
-  
+# We want to include both the day 1 and the day 2 data, so we should use the day 1
   
 # Change id type to be numeric
 
