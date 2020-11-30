@@ -55,14 +55,19 @@ zambia_wom_2 <- zambia_wom
 for( idid in names(res)[1:5])
   zambia_wom_2 <- zambia_wom_2[zambia_wom_2$id != idid, ]
 
-zambia_wom_2 <- zambia_wom_2$b12 <100
+zambia_wom_2 <- zambia_wom_2[zambia_wom_2$b12 <100,]
 
-f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
-        data=zambia_wom_2, seed=123,
+zambia_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
+        data=zambia_wom_2, seed=123,  backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2,  
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_b12",
-        spade.output.path = "output/b12_SPADE_zambia/")
+        spade.output.path = "output/zambia/")
+
+zambia_b12 <- subset(zambia_b12, select = c(age, HI))
+zambia_b12 <- zambia_b12[order(zambia_b12$age),]
+
+write.csv(zambia_b12, "all_intakes/zambia_w_b12.csv")
 
 ##################################################################
 
@@ -71,13 +76,17 @@ f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age),
 summary(zambia_wom)
 
 # only positive intake values for iron so use 1 part model
-f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
-        data=zambia_wom, seed=123,
+zambia_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2,
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_iron",
-        spade.output.path = "output/iron_SPADE_zambia/")
+        spade.output.path = "output/zambia/")
 
+zambia_iron <- subset(zambia_iron, select = c(age, HI))
+zambia_iron <- zambia_iron[order(zambia_iron$age),]
+
+write.csv(zambia_iron, "all_intakes/zambia_w_iron.csv")
 ##################################################################
 
 # 3. RUN SPADE FOR ZINC
@@ -85,44 +94,83 @@ f.spade(frml.ia=iron~fp(age), frml.if="no.if",
 summary(zambia_wom)
 
 # only positive intake values for iron so use 1 part model
-f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
-        data=zambia_wom, seed=123,
+zambia_zinc <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2, 
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_zinc",
-        spade.output.path = "output/zinc_SPADE_zambia/")
+        spade.output.path = "output/zambia/")
+
+zambia_zinc <- subset(zambia_zinc, select = c(age, HI))
+zambia_zinc <- zambia_zinc[order(zambia_zinc$age),]
+
+write.csv(zambia_zinc, "all_intakes/zambia_w_zinc.csv")
 
 ##################################################################
 
 # 4. RUN SPADE FOR VIT A
 
-f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
-        data=zambia_wom, seed=123,
+zambia_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2, 
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_vita",
-        spade.output.path = "output/vita_SPADE_zambia/")
+        spade.output.path = "output/zambia/")
+
+zambia_vita <- subset(zambia_vita, select = c(age, HI))
+zambia_vita <- zambia_vita[order(zambia_vita$age),]
+
+write.csv(zambia_vita, "all_intakes/zambia_w_vita.csv")
 
 ##################################################################
 
 # 5. RUN SPADE FOR CALCIUM
 
-f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
-        data=zambia_wom, seed=123,
+zambia_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2, 
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
         output.name = "Zambia_wom_calc",
-        spade.output.path = "output/calc_SPADE_zambia/")
+        spade.output.path = "output/zambia/")
 
+zambia_calc <- subset(zambia_calc, select = c(age, HI))
+zambia_calc <- zambia_calc[order(zambia_calc$age),]
+
+write.csv(zambia_calc, "all_intakes/zambia_w_calc.csv")
 ##################################################################
 
 # 6. RUN SPADE FOR RED MEAT
 
 # Have to use two part model because so many zeroes
-f.spade(frml.ia=red_meat~fp(age),  frml.if=red_meat~cs(age), 
-        data=zambia_wom, seed=123,
+zambia_red_meat <- f.spade(frml.ia=red_meat~fp(age),  frml.if=red_meat~cs(age), 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
         min.age=18,max.age=67,sex="female", dgts.distr = 2, 
         age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
-        output.name = "Zambia_wom_calc",
-        spade.output.path = "output/red_meat_SPADE_zambia/")
+        output.name = "Zambia_wom_red_meat",
+        spade.output.path = "output/zambia/")
 
+zambia_red_meat <- subset(zambia_red_meat, select = c(age, HI))
+zambia_red_meat <- zambia_red_meat[order(zambia_red_meat$age),]
+
+
+write.csv(zambia_red_meat, "all_intakes/zambia_w_red_meat.csv")
+
+##################################################################
+
+# 7. RUN SPADE FOR PROCESSED MEAT
+
+# there aren't enough observations for processed meat to estimate a distribution
+
+# Have to use two part model because so many zeroes
+zambia_processed_meat <- f.spade(frml.ia=processed_meat~fp(age),  frml.if=processed_meat~cs(age), 
+        data=zambia_wom, seed=123, backtrans.nr = 3,
+        min.age=18,max.age=67,sex="female", dgts.distr = 2, 
+        age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
+        output.name = "Zambia_wom_processed_meat",
+        spade.output.path = "output/zambia/")
+
+zambia_processed_meat <- subset(zambia_processed_meat, select = c(age, HI))
+zambia_processed_meat <- zambia_processed_meat[order(zambia_processed_meat$age),]
+
+
+write.csv(zambia_processed_meat, "all_intakes/zambia_w_processed_meat.csv")

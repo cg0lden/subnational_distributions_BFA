@@ -6,6 +6,10 @@ library(haven)
 library(here)
 library(janitor)
 
+china_1 <- read_sas(here("data", "raw" , "China", "nutr1_00.sas7bdat")) 
+china_2 <- read_sas(here("data", "raw" , "China", "nutr2_00.sas7bdat"))
+china_3 <- read_sas(here("data", "raw" , "China", "nutr3_00.sas7bdat"))
+
 # Read in sas files downloaded from https://www.cpc.unc.edu/projects/china/data/datasets
 china <- read_sas(here("data", "raw" , "China", "nutr3_00.sas7bdat")) %>% 
   clean_names() %>% 
