@@ -1,5 +1,5 @@
 # Running SPADE: lao data
-# File created on 11/24/20 by Simone Passarelli
+# File created on 12/3/20 by Simone Passarelli
 # All nutrients: b12, iron, vita, zinc, calcium, red meat, processed meat, omega 3
 
 # Load packages
@@ -8,7 +8,7 @@ library(here)
 
 # DO NOT load tidyverse because it makes spade mad!
 load(here("data", "processed", "Lao"))
-SPADE.OUTPUT.PATH <- (here("output", "Lao"))
+SPADE.OUTPUT.PATH <- (here("output", "lao"))
 # TOTAL.output <- (here("output", "lao", 2_logbooks"))
 ###########################################################
 # Remove missing obs
