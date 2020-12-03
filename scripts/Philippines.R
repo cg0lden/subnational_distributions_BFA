@@ -16,15 +16,12 @@ table(Phil$survey_day)
 # Red meat=9, processed meat=10
 
 Phil_nut <-  Phil %>% 
-  mutate(omega_3 = replace(omega_3, ingredient=="Golden applesnail, Channeled applesnail, boiled", 0.12)) %>%
   rename(recall = survey_day, id=subject, age=age_year) %>% 
   group_by(id, recall) %>%
-  mutate(red_meat = case_when(ingredient=="Buffalo meat" ~ food_amount_reported,
-                              fg24==9 ~ food_amount_reported,
-                              ingredient=="Duck meat" ~ 0,
-                              ingredient=="Golden applesnail, Channeled applesnail, boiled" ~ 0,
+  mutate(red_meat = case_when(fg24==9 ~ food_amount_reported,
                               TRUE ~ 0)) %>% 
-  mutate(processed_meat = case_when(fg24==10 ~ food_amount_reported, TRUE~0)) %>% 
+  mutate(processed_meat = case_when(fg24==10 ~ food_amount_reported, 
+                                    TRUE~0)) %>% 
   summarize(b12 = sum(b12),
             iron = sum(iron),
             zinc = sum(zinc),
@@ -38,7 +35,6 @@ Phil_nut <-  Phil %>%
 Phil_merge <- Phil %>%
   rename( age=age_year, recall=survey_day, id=subject) %>%
   dplyr::select( age, sex, recall, id)
-
 
 # Phil_merge_2 <-  merge(Phil_merge, Phil_weights, by.all="id", all.x=T)
 
@@ -69,7 +65,7 @@ for (idid in ids_data){
   }
 }
 
-save(Phil_spade, file=here("data", "processed", "Phil"), replace)   
+save(Phil_spade, file=here("data", "processed", "Philippines"), replace)   
 
 
 
