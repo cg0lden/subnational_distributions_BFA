@@ -219,3 +219,23 @@ uganda_h_processed_meat <- subset(uganda_h_processed_meat, select = c(age, HI))
 uganda_h_processed_meat <- uganda_h_processed_meat[order(uganda_h_processed_meat$age),]
 
 write.csv(uganda_h_processed_meat, "all_intakes/uganda_h_w_processed_meat.csv")
+
+##################################################################
+
+# 8. RUN SPADE FOR OMEGA-3
+
+# Not enough observations to run this for Uganda
+range(uganda_h$omega_3)
+
+# Have to use 2-part model for red meat because 84% zeroes
+uganda_h_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3~cs(age), 
+                                   data=uganda_h, seed=123, backtrans.nr = 3,
+                                   min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                                   age.classes=c(20, 25, 29, 34, 39, 44, 49, 54, 59, 64, 73),
+                                   output.name = "uganda_h_omega_3",
+                                   spade.output.path = "output/uganda_h/")
+
+uganda_h_omega_3 <- subset(uganda_h_omega_3, select = c(age, HI))
+uganda_h_omega_3 <- uganda_h_omega_3[order(uganda_h_omega_3$age),]
+
+write.csv(uganda_h_omega_3, "all_intakes/uganda_h_w_omega_3.csv")

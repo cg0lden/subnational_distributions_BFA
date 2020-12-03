@@ -7,7 +7,7 @@ library(here)
 
 # Load the Zambia data from the Stata file
 
-uganda_a <- read_dta(here("data", "raw", "Uganda-A2Z fg24.dta"))
+uganda_a <- read_dta(here("data", "raw", "Uganda A2Z", "Uganda-A2Z fg24.dta"))
 
 
 # Limit to variables needed for analysis
@@ -16,7 +16,8 @@ uganda_a_nut <- uganda_a %>%
   summarize(sum_b12 = sum(VIT_B12_MCG),
             sum_iron = sum(IRON_MG),
             sum_zinc = sum(ZINC_MG),
-            sum_vita = sum(VIT_A_MCG_RAE)
+            sum_vita = sum(VIT_A_MCG_RAE),
+            sum_omega_3 = sum(omega_3)
   )
 
 # Merge in identifiers, incl age/sex
