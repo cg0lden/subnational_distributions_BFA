@@ -7,7 +7,7 @@ library(janitor)
 
 # Load the Zambia data from the Stata file
 
-zambia <- read_dta(here( "data", "raw", "Zambia fg24.dta")) %>% clean_names()
+zambia <- read_dta(here( "data", "raw", "Zambia", "Zambia fg24_omega.dta")) %>% clean_names()
 
 # Calculate the quantity of red meat consumed
 # According to GBD, red meat is "Any intake (in grams per day) of red meat including beef, pork, lamb, and
@@ -18,7 +18,7 @@ zambia <- read_dta(here( "data", "raw", "Zambia fg24.dta")) %>% clean_names()
 # Any intake (in grams per day) of meat preserved by smoking, curing,
 # salting, or addition of chemical preservatives
 
-
+summary(zambia)
 # Limit to variables needed for analysis
 zambia_nut <- zambia %>%
   group_by(hid, pid, recall) %>%
@@ -57,11 +57,10 @@ zambia_nut <- zambia %>%
             calc = sum(calcium_mg),
             red_meat = sum(red_meat),
             processed_meat = sum(processed_meat),
-            red_processed_meat = sum(red_meat, processed_meat))
+            red_processed_meat = sum(red_meat, processed_meat),
+            omega_3 = sum(omega_3))
 
-            # FIXIT add omega 3 once we have fish,
-# mutate(omega_3 = case_when(gdescr==""))
-           # sum_omega3 = sum(omega_3))
+
 
 # Merge in identifiers, incl age/sex
 zambia_merge <- zambia %>%
@@ -79,7 +78,7 @@ zambia_spade <- zambia_nut %>% left_join(zambia_merge, by=c("hid", "pid", "recal
   mutate(id=paste0(hid, pid)) %>%
   mutate(mday = recall) %>%
   ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat)
+  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat, omega_3)
 
 zambia_spade$id <- as.integer(zambia_spade$id)
 

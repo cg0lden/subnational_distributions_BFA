@@ -198,7 +198,7 @@ write.csv(usa_calc, "all_intakes/usa_m_calc.csv")
 
 # 6. RUN SPADE FOR RED MEAT
 
-usa_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if="no.if", 
+usa_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age), 
                     data=usa_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=0, max.age=80,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
@@ -213,7 +213,7 @@ usa_red_meat <- usa_red_meat[order(usa_red_meat$age),]
 write.csv(usa_red_meat, "all_intakes/usa_w_red_meat.csv")
 
 # Men
-usa_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if="no.if", 
+usa_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age), 
                     data=usa_men, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=0, max.age=80,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
@@ -230,7 +230,7 @@ write.csv(usa_red_meat, "all_intakes/usa_m_red_meat.csv")
 
 # 7. RUN SPADE FOR PROCESSED MEAT
 
-usa_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if="no.if", 
+usa_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age),  
                     data=usa_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=0, max.age=80,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
@@ -245,7 +245,7 @@ usa_processed_meat <- usa_processed_meat[order(usa_processed_meat$age),]
 write.csv(usa_processed_meat, "all_intakes/usa_w_processed_meat.csv")
 
 # Men
-usa_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if="no.if", 
+usa_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age), 
                     data=usa_men, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=0, max.age=80,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
