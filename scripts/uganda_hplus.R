@@ -9,7 +9,7 @@ library(janitor)
 
 # Load the Zambia data from the Stata file
 
-uganda_hplus <- read_dta(here("data", "raw", "Uganda HPlus fg24.dta")) %>% clean_names()
+uganda_hplus <- read_dta(here("data", "raw", "Uganda HPlus", "Uganda HPlus fg24_omega.dta")) %>% clean_names()
 
 # Limit to variables needed for analysis
 uganda_h_nut <- uganda_hplus %>%
@@ -39,7 +39,8 @@ uganda_h_nut <- uganda_hplus %>%
             zinc = sum(zinc_mg),
             vita = sum(vit_a_mc),
             calc = sum(calcium),
-            red_meat = sum(red_meat))
+            red_meat = sum(red_meat),
+            omega_3 = sum(omega_3))
  
    # omega_3 = sum (omega_3)
 
@@ -58,7 +59,7 @@ uganda_h_nut_spade <- uganda_h_nut %>% left_join(uganda_h_merge, by=c("id", "rec
   rename(age=ageyears, sex=gender) %>%
   mutate(mday = recall) %>%
   ungroup() %>%
-  select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat)
+  select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, omega_3)
 
 uganda_h <- uganda_h_nut_spade %>% group_by(id) %>%
   mutate(id = cur_group_id())

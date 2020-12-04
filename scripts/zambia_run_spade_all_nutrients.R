@@ -174,3 +174,23 @@ zambia_processed_meat <- zambia_processed_meat[order(zambia_processed_meat$age),
 
 
 write.csv(zambia_processed_meat, "all_intakes/zambia_w_processed_meat.csv")
+
+##################################################################
+
+# 8. RUN SPADE FOR OMEGA-3
+
+# there aren't enough observations for omega_3 to estimate a distribution
+
+# Have to use two part model because so many zeroes
+zambia_omega_3 <- f.spade(frml.ia=omega_3~fp(age),  frml.if=omega_3~cs(age), 
+                                 data=zambia_wom, seed=123, backtrans.nr = 3,
+                                 min.age=18,max.age=67,sex="female", dgts.distr = 2, 
+                                 age.classes=c(18, 20, 25, 29, 34, 39, 44, 49, 54, 59, 64),
+                                 output.name = "Zambia_wom_omega_3",
+                                 spade.output.path = "output/zambia/")
+
+zambia_omega_3 <- subset(zambia_omega_3, select = c(age, HI))
+zambia_omega_3 <- zambia_omega_3[order(zambia_omega_3$age),]
+
+
+write.csv(zambia_omega_3, "all_intakes/zambia_w_omega_3.csv")

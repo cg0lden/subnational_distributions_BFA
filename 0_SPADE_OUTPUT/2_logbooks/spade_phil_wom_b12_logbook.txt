@@ -1,0 +1,6 @@
+
+ No survey weights or post stratification involved
+                                
+ Mean of original intakes 4.79  
+ Mean of habitual intakes 4.80  
+ Percentage of difference 0.30 %

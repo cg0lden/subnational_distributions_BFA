@@ -23,7 +23,7 @@ mexico_nut <-  mexico %>%
                           red_meat = sum(red_meat),
                           processed_meat = sum(processed_meat),
                           red_processed_meat = sum(red_meat, processed_meat),
-                   omega_3 = sum(f22d6_con_1, f20d5_con_1))
+                   omega_3 = sum(f22d6_con_1, f20d5_con_1)) %>% distinct()
 
 # Merge in identifiers, incl age/sex
 mexico_merge <- mexico %>%
@@ -41,7 +41,7 @@ mexico_spade <- mexico_nut %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
   dplyr::select(id, weight, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat, omega_3) %>% 
-  mutate(id=as.integer(id))
+  mutate(id=as.integer(id)) %>% distinct()
 
   
   # Check for missing or differen ages
