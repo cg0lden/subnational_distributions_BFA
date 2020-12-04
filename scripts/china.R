@@ -19,7 +19,9 @@ china_spade <- china %>%
   left_join(china_age, by=c("id")) %>% 
   left_join(china_sex, by=c("id")) %>% 
   rename(mday=day, red_meat=f3redmeat, vita=f3d_vit_a, calc=f3d_ca, omega_3=f3depadha, zinc=f3d_zn, iron=f3d_fe) %>% 
-  distinct()
+  group_by(id) %>% 
+  mutate(id = cur_group_id()) %>%
+  distinct() %>% ungroup()
 
 
 summary(china_spade)
@@ -37,7 +39,7 @@ for (idid in ids_data){
   }
 }
 
-save(china_spade, file=here("data", "processed", "China"), replace)   
+save(china_spade, file=here("data", "processed", "china"), replace)   
 
 
 
