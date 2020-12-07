@@ -53,13 +53,13 @@ burkina_merge <-  burkina %>%
                          TRUE ~ NA_real_)) %>% 
   mutate(age = as.integer(age)) %>% 
   mutate(id = as.integer(id)) %>% 
-  select(id, age, sex) %>% distinct(id, .keep_all=TRUE)
+  select(id, age, sex, sample_weight) %>% distinct(id, .keep_all=TRUE)
   
 # Rename and format variables for spade
 burkina_spade <- burkina_nut %>% 
   left_join(burkina_merge, by=c("id")) %>%
   group_by(id, mday) %>% 
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat,  omega_3) %>% 
+  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat,  omega_3, sample_weight) %>% 
   distinct()
 
 # Check for missing or different ages

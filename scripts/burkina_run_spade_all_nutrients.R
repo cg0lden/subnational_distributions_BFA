@@ -33,7 +33,7 @@ burkina_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if",
                    data=burkina_wom, seed=123,  backtrans.nr = 3,
                    dgts.distr = 2, min.age=1, max.age=55,
                    age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                   sex.lab="women", 
+                   sex.lab="women", weights.name = "sample_weight",
                    output.name = "burkina_wom_b12")
 
 burkina_b12 <- subset(burkina_b12, select = c(age, HI))
@@ -44,9 +44,9 @@ write.csv(burkina_b12, "all_intakes/burkina_w_b12.csv")
 # Men
 burkina_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
                    data=burkina_men, seed=123,  backtrans.nr = 3,
-                   dgts.distr = 2, min.age=1, max.age=4,
+                   dgts.distr = 2, min.age=1, max.age=4, 
                    age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                   sex.lab="men",
+                   sex.lab="men", weights.name = "sample_weight",
                    output.name = "burkina_men_b12")
 
 burkina_b12 <- subset(burkina_b12, select = c(age, HI))
@@ -62,7 +62,7 @@ burkina_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if",
                     data=burkina_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=55,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="women",
+                    sex.lab="women", weights.name = "sample_weight",
                     output.name = "burkina_wom_iron",
                     spade.output.path = "output/burkina/")
 
@@ -76,7 +76,7 @@ burkina_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if",
                     data=burkina_men, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=4,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="men",
+                    sex.lab="men", weights.name = "sample_weight",
                     output.name = "burkina_men_iron",
                     spade.output.path = "output/burkina/")
 
@@ -91,7 +91,7 @@ burkina_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
                       data=burkina_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=1, max.age=55,
                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                      sex.lab="women",
+                      sex.lab="women", weights.name = "sample_weight",
                       output.name = "burkina_wom_zinc",
                       spade.output.path = "output/burkina/")
 
@@ -105,7 +105,7 @@ burkina_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if",
                       data=burkina_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=1, max.age=4,
                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                      sex.lab="men",
+                      sex.lab="men", weights.name = "sample_weight",
                       output.name = "burkina_men_zinc",
                       spade.output.path = "output/burkina/")
 
@@ -122,7 +122,7 @@ burkina_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if",
                     data=burkina_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=55,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="women",
+                    sex.lab="women", weights.name = "sample_weight",
                     output.name = "burkina_wom_vita",
                     spade.output.path = "output/burkina/")
 
@@ -136,7 +136,7 @@ burkina_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if",
                     data=burkina_men, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=4,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="men",
+                    sex.lab="men", weights.name = "sample_weight",
                     output.name = "burkina_men_vita",
                     spade.output.path = "output/burkina/")
 
@@ -153,8 +153,7 @@ burkina_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if",
                     data=burkina_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=55,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="women",
-                    
+                    sex.lab="women", weights.name = "sample_weight",
                     output.name = "burkina_wom_calc",
                     spade.output.path = "output/burkina/")
 
@@ -168,8 +167,7 @@ burkina_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if",
                     data=burkina_men, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=1, max.age=4,
                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                    sex.lab="men",
-                    
+                    sex.lab="men", weights.name = "sample_weight",
                     output.name = "burkina_men_calc",
                     spade.output.path = "output/burkina/")
 
@@ -185,7 +183,7 @@ burkina_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age),
                         data=burkina_wom, seed=123,  backtrans.nr = 3,
                         dgts.distr = 2, min.age=1, max.age=55,
                         age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                        sex.lab="women",
+                        sex.lab="women", weights.name = "sample_weight",
                         output.name = "burkina_wom_red_meat",
                         spade.output.path = "output/burkina/")
 
@@ -199,8 +197,7 @@ burkina_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age),
                         data=burkina_men, seed=123,  backtrans.nr = 3,
                         dgts.distr = 2, min.age=1, max.age=4,
                         age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                        sex.lab="men",
-                        
+                        sex.lab="men", weights.name = "sample_weight",
                         output.name = "burkina_men_red_meat",
                         spade.output.path = "output/burkina/")
 
@@ -218,7 +215,7 @@ burkina_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3~cs(age),
                        data=burkina_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=55,
                        age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                       sex.lab="women",
+                       sex.lab="women", weights.name = "sample_weight",
                        output.name = "burkina_wom_omega_3",
                        spade.output.path = "output/burkina/")
 
@@ -232,8 +229,7 @@ burkina_omega_3 <- f.spade(frml.ia=omega_3~fp(age),  frml.if=omega_3~cs(age),
                        data=burkina_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=4,
                        age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                       sex.lab="men",
-                       
+                       sex.lab="men", weights.name = "sample_weight",
                        output.name = "burkina_men_omega_3",
                        spade.output.path = "output/burkina/")
 
