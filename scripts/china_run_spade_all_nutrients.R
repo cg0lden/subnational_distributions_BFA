@@ -211,7 +211,7 @@ write.csv(china_red_meat, "all_intakes/china_m_red_meat.csv")
 ##################################################################
 
 # 7. RUN SPADE FOR PROCESSED MEAT
-
+# As of
 china_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age), 
                               data=china_wom, seed=123,  backtrans.nr = 3,
                               dgts.distr = 2, min.age=15, max.age=98,

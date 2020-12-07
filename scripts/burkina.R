@@ -7,50 +7,60 @@ library(janitor)
 
 # Load the burkina data from the Stata file (coded with the food groups)
 
-burkina <- read_dta(here( "data", "raw", "Burkina", "Burkina_omega.dta")) %>% clean_names()
+burkina <- read_dta(here( "data", "raw", "Burkina", "Burkina_omega.dta"))  %>% 
+  clean_names() %>% 
+  select(id_subj, sample_weight, age_mother, age_child_4c, nb_r24h, sex, 
+         wgt_food, calc, iron, zinc, vita, vitb12, omega_3, code_grp, id_mother, id_child)
 
 summary(burkina)
-table(burkina$survey_day)
+table(burkina$nb_r24h)
+
+# Make an indicator variable for mother vs child
+
+
 # Need to add snail nutrients
 
 # Red meat=9, processed meat=10
 
 burkina_nut <-  burkina %>% 
-
-  rename(recall = survey_day, id=subject, age=age_year) %>% 
-  group_by(id, recall) %>%
-  mutate(red_meat = case_when(ingredient=="Buffalo meat" ~ wgt_food,
-                              fg24==9 ~ wgt_food,
-                              ingredient=="Duck meat" ~ 0,
-                              ingredient=="Golden applesnail, Channeled applesnail, boiled" ~ 0,
-                              TRUE ~ 0)) %>% 
-  mutate(processed_meat = case_when(fg24==10 ~ wgt_food, TRUE~0)) %>% 
+  mutate(mother = case_when(id_mother != "" ~ 1,
+                          TRUE ~ 0)) %>% 
+  mutate(id = case_when(mother == 1  ~ id_mother,
+                        mother == 0  ~ id_child,
+                        TRUE ~ NA_character_)) %>% 
+  mutate(id = as.integer(id)) %>% 
+  rename(mday = nb_r24h, b12=vitb12) %>% 
+  group_by(id, mday) %>%
+  mutate(red_meat = case_when(
+    code_grp==13 ~ wgt_food, TRUE ~ 0)) %>% 
   summarize(b12 = sum(b12),
             iron = sum(iron),
             zinc = sum(zinc),
             vita = sum(vita),
             calc = sum(calc),
             red_meat = sum(red_meat),
-            processed_meat = sum(processed_meat),
             omega_3 = sum(omega_3)) %>% distinct()
 
-# Merge in identifiers, incl age/sex
-burkina_merge <- burkina %>%
-  rename( age=age_year, recall=survey_day, id=subject) %>%
-  dplyr::select( age, sex, recall, id)
-
-
-# burkina_merge_2 <-  merge(burkina_merge, burkina_weights, by.all="id", all.x=T)
-
+# Identifying info 
+burkina_merge <-  burkina %>%  
+  mutate(mother = case_when(id_mother != "" ~ 1,
+                            TRUE ~ 0)) %>% 
+  mutate(id = case_when(mother == 1  ~ id_mother,
+                        mother == 0  ~ id_child,
+                        TRUE ~ NA_character_)) %>% 
+  mutate(age = case_when(mother == 1 ~ age_mother, 
+                         mother == 0 ~ age_child_4c,
+                         TRUE ~ NA_real_)) %>% 
+  mutate(age = as.integer(age)) %>% 
+  mutate(id = as.integer(id)) %>% 
+  select(id, age, sex) %>% distinct(id, .keep_all=TRUE)
+  
 # Rename and format variables for spade
 burkina_spade <- burkina_nut %>% 
-  left_join(burkina_merge, by=c("id", "recall")) %>%
-  mutate(mday = recall) %>%
-  group_by(id) %>%
-  ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, omega_3) %>% 
-  mutate(id=as.integer(id)) %>% distinct()
-
+  left_join(burkina_merge, by=c("id")) %>%
+  group_by(id, mday) %>% 
+  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat,  omega_3) %>% 
+  distinct()
 
 # Check for missing or different ages
 burkina_missings <- burkina_spade[is.na(burkina_spade$age), ] # shows you the missings
@@ -66,6 +76,18 @@ for (idid in ids_data){
   if(nrow(data.id) > 1){
     burkina_spade[burkina_spade$id == idid,"age"] <- 
       min(burkina_spade[burkina_spade$id == idid,"age"])
+  }
+}
+
+# Replace any cases where the sex is different for the same individual
+
+
+ids_data <- unique(burkina_spade$id)
+for (idid in ids_data){
+  data.id <- burkina_spade[burkina_spade$id == idid, ]
+  if(nrow(data.id) > 1){
+    burkina_spade[burkina_spade$id == idid,"sex"] <- 
+      min(burkina_spade[burkina_spade$id == idid,"sex"])
   }
 }
 
