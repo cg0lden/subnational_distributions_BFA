@@ -17,11 +17,11 @@ mexico_spade <- na.omit(mexico_spade)
 summary(mexico_spade)
 
 #remove obs with weights=0
-mexico_spade <- subset(mexico_spade, weight !=0)
-
+mexico_spade <- subset(mexico_spade, weight !=0 & vita<10000 & red_meat <1000)
+#removed 6 observations with very high meat values
 
 # Make separate datasets for men and women
-mexico_wom <- subset(mexico_spade, sex==2)
+mexico_wom <- subset(mexico_spade, sex==2 ) 
 mexico_men <- subset(mexico_spade, sex==1)
 
 ###########################################################
@@ -225,35 +225,35 @@ write.csv(mexico_red_meat, "all_intakes/mexico_m_red_meat.csv")
 ##################################################################
 
 # 7. RUN SPADE FOR PROCESSED MEAT
-
-mexico_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age), 
-                              data=mexico_wom, seed=123,  backtrans.nr = 3,
-                              dgts.distr = 2, min.age=1, max.age=97,
-                              age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                              sex.lab="women",
-                              weights.name = "weight",
-                              output.name = "mexico_wom_processed_meat",
-                              spade.output.path = "output/mexico/")
-
-mexico_processed_meat <- subset(mexico_processed_meat, select = c(age, HI))
-mexico_processed_meat <- mexico_processed_meat[order(mexico_processed_meat$age),]
-
-write.csv(mexico_processed_meat, "all_intakes/mexico_w_processed_meat.csv")
-
-# Men
-mexico_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age),
-                              data=mexico_men, seed=123,  backtrans.nr = 3,
-                              dgts.distr = 2, min.age=1, max.age=89,
-                              age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                              sex.lab="men",
-                              weights.name = "weight",
-                              output.name = "mexico_men_processed_meat",
-                              spade.output.path = "output/mexico/")
-
-mexico_processed_meat <- subset(mexico_processed_meat, select = c(age, HI))
-mexico_processed_meat <- mexico_processed_meat[order(mexico_processed_meat$age),]
-
-write.csv(mexico_processed_meat, "all_intakes/mexico_m_processed_meat.csv")
+# 
+# mexico_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age), 
+#                               data=mexico_wom, seed=123,  backtrans.nr = 3,
+#                               dgts.distr = 2, min.age=1, max.age=97,
+#                               age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+#                               sex.lab="women",
+#                               weights.name = "weight",
+#                               output.name = "mexico_wom_processed_meat",
+#                               spade.output.path = "output/mexico/")
+# 
+# mexico_processed_meat <- subset(mexico_processed_meat, select = c(age, HI))
+# mexico_processed_meat <- mexico_processed_meat[order(mexico_processed_meat$age),]
+# 
+# write.csv(mexico_processed_meat, "all_intakes/mexico_w_processed_meat.csv")
+# 
+# # Men
+# mexico_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age),
+#                               data=mexico_men, seed=123,  backtrans.nr = 3,
+#                               dgts.distr = 2, min.age=1, max.age=89,
+#                               age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+#                               sex.lab="men",
+#                               weights.name = "weight",
+#                               output.name = "mexico_men_processed_meat",
+#                               spade.output.path = "output/mexico/")
+# 
+# mexico_processed_meat <- subset(mexico_processed_meat, select = c(age, HI))
+# mexico_processed_meat <- mexico_processed_meat[order(mexico_processed_meat$age),]
+# 
+# write.csv(mexico_processed_meat, "all_intakes/mexico_m_processed_meat.csv")
 
 ##################################################################
 
