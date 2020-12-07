@@ -1,4 +1,4 @@
-# Clean burkina data for 
+# Clean burkina data for spade
 
 library(tidyverse)
 library(haven)
