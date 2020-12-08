@@ -15,8 +15,8 @@ SPADE.OUTPUT.PATH <- (here("output", "lao"))
 summary(Lao_spade)
 
 # Make separate datasets for men and women
-lao_wom <- subset(lao_spade, sex==2)
-lao_men <- subset(lao_spade, sex==1)
+lao_wom <- subset(Lao_spade, sex==2)
+lao_men <- subset(Lao_spade, sex==1)
 
 ###########################################################
 # 1. RUN SPADE FOR B12
