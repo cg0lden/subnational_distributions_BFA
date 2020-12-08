@@ -1,5 +1,5 @@
 # Running SPADE: burkina data
-# File created on 12/3/20 by Simone Passarelli
+# File created on 12/7/20 by Simone Passarelli
 # All nutrients: b12, iron, vita, zinc, calcium, red meat, processed meat, omega 3
 
 # Load packages
