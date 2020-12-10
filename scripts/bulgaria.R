@@ -12,44 +12,40 @@ library(janitor)
 bulg_c <- read_dta(here( "data", "raw", "Bulgaria", "bulg_consumption_merged_omega.dta")) %>% 
   clean_names() %>% filter(consumption_year==2007) %>% 
   select(subject, consumption_year, survey_day, vita_rae_mcg, omega_3_100, calc_mg, iron_mg, vitb12_mcg, zinc_mg, food_amount_reported, ingredient_eng, code_ingredient) 
-
-# 2004=adults only
-bulg_a <- read_dta(here( "data", "raw", "Bulgaria", "bulg_consumption_merged_omega.dta")) %>% 
-  clean_names() %>% filter(consumption_year==2004) %>% 
-  select(subject, consumption_year, survey_day, vita_rae_mcg, omega_3_100, calc_mg, iron_mg, vitb12_mcg, zinc_mg, food_amount_reported, ingredient_eng, code_ingredient) 
+# 
+# # 2004=adults only
+# bulg_a <- read_dta(here( "data", "raw", "Bulgaria", "bulg_consumption_merged_omega.dta")) %>% 
+#   clean_names() %>% filter(consumption_year==2004) %>% 
+#   select(subject, consumption_year, survey_day, vita_rae_mcg, omega_3_100, calc_mg, iron_mg, vitb12_mcg, zinc_mg, food_amount_reported, ingredient_eng, code_ingredient) 
 
 #id data children
 # id data
 bulg_c_id <- read_csv(here( "data", "raw", "Bulgaria", "BGR_00441", "subject_user.csv")) %>% 
-  clean_names() %>% select(subject, sex, age_year) %>% group_by(subject) %>% distinct()
+  clean_names() %>% select(subject, sex, age_year) %>% group_by(subject) %>% distinct() %>% 
+  mutate(age=floor(age_year)) %>% rename(id=subject)
 
 # id data adults
-bulg_a_id <- read_csv(here( "data", "raw", "Bulgaria", "BGR_00440", "subject_user.csv")) %>% 
-  clean_names() %>% select(subject, sex, age_year) %>% group_by(subject) %>% distinct()
+# bulg_a_id <- read_csv(here( "data", "raw", "Bulgaria", "BGR_00440", "subject_user.csv")) %>% 
+#   clean_names() %>% select(subject, sex, age_year) %>% group_by(subject) %>% distinct()
 
 # Children: Merge in identifiers, incl age/sex
-bulg_c_merge <- bulg_c %>%
-  left_join(bulg_c_id, by=c("subject")) %>% 
-  mutate(subject=as.character(subject)) %>% 
-  mutate(consumption_year=as.character(consumption_year)) %>% 
-  mutate(id=paste0(subject, consumption_year)) 
 
-# Adults: Merge in identifiers, incl age/sex
-bulg_a_merge <- bulg_a %>%
-  left_join(bulg_a_id, by=c("subject")) %>% 
-  mutate(subject=as.character(subject)) %>% 
-  mutate(consumption_year=as.character(consumption_year)) %>% 
-  mutate(id=paste0(subject, consumption_year)) 
+
+# # Adults: Merge in identifiers, incl age/sex
+# bulg_a_merge <- bulg_a %>%
+#   left_join(bulg_a_id, by=c("subject")) %>% 
+#   mutate(subject=as.character(subject)) %>% 
+#   mutate(consumption_year=as.character(consumption_year)) %>% 
+#   mutate(id=paste0(subject, consumption_year)) 
 
 # THE ADULT SURVEY DOES NOT HAVE A REPEATED 24 HOUR RECALL
 # EXCLUDE ADULTS FOR NOW
 
 
 # Combine child and adult dataframes
-bulg_nut <- rbind(bulg_c_merge, bulg_a_merge ) %>% 
+bulg_nut <- bulg_c %>% 
   mutate(omega_3_g = omega_3_100 *(food_amount_reported/100)) %>% 
-  mutate(id=as.integer(id)) %>% 
-  rename(mday = survey_day) %>% 
+  rename(mday = survey_day, id=subject) %>% 
   mutate(ingredient_eng=tolower(ingredient_eng)) %>% 
   mutate(red_meat = case_when((grepl("beef", ingredient_eng)) ~ food_amount_reported,
                               (grepl("sausage", ingredient_eng)) ~ food_amount_reported,
@@ -89,9 +85,8 @@ bulg_nut <- rbind(bulg_c_merge, bulg_a_merge ) %>%
   mutate(red_meat = replace(red_meat, ingredient_eng=="pork fat", 0)) %>% 
   mutate(red_meat = replace(red_meat, ingredient_eng=="pate", 0)) %>% 
   relocate(red_meat , omega_3_g, after=zinc_mg) %>% 
-  relocate(id, mday, ingredient_eng, sex, age_year, food_amount_reported,  before=red_meat) %>% 
+  relocate(id, mday, ingredient_eng, food_amount_reported,  before=red_meat) %>% 
   mutate_at(vars(red_meat:vitb12_mcg), ~replace(., is.na(.), 0)) %>% 
-  mutate(age=floor(age_year)) %>% 
   group_by(id, mday) %>%
   summarize(b12 = sum(vitb12_mcg),
             iron = sum(iron_mg),
@@ -99,23 +94,15 @@ bulg_nut <- rbind(bulg_c_merge, bulg_a_merge ) %>%
             calc = sum(calc_mg),
             zinc = sum(zinc_mg),
             red_meat = sum(red_meat),
-            omega_3 = sum(omega_3_g),
-            age=age,
-            sex=sex) %>% distinct()
+            omega_3 = sum(omega_3_g)) %>% distinct()
 
 
-table(bulg_a_merge$survey_day)
-table(bulg_c_merge$survey_day)
-
-# Save the identifying information 
-
-
+# Merge in the the identifying information 
+bulg_spade <- bulg_nut %>%
+  left_join(bulg_c_id, by=c("id")) %>% 
+  mutate(id=as.integer(id)) %>% select(!age_year)
 
 
-
-# Check for missing or different ages
-bulg_missings <- bulg_spade[is.na(bulg_spade$age), ] # shows you the missings
-bulg_missings   
 
 #No missing ages
 # 
