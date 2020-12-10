@@ -91,32 +91,32 @@ write.csv(italy_iron, "all_intakes/italy_m_iron.csv")
 ##################################################################
 # 
 # # 3. RUN SPADE FOR ZINC
-# italy_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
-#                       data=italy_wom, seed=123,  backtrans.nr = 3,
-#                       dgts.distr = 2, min.age=0, max.age=97,
-#                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-#                       sex.lab="women",
-#                       output.name = "italy_wom_zinc",
-#                       spade.output.path = "output/italy/")
-# 
-# italy_zinc_w <- subset(italy_zinc_w, select = c(age, HI))
-# italy_zinc_w <- italy_zinc_w[order(italy_zinc_w$age),]
-# 
-# write.csv(italy_zinc_w, "all_intakes/italy_w_zinc.csv")
-# 
-# # Men
-# italy_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
-#                       data=italy_men, seed=123,  backtrans.nr = 3,
-#                       dgts.distr = 2, min.age=0, max.age=92,
-#                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-#                       sex.lab="men",
-#                       output.name = "italy_men_zinc",
-#                       spade.output.path = "output/italy/")
-# 
-# italy_zinc_m <- subset(italy_zinc_m, select = c(age, HI))
-# italy_zinc_m <- italy_zinc_m[order(italy_zinc_m$age),]
-# 
-# write.csv(italy_zinc_m, "all_intakes/italy_m_zinc.csv")
+ italy_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
+                       data=italy_wom, seed=123,  backtrans.nr = 3,
+                       dgts.distr = 2, min.age=0, max.age=97,
+                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+                       sex.lab="women",
+                       output.name = "italy_wom_zinc",
+                       spade.output.path = "output/italy/")
+ 
+ italy_zinc_w <- subset(italy_zinc_w, select = c(age, HI))
+ italy_zinc_w <- italy_zinc_w[order(italy_zinc_w$age),]
+ 
+ write.csv(italy_zinc_w, "all_intakes/italy_w_zinc.csv")
+ 
+  Men
+ italy_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
+                       data=italy_men, seed=123,  backtrans.nr = 3,
+                       dgts.distr = 2, min.age=0, max.age=92,
+                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+                       sex.lab="men",
+                       output.name = "italy_men_zinc",
+                       spade.output.path = "output/italy/")
+ 
+ italy_zinc_m <- subset(italy_zinc_m, select = c(age, HI))
+ italy_zinc_m <- italy_zinc_m[order(italy_zinc_m$age),]
+ 
+ write.csv(italy_zinc_m, "all_intakes/italy_m_zinc.csv")
 
 ##################################################################
 
