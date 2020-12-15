@@ -1,33 +1,31 @@
-# Clean Bolivia data for spade
+# Clean Bangladesh data for spade
 # Created December 15th, 2020 by Simone Passarelli
 library(tidyverse)
 library(haven)
 library(here)
 library(janitor)
+library(readxl)
 
-# Load the csv files for
 
-bolivia <- read_csv(here( "data", "raw", "Bolivia", "consumption_user.csv"))%>% 
+bang <- read_csv(here( "data", "raw", "Bangladesh", "consumption_user.csv")) %>% 
   clean_names() %>% 
   select(subject, survey_day, vita, calc, iron, vitb12, zinc,
-         food_amount_reported, ingredient, code_ingredient, foodex2_ingr_descr) 
+         food_amount_reported, ingredient, code_ingredient, foodex2_ingr_descr) %>% 
+  mutate(ingredient=tolower(ingredient))
 
 # id data
-bolivia_id <- read_csv(here( "data", "raw", "Bolivia",  "subject_user.csv"))%>% 
+bang_id <- read_csv(here( "data", "raw", "Bangladesh",  "subject_user.csv"))%>% 
   clean_names() %>% select(subject, sex, age_year) %>% group_by(subject) %>% distinct() %>% 
   rename(id=subject , age=age_year)
 
-# To add omega-3 content for the four types of fish reported
-bolivia <- bolivia %>% mutate(ingredient=tolower(ingredient)) %>% 
-  mutate(omega_3_100 = case_when(ingredient == "fish, tuna, light, canned in oil, drained solids" ~ (0.027 + 0.101),
-                                                  ingredient == "fish, sardine, atlantic, canned in tomato sauce, drained solids with bone" |
-                                   ingredient == "fish, sardine, atlantic, canned in oil, drained solids with bone" ~ (0.473 + 0.509),
-                                 ingredient == "fish, carp, cooked, dry heat" ~ (0.372 + 0.178),
-                                 ingredient == "fish, tilapia, cooked, dry heat" ~ (0.005 + 0.13), TRUE ~ 0 ))
 
+# load in the omega_3 values of fish from Daniel/AFDC
+bang_omega <- read_excel((here("data", "raw", "Bangladesh", "Bangladesh_fish_types_DV.xlsx")), col_names=TRUE) %>% 
+  rename( omega_3_100 = `omega_3 (EPA+DHA), grams` ) %>% mutate(ingredient=tolower(ingredient))
 
-# Combine child and adult dataframes
-bolivia_nut <- bolivia %>% 
+# merge the omega 3 values with the 
+bang_nut <- bang %>% left_join(bang_omega, by="ingredient") %>%  #merge in the omega 3 values for fish
+ mutate(omega_3_100=replace_na(omega_3_100, 0)) %>% #replace the NA values with 0
   mutate(omega_3_g = omega_3_100 *(food_amount_reported/100)) %>% 
   rename(mday = survey_day, id=subject) %>% 
   mutate(red_meat = case_when((grepl("beef", ingredient)) ~ food_amount_reported,
@@ -43,29 +41,17 @@ bolivia_nut <- bolivia %>%
                               (grepl("ham", ingredient)) ~ food_amount_reported,
                               (grepl("bacon", ingredient)) ~ food_amount_reported,
                               (grepl("salami", ingredient)) ~ food_amount_reported,
-                              (grepl("wurst", ingredient)) ~ food_amount_reported,
-                              (grepl("wiener", ingredient)) ~ food_amount_reported,
                               TRUE ~ 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("chicken", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("tripe", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("yogurt", ingredient)), 0)) %>% 
+  mutate(red_meat = replace(red_meat, (grepl("intestines", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("duck", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("hen", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("goose", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("geese", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("poultry", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("turkey", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("rabbit", ingredient)), 0)) %>% 
+  mutate(red_meat = replace(red_meat, (grepl("pigeon", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("stomach", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("liver", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("blood", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("brain", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, (grepl("offal", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("haggis", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("milk", ingredient)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("cheese", ingredient)), 0)) %>% 
   mutate(red_meat = replace(red_meat, ingredient=="bouillon", 0)) %>% 
-  mutate(red_meat = replace(red_meat, ingredient=="pork fat", 0)) %>% 
+  mutate(red_meat = replace(red_meat, ingredient=="beef fat  (cooked nuts)", 0)) %>% 
   mutate(red_meat = replace(red_meat, ingredient=="pate", 0)) %>% 
   relocate(red_meat , omega_3_g, after=zinc) %>% 
   relocate(id, mday, ingredient, food_amount_reported,  before=red_meat) %>% 
@@ -81,8 +67,8 @@ bolivia_nut <- bolivia %>%
 
 
 # Merge in the the identifying information 
-bolivia_spade <- bolivia_nut %>%
-  left_join(bolivia_id, by=c("id")) %>% 
+bang_spade <- bang_nut %>%
+  left_join(bang_id, by=c("id")) %>% 
   mutate(id=as.integer(id)) 
 
 
@@ -91,16 +77,16 @@ bolivia_spade <- bolivia_nut %>%
 # 
 # #Replace any cases where the ages are different for the same individual
 # 
-ids_data <- unique(bolivia_spade$id)
+ids_data <- unique(bang_spade$id)
 for (idid in ids_data){
-  data.id <- bolivia_spade[bolivia_spade$id == idid, ]
+  data.id <- bang_spade[bang_spade$id == idid, ]
   if(nrow(data.id) > 1){
-    bolivia_spade[bolivia_spade$id == idid,"age"] <- 
-      min(bolivia_spade[bolivia_spade$id == idid,"age"])
+    bang_spade[bang_spade$id == idid,"age"] <- 
+      min(bang_spade[bang_spade$id == idid,"age"])
   }
 }
 
-save(bolivia_spade, file=here("data", "processed", "bolivia"), replace)   
+save(bang_spade, file=here("data", "processed", "bang"), replace)   
 
 
 
