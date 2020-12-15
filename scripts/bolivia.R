@@ -1,5 +1,5 @@
 # Clean Bolivia data for spade
-# Created December 10th, 2020 by Simone Passarelli
+# Created December 15th, 2020 by Simone Passarelli
 library(tidyverse)
 library(haven)
 library(here)
