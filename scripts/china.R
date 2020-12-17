@@ -3,6 +3,7 @@ library(haven)
 library(here)
 library(janitor)
 
+
 # Open Data from Yanping with nutrients calculated
 china <- read_sas(here("data", "raw", "China", "simone_3days.sas7bdat")) %>% 
   clean_names() %>% rename(id=i_dind)
@@ -12,6 +13,38 @@ china_sex <- read_sas(here("data", "raw", "China", "mast_pub_12.sas7bdat")) %>%
 
 china_age <- read_sas(here("data", "raw", "China", "surveys_pub_12.sas7bdat")) %>% 
   clean_names() %>% rename(id=idind) %>% filter(wave==2009) %>% select(age, id)
+
+china_b12 <- read_dta(here("data", "raw", "China", "Food code_China_B12_formatted.dta")) %>% 
+                          clean_names()
+
+# Clean the China B12 data--so many zeroes
+
+china_b12_clean <- china_b12 %>% rename(ingredient=englishname2002) %>% 
+  filter(!is.na(code)) %>% 
+  mutate(b12 = replace(b12, foodcategory1=="Cereals and cereals products" | 
+      foodcategory1=="Dried legumes and legumes products" |
+      foodcategory1=="Tubers, starches and products" |
+      foodcategory1=="Vegetables and vegetables products" |
+      foodcategory1=="Fungi and algae" | 
+      foodcategory1=="Fruits and fruit products" |
+      foodcategory1=="Fruit and fruit products" | 
+        foodcategory1=="Liquor and alcoholic beverages" |
+        foodcategory2=="Herb" | foodcategory1=="Condiments" | foodcategory2=="Fruit juice and drink" |
+        foodcategory2=="Carbonated drink" | foodcategory2=="Tea and tea drink" | foodcategory2=="Sugars" | 
+        foodcategory1=="Fats and oil" | foodcategory2=="Confectionery" | 
+        foodcategory1=="Nuts and seeds" , 0)) %>% 
+  mutate(b12= replace(b12, code %in% 153001:153004 , 0)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chocolate" | ingredient=="Chocolate, filled with liquor", 0.8)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chocolate, standard wafer" , 0.14))
+
+
+china_b12_test <- china_b12_clean %>% filter(is.na(b12))
+
+
+
+b12=replace(b12, ))
+  
+
 
 # Merge in identifiers
 

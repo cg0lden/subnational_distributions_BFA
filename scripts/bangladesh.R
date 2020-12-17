@@ -86,7 +86,7 @@ for (idid in ids_data){
   }
 }
 
-save(bang_spade, file=here("data", "processed", "bang"), replace)   
+save(bang_spade, file=here("data", "processed", "bangladesh"), replace)   
 
 
 
