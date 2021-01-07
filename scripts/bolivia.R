@@ -5,8 +5,10 @@ library(haven)
 library(here)
 library(janitor)
 
-# Load the csv files for
+# Load the csv files for both children (2007) and adults (2004)
 
+# The subject number is not unique to the dataset; must process them separately
+#2007=children only
 bolivia <- read_csv(here( "data", "raw", "Bolivia", "consumption_user.csv"))%>% 
   clean_names() %>% 
   select(subject, survey_day, vita, calc, iron, vitb12, zinc,
