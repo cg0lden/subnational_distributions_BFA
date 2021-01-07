@@ -186,7 +186,7 @@ mutate(b12= replace(b12, ingredient=="Mutton, scrag", 2.51)) %>%
   mutate(b12= replace(b12, ingredient=="Goat meat, frozen", 1.13)) %>% 
   mutate(b12= replace(b12, ingredient=="Goat meat, spiced, cooked with soy sauce", 1.16)) %>% 
   mutate(b12= replace(b12, ingredient=="Mutton, brain", 9.99)) %>% 
-  mutate(b12= replace(b12, ingredient=="Mutton, tongue", 7.2)) %>% 
+  mutate(b12= replace(b12, ingredient=="Mutton, tongue" | ingredient=="Duck, tongue", 7.2)) %>% 
   mutate(b12= replace(b12, ingredient=="Ice cream, strawberry flavor" | 
            ingredient=="Ice cream,coffee flavor" | ingredient=="Ice cream, butter added" |
            ingredient=="Ice cream, *Jinbaihe*" | ingredient=="Ice cream, cone" | 
@@ -215,9 +215,11 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
   mutate(b12= replace(b12, ingredient=="*Mooncake*, filled with salted egg yolk and lotus seed paste", 0.34)) %>% 
   mutate(b12= replace(b12, ingredient=="Butter residue, *milk solids*", 0.01)) %>% 
   mutate(b12= replace(b12, ingredient=="Fried dough twisted, crispy" | ingredient=="Honey dough twist", 0.1)) %>% 
-  mutate(b12= replace(b12, ingredient=="*Beijing* white duck, blood", 0.1)) %>% 
+  mutate(b12= replace(b12, ingredient=="*Beijing* white duck, blood" | 
+                        ingredient=="Duck, blood, drake" | ingredient=="Chicken, blood", 0.1)) %>% 
   mutate(b12= replace(b12, ingredient=="Quail egg, whole", 1.58)) %>% 
   mutate(b12= replace(b12, ingredient=="Milk, German cow" | ingredient=="Milk, pasteurized" | 
+                        ingredient=="Milk, American cow" | ingredient=="Milk, enriched with vitamins A and D" |
                         (grepl("Milk, whole", ingredient)), 0.54)) %>% 
   mutate(b12= replace(b12, ingredient=="Chicken, egg" | ingredient=="Egg, Tibetan hen, whole, raw", 0.88)) %>% 
   mutate(b12= replace(b12, ingredient=="*Fruit flavor* milk, artificially fruit flavored, pasteurized" | 
@@ -227,11 +229,15 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
   mutate(b12= replace(b12, ingredient=="Cocoa malted beverage, in powder, milk and cocoa added" |
                         ingredient=="Malted milk crystal, mixture of cocoa, malt and milk", 0.35)) %>% 
   mutate(b12= replace(b12, ingredient=="Milk candy" | ingredient=="Toffee", 0.3)) %>% 
-  mutate(b12= replace(b12, ingredient=="Chicken, roasted, seasoned, whole", 0.27)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken, roasted, seasoned, whole" |
+                        ingredient=="Chicken, roasted, whole", 0.27)) %>% 
   mutate(b12= replace(b12, ingredient=="Chicken, braised, seasoned, whole" | 
-                        ingredient=="Chicken, spring, braised with salt, beer, etc., whole", 0.45)) %>% 
+                        ingredient=="Chicken, spring, braised with salt, beer, etc., whole" |
+                        ingredient=="Chicken, stewed with soy sauce and sugar, whole", 0.45)) %>% 
   mutate(b12= replace(b12, ingredient=="Chicken, mixed with starch and other spices. frozen in pieces, raw", 0.36)) %>% 
-  mutate(b12= replace(b12,  (grepl("Duck (Peking duck), roasted", ingredient)), 0.3)) %>% 
+  mutate(b12= replace(b12,  (grepl("Duck (Peking duck), roasted", ingredient)) |
+                        ingredient=="Duck (Peking duck), roasted, whole, LAOTANG" |
+                        ingredient=="Duck (Peking duck), roasted, whole, QUANJUDE", 0.3)) %>% 
   mutate(b12= replace(b12, ingredient=="Chocolate flavored soy milk, bottled", 0.7)) %>% 
   mutate(b12= replace(b12, ingredient=="Egg, duck, whole, salt preserved, boiled" | 
                         ingredient=="Duck, egg, whole, salt preserved", 4.03)) %>% 
@@ -338,10 +344,54 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
   mutate(b12= replace(b12, ingredient=="Infant formula milk powder", 0.2)) %>% 
   mutate(b12= replace(b12, ingredient=="Infant formula milk powder, simulated breast milk", 0.2)) %>% 
   mutate(b12= replace(b12, (grepl("Beer", ingredient)) | (grepl("beer", ingredient)) , 0.02)) %>% 
-  mutate(b12= replace(b12, ingredient=="Pacific cod, marine", 1.98))
-  
-  
-  
+  mutate(b12= replace(b12, ingredient=="Pacific cod, marine", 1.98)) %>% 
+  mutate(b12= replace(b12, ingredient=="Formula milk powder, KOCCI, for middle-aged and elderly people" |
+                        ingredient=="Formula milk powder, SANLU, for middle-aged and elderly people", 1.98)) %>% 
+  mutate(b12= replace(b12, ingredient=="Pacific cod, marine", 1.98)) %>% 
+  mutate(b12= replace(b12, ingredient=="Goat milk", 0.07)) %>% 
+  mutate(b12= replace(b12, ingredient=="Milk, partly skimmed", 0.55)) %>% 
+  mutate(b12= replace(b12, ingredient=="Milk, recombined, enriched with zinc and calcium, PARMALAT", 1.10)) %>% 
+  mutate(b12= replace(b12, ingredient=="Milk, strawberry flavored, whole, sweetened", .5)) %>% 
+  mutate(b12= replace(b12, ingredient=="Milk, chocolate flavored, whole, sweetened, SANYUAN", .47)) %>% 
+  mutate(b12= replace(b12, (grepl("Whole milk powder", ingredient)) | 
+                        ingredient=="Whole Milk powder," | 
+                        (grepl("Whole Milk powder", ingredient)), 1.8)) %>% 
+  mutate(b12= replace(b12, ingredient=="Yogurt", .56)) %>% 
+  mutate(b12= replace(b12, ingredient=="Yogurt, high protein", .75)) %>% 
+  mutate(b12= replace(b12, ingredient=="Yogurt, medium fat", .56)) %>% 
+  mutate(b12= replace(b12, ingredient=="Yogurt, skimmed", .61)) %>% 
+  mutate(b12= replace(b12, ingredient=="Yogurt, whole milk, with sugar" | 
+                        ingredient=="*Fruit* yogurt, whole milk, with fruits", .33)) %>% 
+  mutate(b12= replace(b12, ingredient=="*Beijing* white duck, roasted, whole", .3)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken soup broth, cooked in clay pot", .02)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken soup, meat, cooked in clay pot", 1)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken, *Kentucky*, fried", 0.38)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken, braised, whole", 0.45)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken, gizzard" | 
+                        ingredient=="Goose, gizzard", 1.21)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chicken, heart", 7.29)) %>% 
+  mutate(b12= replace(b12, (grepl("Chicken, liver", ingredient)) , 16.58)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, boiled in salted water, whole" |
+                        ingredient=="Duck, cooked with soy sauce and spices, whole" |
+                        ingredient=="Duck, stewed in soy sauce, canned", 0.3)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, breast", 0.76)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, gizzard", 3.61)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, intestine" | ingredient=="Duck, pancreas", 1)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, liver", 54)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, web", 0.47)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, whole" | ingredient=="Duck, drake, whole", 0.25)) %>% 
+  mutate(b12= replace(b12, ingredient=="Duck, wing", 0.25)) %>% 
+  mutate(b12= replace(b12, ingredient=="Goose, liver", 54)) %>% 
+  mutate(b12= replace(b12, ingredient=="Goose, whole", 0.34)) %>% 
+  mutate(b12= replace(b12, ingredient=="Pigeon, whole", 0.4)) %>% 
+  mutate(b12= replace(b12, ingredient=="Quail, whole", 0.43)) %>% 
+  mutate(b12= replace(b12, ingredient=="Turkey, leg", 0.39)) %>% 
+  mutate(b12= replace(b12, ingredient=="Turkey, liver", 19.73)) %>% 
+  mutate(b12= replace(b12, ingredient=="Peanut brittle", 0.01)) %>% 
+  mutate(b12= replace(b12, ingredient=="Milk chocolate" | ingredient=="Chocolate, filled with air" , 0.8)) %>% 
+  mutate(b12= replace(b12, ingredient=="Peanut brittle", 0.01)) %>% 
+  mutate(b12= replace(b12, ingredient=="Chocolate, with nuts", 0.33))
+ 
 
 # TO view the remaining observations with missing b12 entries
   china_b12_test <-  china_b12_clean %>% filter(foodcategory1 !="Vegetables and vegetables products" & 
