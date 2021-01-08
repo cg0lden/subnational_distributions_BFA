@@ -13,7 +13,7 @@ china_translated <- read_dta(here("data", "raw", "China", "Food code_China_B12_f
 
 # Then, read in the foods reported 
 china_foods <- read_sas(here("data", "raw", "China", "nutr3_00.sas7bdat")) %>% 
-  clean_names()  %>%  filter(wave==2009)
+  clean_names()  %>% filter(wave==2009)
 
 # Read in b12 values for fish
 china_fish_b12 <- read_excel(here("data", "raw", "China", "China_B12 content fish.xlsx")) %>% 
@@ -390,31 +390,30 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
   mutate(b12= replace(b12, ingredient=="Peanut brittle", 0.01)) %>% 
   mutate(b12= replace(b12, ingredient=="Milk chocolate" | ingredient=="Chocolate, filled with air" , 0.8)) %>% 
   mutate(b12= replace(b12, ingredient=="Peanut brittle", 0.01)) %>% 
-  mutate(b12= replace(b12, ingredient=="Chocolate, with nuts", 0.33))
+  mutate(b12= replace(b12, ingredient=="Chocolate, with nuts", 0.33)) %>%  #now replace missing with zeroes
+  mutate(b12= replace(b12, is.na(ingredient), 0)) %>% 
+  
  
-
-# TO view the remaining observations with missing b12 entries
-  china_b12_test <-  china_b12_clean %>% filter(foodcategory1 !="Vegetables and vegetables products" & 
-                                                       foodcategory1 != "Dried legumes and legumes products" &
-                                                       foodcategory1!="Tubers, starches and products" &
-                                                       foodcategory1 != "Cereals and cereals products" &
-                                                       foodcategory1 != "Fungi and algae" &
-                                                       foodcategory1 != "Fruit and fruit products" & 
-                                                  foodcategory1 != "Fruits and fruit products" &
-                                                  foodcategory1 != "Nuts and seeds" &
-                                                  foodcategory2!="Animal fat" & foodcategory1 !="Condiments" &
-                                                  foodcategory1 !="Beverages"  &
-                                                  foodcategory1 !="Edible medicinal herbs and others" &
-                                                  foodcategory1 !="Ethnic food and cakes" & 
-                                                  foodcategory1 != "Ethnic foods and cakes" &
-                                                  foodcategory1 !="Fats and oil" &
-                                                  foodcategory1 != "Fats and oils" &
-                                                  foodcategory1 != "Liquor and alcoholic beverages" &
-                                                  foodcategory1 != "Fast foods") %>% 
-  group_by(foodcategory1, ingredient) %>% slice(1) %>% filter(b12 ==0 | is.na(b12) )
-
-
-
+# 
+# # TO view the remaining observations with missing b12 entries
+#   china_b12_test <-  china_b12_clean %>% filter(foodcategory1 !="Vegetables and vegetables products" & 
+#                                                        foodcategory1 != "Dried legumes and legumes products" &
+#                                                        foodcategory1!="Tubers, starches and products" &
+#                                                        foodcategory1 != "Cereals and cereals products" &
+#                                                        foodcategory1 != "Fungi and algae" &
+#                                                        foodcategory1 != "Fruit and fruit products" & 
+#                                                   foodcategory1 != "Fruits and fruit products" &
+#                                                   foodcategory1 != "Nuts and seeds" &
+#                                                   foodcategory2!="Animal fat" & foodcategory1 !="Condiments" &
+#                                                   foodcategory1 !="Beverages"  &
+#                                                   foodcategory1 !="Edible medicinal herbs and others" &
+#                                                   foodcategory1 !="Ethnic food and cakes" & 
+#                                                   foodcategory1 != "Ethnic foods and cakes" &
+#                                                   foodcategory1 !="Fats and oil" &
+#                                                   foodcategory1 != "Fats and oils" &
+#                                                   foodcategory1 != "Liquor and alcoholic beverages" &
+#                                                   foodcategory1 != "Fast foods") %>% 
+#   group_by(foodcategory1, ingredient) %>% slice(1) %>% filter(b12 ==0 | is.na(b12) )
 
 # write a function to replace the values
 # My function doesnt work :( and I don't know why
@@ -424,24 +423,31 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
 #     mutate(b12= replace(b12, ingredient==food , x))
 # }
 
-china_b12_test <- china_b12_clean %>% filter(is.na(b12))
+china_b12_test <- china_b12_clean %>% filter(is.na(b12)) %>% 
+  group_by(foodcategory1, ingredient) %>% slice(1)
 
+# prepare b12 dataset for merging
+china_b12_clean2 <- china_b12_clean %>% rename(mday=vd, amount=v39, b12_100=b12) %>% 
+  select(id, b12_100, mday, amount) %>% 
+  group_by(id, mday) %>%
+  mutate(b12 = b12_100 *(amount/100)) %>% 
+  summarize(b12 = sum(b12)) %>% distinct()
 
-# Merge in identifiers
+# Merge in identifiers to dataset from Yanping
 
 china_spade <- china %>%
   left_join(china_age, by=c("id")) %>% 
   left_join(china_sex, by=c("id")) %>% 
   rename(mday=day, red_meat=f3redmeat, vita=f3d_vit_a, calc=f3d_ca, omega_3=f3depadha, zinc=f3d_zn, iron=f3d_fe) %>% 
+  left_join(china_b12_clean2, by=c("id" ="id",  "mday"="mday")) %>% #merge in the b12 data
   group_by(id) %>% 
   mutate(id = cur_group_id()) %>%
-  distinct() %>% ungroup()
-
+  distinct() %>% ungroup() 
 
 summary(china_spade)
 
 #No missing ages
-
+# I am not including individuals for whom we only have b12 diets so that the overll diet profiles are comparable
 #Replace any cases where the ages are different for the same individual
 
 ids_data <- unique(china_spade$id)
@@ -455,21 +461,18 @@ for (idid in ids_data){
 
 save(china_spade, file=here("data", "processed", "china"), replace)   
 
-
-
-
 # to clean through the nutrition data
 
 # The first survey is the household inventory: we only want individual level
 # china_nut1 <- read_sas(here("data", "raw", "China", "nutr1_00.sas7bdat")) %>% 
   # clean_names() %>% filter(wave==2009)
 
-china_nut2 <- read_sas(here("data", "raw", "China", "nutr2_00.sas7bdat")) %>% 
-  clean_names() %>% filter(wave==2009) %>% rename(id=i_dind)
-
-# food codes are in this file and file 2
-china_nut3 <- read_sas(here("data", "raw", "China", "nutr3_00.sas7bdat")) %>% 
-  clean_names() %>% filter(wave==2009) %>% rename(id=i_dind)
+# china_nut2 <- read_sas(here("data", "raw", "China", "nutr2_00.sas7bdat")) %>% 
+#   clean_names() %>% filter(wave==2009) %>% rename(id=i_dind)
+# 
+# # food codes are in this file and file 2
+# china_nut3 <- read_sas(here("data", "raw", "China", "nutr3_00.sas7bdat")) %>% 
+#   clean_names() %>% filter(wave==2009) %>% rename(id=i_dind)
 # Open identifying data
 # china_id <- read_sas("/Users/Simone/Downloads/Master_ID_201908/rst_12.sas7bdat") %>% 
   # clean_names() %>% filter(wave==2009) %>% rename(id=i_dind)
