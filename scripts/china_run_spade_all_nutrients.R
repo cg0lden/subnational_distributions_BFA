@@ -22,37 +22,41 @@ china_men <- subset(china_spade, sex==1)
 range(china_wom$age)
 range(china_men$age)
 
-
-
 # THERE IS NO B12 IN THE CHINA DATASET
 ###########################################################
 # 1. RUN SPADE FOR B12
-# 
+#
+# Make a separate dataset for b12 with no missing values
+
+china_wom_b12 <- subset(china_wom, !is.na(b12))
+china_men_b12 <- subset(china_men, !is.na(b12))
+
+# Have to use two part model because of zeroes
 # # Women
-# china_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
-#                    data=china_wom, seed=123,  backtrans.nr = 3,
-#                    dgts.distr = 2, min.age=15, max.age=98,
-#                    age.classes=c(15, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-#                    sex.lab="women", 
-#                    output.name = "china_wom_b12")
+ china_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
+                    data=china_wom_b12, seed=123,  backtrans.nr = 3,
+                    dgts.distr = 2, min.age=15, max.age=98,
+                    age.classes=c(15, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+                    sex.lab="women", 
+                    output.name = "china_wom_b12")
 # 
-# china_b12 <- subset(china_b12, select = c(age, HI))
-# china_b12 <- china_b12[order(china_b12$age),]
+ china_b12 <- subset(china_b12, select = c(age, HI))
+ china_b12 <- china_b12[order(china_b12$age),]
 # 
-# write.csv(china_b12, "all_intakes/china_w_b12.csv")
+ write.csv(china_b12, "all_intakes/china_w_b12.csv")
 # 
 # # Men
-# china_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
-#                    data=china_men, seed=123,  backtrans.nr = 3,
-#                    dgts.distr = 2, min.age=15, max.age=92,
-#                    age.classes=c( 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-#                    sex.lab="men",
-#                    output.name = "china_men_b12")
+ china_b12 <- f.spade(frml.ia=b12~fp(age), frml.if=b12~cs(age), 
+                    data=china_men_b12, seed=123,  backtrans.nr = 3,
+                    dgts.distr = 2, min.age=15, max.age=92,
+                    age.classes=c( 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
+                    sex.lab="men",
+                    output.name = "china_men_b12")
 # 
-# china_b12 <- subset(china_b12, select = c(age, HI))
-# china_b12 <- china_b12[order(china_b12$age),]
+ china_b12 <- subset(china_b12, select = c(age, HI))
+ china_b12 <- china_b12[order(china_b12$age),]
 # 
-# write.csv(china_b12, "all_intakes/china_m_b12.csv")
+ write.csv(china_b12, "all_intakes/china_m_b12.csv")
 
 ##################################################################
 
