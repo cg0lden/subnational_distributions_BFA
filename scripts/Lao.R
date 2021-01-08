@@ -18,7 +18,7 @@ table(Lao$survey_day)
 Lao_nut <-  Lao %>% 
   mutate(omega_3 = replace(omega_3, ingredient=="Golden applesnail, Channeled applesnail, boiled", 0.12)) %>%
   rename(recall = survey_day, id=subject, age=age_year) %>% 
-  group_by(id, recall) %>%
+  group_by(id, recall)
   mutate(red_meat = case_when(ingredient=="Buffalo meat" ~ food_amount_reported,
                               fg24==9 ~ food_amount_reported,
                               ingredient=="Duck meat" ~ 0,

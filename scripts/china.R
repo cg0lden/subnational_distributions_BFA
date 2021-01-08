@@ -30,9 +30,10 @@ china_fish_b12 <- read_excel(here("data", "raw", "China", "China_B12 content fis
 
 china_foods_translated <- china_foods  %>% rename(id=i_dind) %>% 
   left_join(china_translated, by=c("foodcode")) %>% left_join(china_fish_b12, by=c("foodcode")) %>% 
-  select(!c("best_match_species_in_average", "part", "ingredient")) %>% rename(ingredient=englishname2002) %>% 
-  mutate(b12=ifelse(china_foods_translated$vitamin_b12_mcg_100g >=0 & !is.na(china_foods_translated$vitamin_b12_mcg_100g),
-        vitamin_b12_mcg_100g, b12))
+  select(!c("best_match_species_in_average", "part", "ingredient")) %>% rename(ingredient=englishname2002) 
+
+china_foods_translated2 <-  china_foods_translated %>% 
+  mutate(b12=ifelse(china_foods_translated$vitamin_b12_mcg_100g >=0 & !is.na(china_foods_translated$vitamin_b12_mcg_100g),vitamin_b12_mcg_100g, b12))
 
 # Open Data from Yanping with nutrients calculated
 china <- read_sas(here("data", "raw", "China", "simone_3days.sas7bdat")) %>% 
@@ -48,7 +49,7 @@ china_age <- read_sas(here("data", "raw", "China", "surveys_pub_12.sas7bdat")) %
 #
 # Clean the China B12 data--so many zeroes
 
-china_b12_clean <- china_foods_translated %>% rename(code=foodcode) %>% 
+china_b12_clean <- china_foods_translated2 %>% rename(code=foodcode) %>% 
   filter(!is.na(code)) %>% 
   mutate(b12 = replace(b12, foodcategory1=="Cereals and cereals products" | 
       foodcategory1=="Dried legumes and legumes products" |
@@ -391,7 +392,7 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
   mutate(b12= replace(b12, ingredient=="Milk chocolate" | ingredient=="Chocolate, filled with air" , 0.8)) %>% 
   mutate(b12= replace(b12, ingredient=="Peanut brittle", 0.01)) %>% 
   mutate(b12= replace(b12, ingredient=="Chocolate, with nuts", 0.33)) %>%  #now replace missing with zeroes
-  mutate(b12= replace(b12, is.na(ingredient), 0)) %>% 
+  mutate(b12= replace(b12, is.na(ingredient), 0))
   
  
 # 
@@ -423,8 +424,16 @@ mutate(b12= replace(b12, ingredient=="*Sandwich* ice cream", 0.39)) %>%
 #     mutate(b12= replace(b12, ingredient==food , x))
 # }
 
-china_b12_test <- china_b12_clean %>% filter(is.na(b12)) %>% 
-  group_by(foodcategory1, ingredient) %>% slice(1)
+# china_b12_test <- china_b12_clean %>% filter(is.na(b12)) %>% 
+#   group_by(foodcategory1, ingredient) %>% slice(1)
+
+#check to see how many foods didn't match from the translated list
+china_translated_not_matched <-  china_foods  %>% rename(id=i_dind) %>% 
+  left_join(china_translated, by=c("foodcode")) %>%
+  select(id, englishname2002, vd, foodcode) %>% filter(!is.na(englishname2002)) %>% 
+distinct(foodcode)
+
+summary(china_translated_not_matched)
 
 # prepare b12 dataset for merging
 china_b12_clean2 <- china_b12_clean %>% rename(mday=vd, amount=v39, b12_100=b12) %>% 
