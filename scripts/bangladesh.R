@@ -7,7 +7,8 @@ library(janitor)
 library(readxl)
 
 
-bang <- read_csv(here( "data", "raw", "Bangladesh", "consumption_user.csv")) %>% 
+bang <- read_csv(here( "data", "raw", "Bangladesh", "FAOGIFT", "consumption_user.csv")) 
+%>% 
   clean_names() %>% 
   select(subject, survey_day, vita, calc, iron, vitb12, zinc,
          food_amount_reported, ingredient, code_ingredient, foodex2_ingr_descr) %>% 

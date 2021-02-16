@@ -6,14 +6,14 @@ library(haven)
 library(here)
 library(janitor)
 # Clean day 1 data and sync names. Keep necessary vars only
-nhanes_day1 <- read_xpt(here("data", "raw", "NHANES", "DR1IFF_J.XPT")) %>% 
+nhanes_day1 <- read_xpt(here("data", "raw", "United States", "DR1IFF_J.XPT")) %>% 
   clean_names() %>% mutate(mday=1) %>% 
   rename(id=seqn, code=dr1ifdcd, amount=dr1igrms, vita=dr1ivara, calc=dr1icalc, 
   b12a=dr1ivb12, b12b=dr1ib12a, zinc=dr1izinc, epa=dr1ip205, dha=dr1ip226, iron=dr1iiron, weight1=wtdrd1, weight2=wtdr2d)  %>% 
   select(id, mday, code, amount, vita, b12a, b12b, zinc, iron, calc, epa, dha, weight1, weight2)
 
 #Clean day 2 data and sync names. Keep necessary vars only
-nhanes_day2 <- read_xpt(here("data", "raw", "NHANES", "DR2IFF_J.XPT")) %>% 
+nhanes_day2 <- read_xpt(here("data", "raw", "United States", "DR2IFF_J.XPT")) %>% 
   clean_names() %>% mutate(mday=2) %>% 
   rename(id=seqn, code=dr2ifdcd,  amount=dr2igrms, vita=dr2ivara, calc=dr2icalc, 
          b12a=dr2ivb12, b12b=dr2ib12a, zinc=dr2izinc, epa=dr2ip205, dha=dr2ip226, iron=dr2iiron, weight1=wtdrd1, weight2=wtdr2d) %>% 
