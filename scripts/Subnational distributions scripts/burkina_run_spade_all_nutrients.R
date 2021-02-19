@@ -7,7 +7,7 @@ library(SPADE.RIVMNwCore)
 library(here)
 
 # DO NOT load tidyverse because it makes spade mad!
-load(here("data", "processed", "burkina"))
+load(here("data", "processed", "Subnational distributions", "burkina"))
 SPADE.OUTPUT.PATH <- (here("output", "burkina"))
 # TOTAL.output <- (here("output", "burkina", 2_logbooks"))
 ###########################################################

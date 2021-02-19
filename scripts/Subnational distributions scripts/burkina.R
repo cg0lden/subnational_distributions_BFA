@@ -9,15 +9,16 @@ library(janitor)
 
 burkina <- read_dta(here( "data", "raw", "Burkina", "Burkina_omega.dta"))  %>% 
   clean_names() %>% 
-  select(id_subj, sample_weight, age_mother, age_child_4c, nb_r24h, sex, 
-         wgt_food, calc, iron, zinc, vita, vitb12, omega_3, code_grp, id_mother, id_child)
+  select(-c( province, airesant, village, id_hh, season, date_recall, subj, 
+            lact, preg, age_mother_10c, age_child, appetit, malade, weekend, code_period,
+            type_rcp, code_rcp, name_rcp, code_ingr, ingrdient, 
+            outlier))
+    
 
 summary(burkina)
 table(burkina$nb_r24h)
-
+names(burkina)
 # Make an indicator variable for mother vs child
-
-
 # Need to add snail nutrients
 
 # Red meat=9, processed meat=10
@@ -31,15 +32,23 @@ burkina_nut <-  burkina %>%
   mutate(id = as.integer(id)) %>% 
   rename(mday = nb_r24h, b12=vitb12) %>% 
   group_by(id, mday) %>%
-  mutate(red_meat = case_when(
-    code_grp==13 ~ wgt_food, TRUE ~ 0)) %>% 
   summarize(b12 = sum(b12),
             iron = sum(iron),
             zinc = sum(zinc),
             vita = sum(vita),
             calc = sum(calc),
-            red_meat = sum(red_meat),
-            omega_3 = sum(omega_3)) %>% distinct()
+            omega_3 = sum(omega_3),
+            vitc=sum(vitc),
+            thia=sum(thia),
+            ribo=sum(ribo),
+            niac=sum(niac),
+            vitb6=sum(vitb6),
+            fola=sum(fola),
+            bcarot=sum(bcarot),
+            energy=sum(energy),
+            protein=sum(protein),
+            fat=sum(fat),
+            carb=sum(carboh)) %>% distinct()
 
 # Identifying info 
 burkina_merge <-  burkina %>%  
@@ -59,7 +68,6 @@ burkina_merge <-  burkina %>%
 burkina_spade <- burkina_nut %>% 
   left_join(burkina_merge, by=c("id")) %>%
   group_by(id, mday) %>% 
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat,  omega_3, sample_weight) %>% 
   distinct()
 
 # Check for missing or different ages
@@ -91,7 +99,7 @@ for (idid in ids_data){
   }
 }
 
-save(burkina_spade, file=here("data", "processed", "burkina"), replace)   
+save(burkina_spade, file=here("data", "processed","Subnational distributions", "burkina"), replace)   
 
 
 
