@@ -35,7 +35,6 @@ table(lao_wom$age)
 lao_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
                       data=lao_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=0, max.age=82,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="women", 
                       output.name = "lao_wom_b12")
 
@@ -48,7 +47,6 @@ write.csv(lao_b12, "all_intakes/lao_w_b12.csv")
 lao_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
                       data=lao_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=0, max.age=89,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="men",
                       output.name = "lao_men_b12")
 
@@ -64,10 +62,8 @@ write.csv(lao_b12, "all_intakes/lao_m_b12.csv")
 lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=lao_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=82,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="women",
-                       output.name = "lao_wom_iron",
-                       spade.output.path = "output/lao/")
+                       output.name = "lao_wom_iron")
 
 lao_iron <- subset(lao_iron, select = c(age, HI))
 lao_iron <- lao_iron[order(lao_iron$age),]
@@ -78,10 +74,8 @@ write.csv(lao_iron, "all_intakes/lao_w_iron.csv")
 lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="men",
-                       output.name = "lao_men_iron",
-                       spade.output.path = "output/lao/")
+                       output.name = "lao_men_iron")
 
 lao_iron <- subset(lao_iron, select = c(age, HI))
 lao_iron <- lao_iron[order(lao_iron$age),]
@@ -93,10 +87,8 @@ write.csv(lao_iron, "all_intakes/lao_m_iron.csv")
 lao_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=lao_wom, seed=123,  backtrans.nr = 3,
                          dgts.distr = 2, min.age=0, max.age=82,
-                         age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                          sex.lab="women",
-                         output.name = "lao_wom_zinc",
-                         spade.output.path = "output/lao/")
+                         output.name = "lao_wom_zinc")
 
 lao_zinc_w <- subset(lao_zinc_w, select = c(age, HI))
 lao_zinc_w <- lao_zinc_w[order(lao_zinc_w$age),]
@@ -107,10 +99,8 @@ write.csv(lao_zinc_w, "all_intakes/lao_w_zinc.csv")
 lao_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=lao_men, seed=123,  backtrans.nr = 3,
                          dgts.distr = 2, min.age=0, max.age=89,
-                         age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                          sex.lab="men",
-                         output.name = "lao_men_zinc",
-                         spade.output.path = "output/lao/")
+                         output.name = "lao_men_zinc")
 
 lao_zinc_m <- subset(lao_zinc_m, select = c(age, HI))
 lao_zinc_m <- lao_zinc_m[order(lao_zinc_m$age),]
@@ -124,10 +114,8 @@ write.csv(lao_zinc_m, "all_intakes/lao_m_zinc.csv")
 lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=lao_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=82,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="women",
-                       output.name = "lao_wom_vita",
-                       spade.output.path = "output/lao/")
+                       output.name = "lao_wom_vita")
 
 lao_vita <- subset(lao_vita, select = c(age, HI))
 lao_vita <- lao_vita[order(lao_vita$age),]
@@ -138,10 +126,8 @@ write.csv(lao_vita, "all_intakes/lao_w_vita.csv")
 lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="men",
-                       output.name = "lao_men_vita",
-                       spade.output.path = "output/lao/")
+                       output.name = "lao_men_vita")
 
 lao_vita <- subset(lao_vita, select = c(age, HI))
 lao_vita <- lao_vita[order(lao_vita$age),]
@@ -154,12 +140,9 @@ write.csv(lao_vita, "all_intakes/lao_m_vita.csv")
 
 lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=lao_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=0, max.age=82,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                       sex.lab="women",
- 
-                       output.name = "lao_wom_calc",
-                       spade.output.path = "output/lao/")
+                       dgts.distr = 2, min.age=0, max.age=82,                     
+                    sex.lab="women",
+                       output.name = "lao_wom_calc")
 
 lao_calc <- subset(lao_calc, select = c(age, HI))
 lao_calc <- lao_calc[order(lao_calc$age),]
@@ -170,79 +153,14 @@ write.csv(lao_calc, "all_intakes/lao_w_calc.csv")
 lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="men",
- 
-                       output.name = "lao_men_calc",
-                       spade.output.path = "output/lao/")
+                       output.name = "lao_men_calc")
 
 lao_calc <- subset(lao_calc, select = c(age, HI))
 lao_calc <- lao_calc[order(lao_calc$age),]
 
 write.csv(lao_calc, "all_intakes/lao_m_calc.csv")
-##################################################################
 
-# 6. RUN SPADE FOR RED MEAT
-
-lao_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age),
-                           data=lao_wom, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=0, max.age=82,
-                           age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                           sex.lab="women",
-                           output.name = "lao_wom_red_meat",
-                           spade.output.path = "output/lao/")
-
-lao_red_meat <- subset(lao_red_meat, select = c(age, HI))
-lao_red_meat <- lao_red_meat[order(lao_red_meat$age),]
-
-write.csv(lao_red_meat, "all_intakes/lao_w_red_meat.csv")
-
-# Men
-lao_red_meat <- f.spade(frml.ia=red_meat~fp(age), frml.if=red_meat~cs(age),
-                           data=lao_men, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=0, max.age=89,
-                           age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                           sex.lab="men",
-     
-                           output.name = "lao_men_red_meat",
-                           spade.output.path = "output/lao/")
-
-lao_red_meat <- subset(lao_red_meat, select = c(age, HI))
-lao_red_meat <- lao_red_meat[order(lao_red_meat$age),]
-
-write.csv(lao_red_meat, "all_intakes/lao_m_red_meat.csv")
-##################################################################
-
-# 7. RUN SPADE FOR PROCESSED MEAT
-
-lao_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age), 
-                                 data=lao_wom, seed=123,  backtrans.nr = 3,
-                                 dgts.distr = 2, min.age=0, max.age=82,
-                                 age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                                 sex.lab="women",
-           
-                                 output.name = "lao_wom_processed_meat",
-                                 spade.output.path = "output/lao/")
-
-lao_processed_meat <- subset(lao_processed_meat, select = c(age, HI))
-lao_processed_meat <- lao_processed_meat[order(lao_processed_meat$age),]
-
-write.csv(lao_processed_meat, "all_intakes/lao_w_processed_meat.csv")
-
-# Men
-lao_processed_meat <- f.spade(frml.ia=processed_meat~fp(age), frml.if=processed_meat~cs(age),
-                                 data=lao_men, seed=123,  backtrans.nr = 3,
-                                 dgts.distr = 2, min.age=0, max.age=89,
-                                 age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
-                                 sex.lab="men",
-           
-                                 output.name = "lao_men_processed_meat",
-                                 spade.output.path = "output/lao/")
-
-lao_processed_meat <- subset(lao_processed_meat, select = c(age, HI))
-lao_processed_meat <- lao_processed_meat[order(lao_processed_meat$age),]
-
-write.csv(lao_processed_meat, "all_intakes/lao_m_processed_meat.csv")
 
 ##################################################################
 
@@ -252,10 +170,8 @@ write.csv(lao_processed_meat, "all_intakes/lao_m_processed_meat.csv")
 lao_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3~cs(age),
                           data=lao_wom, seed=123,  backtrans.nr = 3,
                           dgts.distr = 2, min.age=0, max.age=82,
-                          age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                           sex.lab="women",
-                          output.name = "lao_wom_omega_3",
-                          spade.output.path = "output/lao/")
+                          output.name = "lao_wom_omega_3")
 
 lao_omega_3 <- subset(lao_omega_3, select = c(age, HI))
 lao_omega_3 <- lao_omega_3[order(lao_omega_3$age),]
@@ -266,11 +182,8 @@ write.csv(lao_omega_3, "all_intakes/lao_w_omega_3.csv")
 lao_omega_3 <- f.spade(frml.ia=omega_3~fp(age),  frml.if=omega_3~cs(age),
                           data=lao_men, seed=123,  backtrans.nr = 3,
                           dgts.distr = 2, min.age=0, max.age=89,
-                          age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                           sex.lab="men",
-    
-                          output.name = "lao_men_omega_3",
-                          spade.output.path = "output/lao/")
+                          output.name = "lao_men_omega_3")
 
 lao_omega_3 <- subset(lao_omega_3, select = c(age, HI))
 lao_omega_3 <- lao_omega_3[order(lao_omega_3$age),]

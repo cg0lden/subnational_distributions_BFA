@@ -7,48 +7,65 @@ library(janitor)
 
 # Load the Lao data from the Stata file (coded with the food groups)
 
-Lao <- read_dta(here( "data", "raw", "Lao", "Lao.dta")) %>% clean_names()
+Lao <- read_csv(here( "data", "raw", "Lao", "consumption_user.csv")) %>% clean_names() %>% 
+  mutate(na=as.numeric(x57)) %>% 
+  select(-c(adm0_code:round, consumption_day:food_amount_reported, water, a_prot, v_prot,
+            sat_fat, zinc, vitb6, fola, vitb12, bcarot, mg:vitk))
 
-summary(Lao)
+# Read in dta file with omega and b12
+Lao_2 <- read_dta(here( "data", "raw", "Lao", "Lao.dta")) %>% clean_names() %>% 
+  select(survey_day, subject, b12, omega_3, ingredient, age_year, sex, zinc) %>% 
+  rename(recall = survey_day, id=subject, age=age_year) %>% 
+  mutate(omega_3 = replace(omega_3, ingredient=="Golden applesnail, Channeled applesnail, boiled", 0.12)) 
+
+Lao_age_sex <- Lao_2 %>% select(age, id, sex) %>% distinct()
+# Summarize vitb12 and omega3 variables
+Lao_b12_omega_zinc <- Lao_2 %>%  group_by(id, recall) %>%   
+  summarize(vitb12 = sum(b12),
+            zinc=sum(zinc),
+            omega_3 = sum(omega_3)) %>% distinct() %>% 
+  left_join(Lao_age_sex, by="id")
+
+# left off here on 2/23/21 
+#Have to replace all missings were zeroes, have to merge in the LAO b12 and omega data 
+
+summary(Lao_b12_omega_zinc)
 table(Lao$survey_day)
 # Need to add snail nutrients
 
 # Red meat=9, processed meat=10
 
 Lao_nut <-  Lao %>% 
-  mutate(omega_3 = replace(omega_3, ingredient=="Golden applesnail, Channeled applesnail, boiled", 0.12)) %>%
-  rename(recall = survey_day, id=subject, age=age_year) %>% 
-  group_by(id, recall)
-  mutate(red_meat = case_when(ingredient=="Buffalo meat" ~ food_amount_reported,
-                              fg24==9 ~ food_amount_reported,
-                              ingredient=="Duck meat" ~ 0,
-                              ingredient=="Golden applesnail, Channeled applesnail, boiled" ~ 0,
-                              TRUE ~ 0)) %>% 
-  mutate(processed_meat = case_when(fg24==10 ~ food_amount_reported, TRUE~0)) %>% 
-  summarize(b12 = sum(b12),
+  rename(recall = survey_day, id=subject) %>% 
+  group_by(id, recall) %>% 
+  summarize(energy=sum(energy),
+            fat = sum(fat),
+            protein=sum(protein),
+            carb=sum(carboh),
+            fiber=sum(fibtg),
+            vitc=sum(vitc),
+            thia=sum(thia),
+            ribo=sum(ribo),
+            niac=sum(niac),
             iron = sum(iron),
-            zinc = sum(zinc),
             vita = sum(vita),
             calc = sum(calc),
-            red_meat = sum(red_meat),
-            processed_meat = sum(processed_meat),
-            omega_3 = sum(omega_3)) %>% distinct()
+            na=sum(na)) %>% distinct()
 
-# Merge in identifiers, incl age/sex
-Lao_merge <- Lao %>%
-  rename( age=age_year, recall=survey_day, id=subject) %>%
-  dplyr::select( age, sex, recall, id)
+# Merge in all of the aggregated b12 and omega data
+Lao_3 <- Lao_nut %>% left_join(Lao_b12_omega_zinc, by=c("recall", "id")) %>% 
+  mutate_all(~replace(., is.na(.), 0))
 
 
+
+summary(Lao_3)
 # Lao_merge_2 <-  merge(Lao_merge, Lao_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
-Lao_spade <- Lao_nut %>% 
-  left_join(Lao_merge, by=c("id", "recall")) %>%
+Lao_spade <- Lao_3 %>% 
   mutate(mday = recall) %>%
   group_by(id) %>%
   ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, omega_3) %>% 
   mutate(id=as.integer(id)) %>% distinct()
 
 
@@ -69,7 +86,7 @@ for (idid in ids_data){
   }
 }
 
-save(Lao_spade, file=here("data", "processed", "Lao"), replace)   
+save(Lao_spade, file=here("data", "processed", "Subnational distributions", "Lao"), replace)   
 
 
 

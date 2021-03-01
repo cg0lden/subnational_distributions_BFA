@@ -25,7 +25,7 @@ table(italy$survey_day)
 
 #removed values where vita > 10000
 italy_nut <-  italy %>% 
-  rename(mday = survey_day, id=subject) %>% 
+  rename(mday = survey_day, id=subject, fiber = fibtg) %>% 
   group_by(id, mday) %>%
   replace(is.na(.), 0) %>% 
   summarize_at(vars(energy:omega_3), sum) %>% distinct()
