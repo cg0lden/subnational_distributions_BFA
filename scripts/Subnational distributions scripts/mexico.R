@@ -1,4 +1,4 @@
-# Clean Mexico data for 
+# Clean Mexico data for subnational distributions
 
 library(tidyverse)
 library(haven)
@@ -8,21 +8,45 @@ library(janitor)
 # Load the Mexico data from the Stata file (coded with the food groups)
 
 mexico <- read_dta(here( "data", "raw", "Mexico", "Base ENSANUT 2016 entrega_11_11_2020_coded.dta")) %>% clean_names()
-
+names(mexico)
 
 mexico_nut <-  mexico %>% 
   rename(recall = replica, id=folio, age=edad) %>% 
   group_by(id, recall) %>%
-               mutate(red_meat = group18) %>% 
-               mutate(processed_meat = group19) %>% 
-         summarize(b12 = sum(vit_b12_con_1, vit_b12_add_con_1),
-                          iron = sum(iron_con_1),
-                          zinc = sum(zinc_con_1),
-                          vita = sum(vit_a_rae_con_1),
-                          calc = sum(calcium_con_1),
-                          red_meat = sum(red_meat),
-                          processed_meat = sum(processed_meat),
-                          red_processed_meat = sum(red_meat, processed_meat),
+         summarize(
+                   energy=sum(energ_con_1),
+                   carb=sum(carbohydrt_con_1),
+                   fat=sum(lipid_tot_con_1),
+                   protein=sum(protein_con_1),
+                   fiber=sum(fiber_td_con_1),
+                   alcohol=sum(alcohol_con_1),
+                   sugar=sum(sugar_tot_con_1),
+                   iron = sum(iron_con_1),
+                   mg=sum(magnesium_con_1),
+                   phos=sum(phosphorus_con_1),
+                   pota=sum(potassium_con_1),
+                   na=sum(sodium_con_1),
+                   zinc = sum(zinc_con_1),
+                   cu=sum(copper_con_1),
+                   mang=sum(manganese_con_1),
+                   se=sum(selenium_con_1),
+                   vitc=sum(vit_c_con_1),
+                   thia=sum(thiamin_con_1),
+                   ribo=sum(riboflavin_con_1),
+                   niac=sum(niacin_con_1),
+                   vitb6=sum(vit_b6_con_1),
+                   fola=sum(folate_tot_con_1),
+                   chol=sum(choline_tot_con_1),
+                   b12 = sum(vit_b12_con_1, vit_b12_add_con_1),
+                   vita = sum(vit_a_rae_con_1),
+                   calc = sum(calcium_con_1),
+                   vitk=sum(vit_k_con_1),
+                   vite=sum(vit_e_con_1),
+                   vitd=sum(vit_d_mcg_con_1),
+                   betacarot=sum(beta_carot_con_1),
+                   satfat=sum(fa_sat_con_1),
+                   mufa=sum(fa_mono_con_1),
+                   pufa=sum(fa_poly_con_1),
                    omega_3 = sum(f22d6_con_1, f20d5_con_1)) %>% distinct()
 
 # Merge in identifiers, incl age/sex
@@ -40,7 +64,6 @@ mexico_spade <- mexico_nut %>%
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
-  dplyr::select(id, weight, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat, omega_3) %>% 
   mutate(id=as.integer(id)) %>% distinct()
 
   
@@ -71,7 +94,7 @@ mexico_spade <- mexico_nut %>%
     }
   }
 
-save(mexico_spade, file=here("data", "processed", "mexico"), replace)   
+save(mexico_spade, file=here("data", "processed","Subnational distributions", "mexico"), replace)   
 
 
 
