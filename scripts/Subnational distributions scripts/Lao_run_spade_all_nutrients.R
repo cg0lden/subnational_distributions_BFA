@@ -7,8 +7,8 @@ library(SPADE.RIVMNwCore)
 library(here)
 
 # DO NOT load tidyverse because it makes spade mad!
-load(here("data", "processed", "Lao"))
-SPADE.OUTPUT.PATH <- (here("output", "lao"))
+load(here("data", "processed", "Subnational distributions", "Lao"))
+SPADE.OUTPUT.PATH <- (here("output", "Subnational distributions", "Lao"))
 # TOTAL.output <- (here("output", "lao", 2_logbooks"))
 ###########################################################
 # Remove missing obs
@@ -32,7 +32,7 @@ lao_men$age <- floor(lao_men$age)
 table(lao_wom$age)
 
 # Women
-lao_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
+lao_b12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                       data=lao_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=0, max.age=82,
                       sex.lab="women", 
@@ -44,7 +44,7 @@ lao_b12 <- lao_b12[order(lao_b12$age),]
 write.csv(lao_b12, "all_intakes/lao_w_b12.csv")
 
 # Men
-lao_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
+lao_b12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                       data=lao_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=0, max.age=89,
                       sex.lab="men",
@@ -59,7 +59,7 @@ write.csv(lao_b12, "all_intakes/lao_m_b12.csv")
 
 # 2. RUN SPADE FOR IRON
 # Women
-lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
+lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if=iron~cs(age),
                        data=lao_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=82,
                        sex.lab="women",
@@ -71,7 +71,7 @@ lao_iron <- lao_iron[order(lao_iron$age),]
 write.csv(lao_iron, "all_intakes/lao_w_iron.csv")
 
 # Men
-lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
+lao_iron <- f.spade(frml.ia=iron~fp(age), frml.if=iron~cs(age),
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
                        sex.lab="men",
@@ -111,7 +111,7 @@ write.csv(lao_zinc_m, "all_intakes/lao_m_zinc.csv")
 
 # 4. RUN SPADE FOR VIT A
 
-lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
+lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if=vita~cs(age),
                        data=lao_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=82,
                        sex.lab="women",
@@ -123,7 +123,7 @@ lao_vita <- lao_vita[order(lao_vita$age),]
 write.csv(lao_vita, "all_intakes/lao_w_vita.csv")
 
 # Men
-lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
+lao_vita <- f.spade(frml.ia=vita~fp(age), frml.if=vita~cs(age),
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
                        sex.lab="men",
@@ -138,7 +138,7 @@ write.csv(lao_vita, "all_intakes/lao_m_vita.csv")
 
 # 5. RUN SPADE FOR CALCIUM
 
-lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
+lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if=calc~cs(age),
                        data=lao_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=82,                     
                     sex.lab="women",
@@ -150,7 +150,7 @@ lao_calc <- lao_calc[order(lao_calc$age),]
 write.csv(lao_calc, "all_intakes/lao_w_calc.csv")
 
 # Men
-lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
+lao_calc <- f.spade(frml.ia=calc~fp(age), frml.if=calc~cs(age),
                        data=lao_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=89,
                        sex.lab="men",
