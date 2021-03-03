@@ -7,7 +7,12 @@ library(janitor)
 
 # Load the Phil data from the Stata file (coded with the food groups)
 
-Phil <- read_dta(here( "data", "raw", "Philippines", "Phil.dta")) %>% clean_names()
+
+Phil_24 <-read_dta(here( "data", "raw", "Philippines", "Phil fg24.dta")) %>% clean_names() %>% 
+  select(survey_day, subject, energy, protein, carboh, fat, vitc, thia, ribo, niac)
+
+Phil <- read_dta(here( "data", "raw", "Philippines", "Phil.dta")) %>% clean_names() %>% 
+  left_join(Phil_24, by=c("subject", "survey_day"))
 
 summary(Phil)
 table(Phil$survey_day)
@@ -18,18 +23,20 @@ table(Phil$survey_day)
 Phil_nut <-  Phil %>% 
   rename(recall = survey_day, id=subject, age=age_year) %>% 
   group_by(id, recall) %>%
-  mutate(red_meat = case_when(fg24==9 ~ food_amount_reported,
-                              TRUE ~ 0)) %>% 
-  mutate(processed_meat = case_when(fg24==10 ~ food_amount_reported, 
-                                    TRUE~0)) %>% 
-  summarize(b12 = sum(b12),
+  summarize(vitb12 = sum(b12),
             iron = sum(iron),
             zinc = sum(zinc),
             vita = sum(vita),
             calc = sum(calc),
-            red_meat = sum(red_meat),
-            processed_meat = sum(processed_meat),
-            omega_3 = sum(omega_3)) %>% distinct()
+            omega_3 = sum(omega_3),
+            energy=sum(energy),
+            carb=sum(carboh),
+            protein=sum(protein),
+            fat=sum(fat),
+            vitc=sum(vitc),
+            thia=sum(thia),
+            ribo=sum(ribo),
+            niac=sum(niac)) %>% distinct()
 
 # Merge in identifiers, incl age/sex
 Phil_merge <- Phil %>%
@@ -44,7 +51,6 @@ Phil_spade <- Phil_nut %>%
   mutate(mday = recall) %>%
   group_by(id) %>%
   ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, omega_3) %>% 
   mutate(id=as.integer(id)) %>% distinct()
 
 
@@ -65,7 +71,8 @@ for (idid in ids_data){
   }
 }
 
-save(Phil_spade, file=here("data", "processed", "Philippines"), replace)   
+summary(Phil_spade)
+save(Phil_spade, file=here("data", "processed", "Subnational distributions", "philippines"), replace)   
 
 
 

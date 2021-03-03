@@ -1,13 +1,14 @@
 # Running SPADE: Philippines data
 # File created on 12/3/20 by Simone Passarelli
-# All nutrients: b12, iron, vita, zinc, calcium, red meat, processed meat, omega 3
+# Edited by Simone Passarelli  3/3/2021
+
 
 # Load packages
 library(SPADE.RIVMNwCore)
 library(here)
 
 # DO NOT load tidyverse because it makes spade mad!
-load(here("data", "processed", "Philippines"))
+load(here("data",  "processed", "Subnational distributions","philippines"))
 
 # TOTAL.output <- (here("output", "phil", 2_logbooks"))
 ###########################################################
