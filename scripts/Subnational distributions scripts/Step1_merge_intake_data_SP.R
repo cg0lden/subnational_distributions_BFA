@@ -50,18 +50,67 @@ file_key <- tibble(filename=intake_files) %>%
                          "iron"="Iron",
                          "omega_3"="Omega-3 fatty acids",
                          "vita"="Vitamin A",
-                         "zinc"="Zinc")) %>%  
+                         "zinc"="Zinc",
+                         "vitc"="Vitamin C",
+                         "thia"="Thiamin",
+                         "niac"="Niacin",
+                         "vitb6"="Vitamin B-6",
+                         "fola"="Folate",
+                         "ribo"="Riboflavin",
+                         "energy"="Energy",
+                         "protein"="Protein",
+                         "carb"="Carbohydrate",
+                         "fat"="Fat",
+                         "betacarot"="Beta carotene",
+                         "vita"="Vitamin A",
+                         "vite"="Vitamin E",
+                         "alcohol"="Alcohol",
+                         "adsugar"="Added sugar",
+                         "chol"="Choline",
+                         "mg"="Magnesium",
+                         "phos"="Phosphorus",
+                         "pota"="Potassium",
+                         "na"="Sodium",
+                         "cu"="Copper",
+                         "iod"="Iodine",
+                         "se"="Selenium",
+                         "satfat"="Saturated fat",
+                         "mang"="Manganese",
+                         "sugar"="Sugar")) %>%  
   #removed red and processed meats
   # Add nutrient units
   mutate(nutrient_units=recode(nutrient, 
                                "Calcium"="mg/p/d",             
                                "Iron"="mg/p/d",                
                                "Omega-3 fatty acids"="g/p/d", # g of Eicosapentaenoic acid + Docosahexaenoic acid/person/day
-                               "Processed meat"="g/p/d",       
-                               "Red meat"="g/p/d",            
-                               "Vitamin A"="µg/p/d",  # µg RAE/person/day         
+                               "Vitamin A (RAE)"="µg/p/d",  # µg RAE/person/day         
                                "Vitamin B-12"="µg/p/d",        
-                               "Zinc"="mg/p/d")) 
+                               "Zinc"="mg/p/d",
+                               "Riboflavin"="mg/p/d",
+                               "Thiamin"="mg/p/d",
+                               "Niacin"="mg/p/d",
+                               "Vitamin B-6"="mg/p/d",
+                               "Folate"="µg/p/d",
+                               "Vitamin C"="mg/p/d",
+                               "Energy"="kcal/p/d",
+                               "Protein"="g/p/d",
+                               "Carbohydrate"="g/p/d",
+                               "Fat"="g/p/d",
+                               "Beta carotene"="µg/p/d",
+                               "Vitamin D"="µg/p/d",
+                               "Vitamin E"="mg/p/d",
+                               "Alcohol"="g/p/d",
+                               "Added sugar"="g/p/d",
+                               "Choline"="mg/p/d",
+                               "Magnesium"="mg/p/d",
+                               "Phosphorus"="mg/p/d",
+                               "Potassium"="mg/p/d",
+                               "Sodium"="mg/p/d",
+                               "Copper"="mg/p/d",
+                               "Iodine"="mg/p/d",
+                               "Selenium"="mg/p/d",
+                               "Manganese"="mg/p/d",
+                               "Sugar"="g/p/d")) 
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){
@@ -130,8 +179,9 @@ age_group_key <- tibble(age_yr=0:100,
 # Format original data
 data <- data_orig %>% 
   # Rename columns
+  rename(id=X, age_yr=age, intake=HI) %>% 
   # Add country/nutrient/sex information
-  left_join(file_key) %>% 
+  left_join(file_key) %>%
   # Add age group
   mutate(age_group=cut(age_yr, 
                        breaks=age_group_breaks,
@@ -140,7 +190,7 @@ data <- data_orig %>%
   left_join(age_group_key) %>% 
   # Arrange columns
   select(filename, country, nutrient, nutrient_units, sex, age_group_id, age_group, age_yr, id, intake) %>% 
-  arrange(country, nutrient, sex, age_yr, id) %>% 
+  arrange(country, nutrient, sex, age_yr, id) 
 
 
 # Inspect

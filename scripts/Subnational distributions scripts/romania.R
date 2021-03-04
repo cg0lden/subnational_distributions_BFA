@@ -6,10 +6,12 @@ library(here)
 library(janitor)
 
 # Load the rom data from the Stata file (coded with the food groups)
-
+names(rom)
+summary(rom)
 # Consumption data
 rom <- read_csv(here( "data", "raw", "Romania", "consumption_user.csv")) %>% 
-  clean_names() %>% select(subject, survey_day, vita_rae_mcg, seafood_n3_g, calc_mg, iron_mg, vitb12_mcg, zinc_mg, food_amount_reported, ingredient_eng, code_ingredient) #no zinc for rom
+  clean_names() %>% select(-c(round, season, respondent, consumption_day:food_amount_reported, a_prot_g, v_prot_g, retol_mcg, eat_seq, water_g)) 
+  
 
 # id data
 rom_id <- read_csv(here( "data", "raw", "Romania", "subject_user.csv")) %>% 
@@ -19,37 +21,45 @@ summary(rom)
 summary(rom_id)
 table(rom$survey_day)
 
-# Need to add snail nutrients
-
-# Red meat=9, processed meat=10
-#removed values where vita > 10000
 rom_nut <-  rom %>% 
   rename(mday = survey_day, id=subject) %>% 
-  mutate(ingredient_eng=tolower(ingredient_eng)) %>% 
-  mutate(red_meat = case_when((startsWith(as.character(code_ingredient), "108.")) ~ food_amount_reported,
-                              TRUE ~ 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("chicken", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("duck", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("goose", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("poultry", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("turkey", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("rabbit", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("stomach", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("liver", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("blood", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, (grepl("brain", ingredient_eng)), 0)) %>% 
-  mutate(red_meat = replace(red_meat, ingredient_eng=="pate", 0)) %>% 
-  relocate(red_meat, after=zinc_mg) %>% 
-  relocate(id, mday, ingredient_eng, food_amount_reported, code_ingredient, before=red_meat) %>% 
-  mutate_at(vars(red_meat:vitb12_mcg), ~replace(., is.na(.), 0)) %>% 
+  mutate_at(vars(energy_kcal:vitk_mg), ~replace(., is.na(.), 0)) %>% 
   group_by(id, mday) %>%
-  summarize(b12 = sum(vitb12_mcg),
+  summarize(vitb12 = sum(vitb12_mcg),
             iron = sum(iron_mg),
             vita = sum(vita_rae_mcg),
             calc = sum(calc_mg),
             zinc = sum(zinc_mg),
-            red_meat = sum(red_meat),
-            omega_3 = sum(seafood_n3_g)) %>% distinct()
+            omega_3 = sum(seafood_n3_g),
+            energy=sum(energy_kcal),
+            protein=sum(protein_g),
+            carb=sum(carboh_g),
+            fiber=sum(fibtg_g),
+            fat=sum(fat_g),
+            satfat=sum(sat_fat_g),
+            mufa=sum(mufa_g),
+            pufa=sum(pufa_g),
+            vitc=sum(vitc_mg),
+            thia=sum(thia_mg),
+            ribo=sum(ribo_mg),
+            niac=sum(niac_mg),
+            vitb6=sum(vitb6_mg),
+            betacarot=sum(bcarot_mcg),
+            vitd=sum(vitd_mcg),
+            vite=sum(vite_mg),
+            omega6=sum(n6_g),
+            foldfe_mcg=sum(foldfe_mcg),
+            plantomega3=sum(plant_n3_g),
+            tfat=sum(tfa_g),
+            chol=sum(chol_mg),
+            mg=sum(mg_mg),
+            phos=sum(phos_mg),
+            pota=sum(pota_mg),
+            na=sum(na_mg),
+            cu=sum(cu_mg),
+            se=sum(se_mg),
+            vitk=sum(vitk_mg)
+            )%>% distinct()
 
 # Merge in identifiers, incl age/sex
 rom_merge <- rom_id %>%
@@ -62,7 +72,6 @@ rom_merge <- rom_id %>%
 # Rename and format variables for spade
 rom_spade <- rom_nut %>% 
   left_join(rom_merge, by=c("id")) %>%
-  dplyr::select(id, age, sex, mday, b12, iron, vita, calc, zinc, red_meat,  omega_3) %>% 
   mutate(id=as.integer(id)) %>% distinct()
 
 

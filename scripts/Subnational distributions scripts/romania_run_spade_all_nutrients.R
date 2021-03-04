@@ -36,7 +36,6 @@ table(rom_wom$age)
 rom_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
                      data=rom_wom, seed=123,  backtrans.nr = 3,
                      dgts.distr = 2, min.age=19, max.age=92,
-                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                      sex.lab="women", 
                      output.name = "rom_wom_b12")
 
@@ -49,7 +48,6 @@ write.csv(rom_b12, "all_intakes/rom_w_b12.csv")
 rom_b12 <- f.spade(frml.ia=b12~fp(age), frml.if="no.if", 
                      data=rom_men, seed=123,  backtrans.nr = 3,
                      dgts.distr = 2, min.age=19, max.age=88,
-                     age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                      sex.lab="men",
                      output.name = "rom_men_b12")
 
@@ -65,10 +63,8 @@ write.csv(rom_b12, "all_intakes/rom_m_b12.csv")
 rom_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                       data=rom_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=92,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="women",
-                      output.name = "rom_wom_iron",
-                      spade.output.path = "output/rom/")
+                      output.name = "rom_wom_iron")
 
 rom_iron <- subset(rom_iron, select = c(age, HI))
 rom_iron <- rom_iron[order(rom_iron$age),]
@@ -79,10 +75,8 @@ write.csv(rom_iron, "all_intakes/rom_w_iron.csv")
 rom_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                       data=rom_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=88,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="men",
-                      output.name = "rom_men_iron",
-                      spade.output.path = "output/rom/")
+                      output.name = "rom_men_iron")
 
 rom_iron <- subset(rom_iron, select = c(age, HI))
 rom_iron <- rom_iron[order(rom_iron$age),]
@@ -96,10 +90,8 @@ write.csv(rom_iron, "all_intakes/rom_m_iron.csv")
  rom_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                        data=rom_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=19, max.age=92,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="women",
-                       output.name = "rom_wom_zinc",
-                       spade.output.path = "output/rom/")
+                       output.name = "rom_wom_zinc")
  
  rom_zinc_w <- subset(rom_zinc_w, select = c(age, HI))
  rom_zinc_w <- rom_zinc_w[order(rom_zinc_w$age),]
@@ -110,10 +102,8 @@ write.csv(rom_iron, "all_intakes/rom_m_iron.csv")
  rom_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                        data=rom_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=19, max.age=88,
-                       age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                        sex.lab="men",
-                       output.name = "rom_men_zinc",
-                       spade.output.path = "output/rom/")
+                       output.name = "rom_men_zinc")
  
  rom_zinc_m <- subset(rom_zinc_m, select = c(age, HI))
  rom_zinc_m <- rom_zinc_m[order(rom_zinc_m$age),]
@@ -127,10 +117,8 @@ write.csv(rom_iron, "all_intakes/rom_m_iron.csv")
 rom_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                       data=rom_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=92,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="women",
-                      output.name = "rom_wom_vita",
-                      spade.output.path = "output/rom/")
+                      output.name = "rom_wom_vita")
 
 rom_vita <- subset(rom_vita, select = c(age, HI))
 rom_vita <- rom_vita[order(rom_vita$age),]
@@ -141,10 +129,8 @@ write.csv(rom_vita, "all_intakes/rom_w_vita.csv")
 rom_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                       data=rom_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=88,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="men",
-                      output.name = "rom_men_vita",
-                      spade.output.path = "output/rom/")
+                      output.name = "rom_men_vita")
 
 rom_vita <- subset(rom_vita, select = c(age, HI))
 rom_vita <- rom_vita[order(rom_vita$age),]
@@ -158,11 +144,8 @@ write.csv(rom_vita, "all_intakes/rom_m_vita.csv")
 rom_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                       data=rom_wom, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=92,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="women",
-                      
-                      output.name = "rom_wom_calc",
-                      spade.output.path = "output/rom/")
+                      output.name = "rom_wom_calc")
 
 rom_calc <- subset(rom_calc, select = c(age, HI))
 rom_calc <- rom_calc[order(rom_calc$age),]
@@ -173,9 +156,7 @@ write.csv(rom_calc, "all_intakes/rom_w_calc.csv")
 rom_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                       data=rom_men, seed=123,  backtrans.nr = 3,
                       dgts.distr = 2, min.age=19, max.age=88,
-                      age.classes=c(4, 9, 14, 19, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79),
                       sex.lab="men",
-                      
                       output.name = "rom_men_calc",
                       spade.output.path = "output/rom/")
 
