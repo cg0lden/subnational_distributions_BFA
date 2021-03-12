@@ -61,7 +61,7 @@ file_key <- tibble(filename=intake_files) %>%
                          "protein"="Protein",
                          "carb"="Carbohydrate",
                          "fat"="Fat",
-                         "betacarot"="Beta carotene",
+                         "betacarot"="Beta-carotene",
                          "vita"="Vitamin A",
                          "vite"="Vitamin E",
                          "vitd"="Vitamin D",
@@ -85,7 +85,10 @@ file_key <- tibble(filename=intake_files) %>%
                          "satfat"="Saturated fat",
                          "tfat"="Trans fat",
                          "sugar"="Sugar",
-                         "fiber"="Fiber")) %>%  
+                         "fiber"="Fiber", 
+                         "betacrypt"="Beta-cryptoxanthin",
+                         "retinol"="Retinol",
+                         "alphacarot"="Alpha-carotene")) %>%  
   #removed red and processed meats
   # Add nutrient units
   mutate(nutrient_units=recode(nutrient, 
@@ -127,7 +130,10 @@ file_key <- tibble(filename=intake_files) %>%
                                "Plant omega-3 fatty acids"="g/p/d",
                                "Omega-6 fatty acids"="g/p/d",
                                "Vitamin K"="mg/p/d",
-                               "Fiber"="g/p/d")) 
+                               "Fiber"="g/p/d",
+                               "Beta-cryptoxanthin"="µg/p/d",
+                               "Retinol"="µg/p/d",
+                               "Alpha-carotene"="µg/p/d")) 
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){

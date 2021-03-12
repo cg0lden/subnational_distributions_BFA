@@ -1,5 +1,5 @@
 # Zambia dataset cleaning and spade operations
-
+# Updated 3/12/21 by Simone Passarelli
 library(tidyverse)
 library(haven)
 library(here)
@@ -7,7 +7,7 @@ library(janitor)
 
 # Load the Zambia data from the Stata file
 
-zambia <- read_dta(here( "data", "raw", "Zambia", "Zambia fg24_omega.dta")) %>% clean_names()
+zambia <- read_dta(here( "data", "raw", "Subnational distributions", "Zambia", "Zambia fg24_omega.dta")) %>% clean_names()
 
 # Calculate the quantity of red meat consumed
 # According to GBD, red meat is "Any intake (in grams per day) of red meat including beef, pork, lamb, and
@@ -22,42 +22,11 @@ summary(zambia)
 # Limit to variables needed for analysis
 zambia_nut <- zambia %>%
   group_by(hid, pid, recall) %>%
-  mutate(red_meat= case_when(descr=="BEEF,HIGH FAT,FRESH,BOILED" ~ weight_food,
-                             descr=="BEEF,KIDNEY,BOILED" ~ weight_food,
-                             descr=="BEEF,LEAN,FRESH,BOILED" ~ weight_food,
-                             descr=="BEEF,LEAN,FRESH,BOILED" ~ weight_food,
-                             descr=="BEEF,LIVER,BOILED" ~ weight_food,
-                             descr=="BEEF,LUNG,BOILED" ~ weight_food,
-                             descr=="BEEF,LUNG,FRIED" ~ weight_food,
-                             descr=="BEEF,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
-                             descr=="BEEF,TRIPE,BOILED" ~ weight_food,
-                             descr=="BEEF,TRIPE,BOILED" ~ weight_food,
-                             descr=="GAME MEAT,BUFFALO,DRIED,BOILED" ~ weight_food,
-                             descr=="GAME MEAT,BUFFALO,DRIED,BOILED" ~ weight_food,
-                             descr=="GOAT,LEAN,FRESH,BOILED" ~ weight_food,
-                             descr=="GOAT,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
-                             descr=="GOAT/LAMB,LIVER,BOILED" ~ weight_food,
-                             descr=="GOAT/LAMB,LUNG,FRESH,BOILED" ~ weight_food,
-                             descr=="GOAT/LAMB,OFFALS,FRESH,MIXED,BOILED" ~ weight_food,
-                             descr=="PORK, LEAN, FRESH, COOKED" ~ weight_food,
-                             descr=="PORK,HIGH FAT,FRESH,FRIED" ~ weight_food,
-                             descr=="PORK,LEAN,W/BONE,FRESH,BOILED" ~ weight_food,
-                             descr=="PORK,LIVER,FRESH, RAW,BOILED" ~ weight_food,
-                             descr=="PORK,MEDIUM FAT,FRESH,BOILED" ~ weight_food,
-                             descr=="RAT,DRIED,BOILED" ~ weight_food,
-                             descr=="RAT,FRESH,ROASTED" ~ weight_food,
-                             TRUE ~ 0)) %>%
-  mutate(processed_meat = case_when(gdescr=="MEATS, POULTRY, AND INSECTS" & str_detect(descr, "SAUSAGE") ~ weight_food,
-                                    gdescr=="MEATS, POULTRY, AND INSECTS" & str_detect(descr, "SMOKED") ~ weight_food,
-                                    TRUE ~ 0)) %>%
-  summarize(b12 = sum(vit_b12_mcg),
+  summarize(vitb12 = sum(vit_b12_mcg),
             iron = sum(iron_mg),
             zinc = sum(zinc_mg),
             vita = sum(vit_a_mcg_rae),
             calc = sum(calcium_mg),
-            red_meat = sum(red_meat),
-            processed_meat = sum(processed_meat),
-            red_processed_meat = sum(red_meat, processed_meat),
             omega_3 = sum(omega_3))
 
 

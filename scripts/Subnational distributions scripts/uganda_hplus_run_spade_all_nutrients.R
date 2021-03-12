@@ -137,7 +137,7 @@ summary(uganda_h)
 
 uganda_h_zinc <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
         data=uganda_h, seed=123, backtrans.nr = 3,
-        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+        min.age=20,max.age=73,sex="female", dgts.distr = 2, 
         output.name = "uganda_wom_zinc")
 
 uganda_h_zinc <- subset(uganda_h_zinc, select = c(age, HI))
@@ -154,7 +154,22 @@ uganda_h_vita_1 <- subset(uganda_h, vita<9000)
 
 uganda_h_vita <-f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
         data=uganda_h_vita_1, seed=123, backtrans.nr = 3,
-        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+        min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+        output.name = "uganda_w_vita")
+
+uganda_h_vita <- subset(uganda_h_vita, select = c(age, HI))
+uganda_h_vita <- uganda_h_vita[order(uganda_h_vita$age),]
+
+write.csv(uganda_h_vita, "all_intakes/uganda_w_vita.csv")
+
+# 4. RUN SPADE FOR VIT A
+
+# Some extremely high intakes
+uganda_h_vita_1 <- subset(uganda_h, vita<9000)
+
+uganda_h_vita <-f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
+        data=uganda_h_vita_1, seed=123, backtrans.nr = 3,
+        min.age=20,max.age=73,sex="female", dgts.distr = 2, 
         output.name = "uganda_w_vita")
 
 uganda_h_vita <- subset(uganda_h_vita, select = c(age, HI))
@@ -168,7 +183,7 @@ write.csv(uganda_h_vita, "all_intakes/uganda_w_vita.csv")
 
 uganda_h_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
         data=uganda_h, seed=123, backtrans.nr = 3,
-        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+        min.age=20,max.age=73,sex="female", dgts.distr = 2, 
         output.name = "uganda_wom_calc")
 
 uganda_h_calc <- subset(uganda_h_calc, select = c(age, HI))
@@ -186,7 +201,7 @@ range(uganda_h$omega_3)
 # Have to use 2-part model 
 uganda_h_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3~cs(age), 
                                    data=uganda_h, seed=123, backtrans.nr = 3,
-                                   min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                                   min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                                    output.name = "uganda_wom_omega_3")
 
 uganda_h_omega_3 <- subset(uganda_h_omega_3, select = c(age, HI))
@@ -200,7 +215,7 @@ write.csv(uganda_h_omega_3, "all_intakes/uganda_w_omega_3.csv")
 
 uganda_h_fiber <- f.spade(frml.ia=fiber~fp(age), frml.if="no.if", 
                          data=uganda_h, seed=123, backtrans.nr = 3,
-                         min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                          output.name = "uganda_wom_fiber")
 
 uganda_h_fiber <- subset(uganda_h_fiber, select = c(age, HI))
@@ -214,7 +229,7 @@ write.csv(uganda_h_fiber, "all_intakes/uganda_w_fiber.csv")
 
 uganda_h_protein <- f.spade(frml.ia=protein~fp(age), frml.if="no.if", 
                            data=uganda_h, seed=123, backtrans.nr = 3,
-                           min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                           min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                            output.name = "uganda_wom_protein")
 
 uganda_h_protein <- subset(uganda_h_protein, select = c(age, HI))
@@ -228,7 +243,7 @@ write.csv(uganda_h_protein, "all_intakes/uganda_w_protein.csv")
 
 uganda_h_fat <- f.spade(frml.ia=fat~fp(age), frml.if="no.if", 
                            data=uganda_h, seed=123, backtrans.nr = 3,
-                           min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                           min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                            output.name = "uganda_wom_fat")
 
 uganda_h_fat <- subset(uganda_h_fat, select = c(age, HI))
@@ -242,7 +257,7 @@ write.csv(uganda_h_fat, "all_intakes/uganda_w_fat.csv")
 
 uganda_h_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                         data=uganda_h, seed=123, backtrans.nr = 3,
-                        min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                        min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                         output.name = "uganda_wom_carb")
 
 uganda_h_carb <- subset(uganda_h_carb, select = c(age, HI))
@@ -256,7 +271,7 @@ write.csv(uganda_h_carb, "all_intakes/uganda_w_carb.csv")
 
 uganda_h_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                          data=uganda_h, seed=123, backtrans.nr = 3,
-                         min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                          output.name = "uganda_wom_carb")
 
 uganda_h_carb <- subset(uganda_h_carb, select = c(age, HI))
@@ -270,7 +285,7 @@ write.csv(uganda_h_carb, "all_intakes/uganda_w_carb.csv")
 
 uganda_h_energy <- f.spade(frml.ia=energy~fp(age), frml.if="no.if", 
                           data=uganda_h, seed=123, backtrans.nr = 3,
-                          min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                           output.name = "uganda_wom_energy")
 
 uganda_h_energy <- subset(uganda_h_energy, select = c(age, HI))
@@ -284,7 +299,7 @@ write.csv(uganda_h_energy, "all_intakes/uganda_w_energy.csv")
 
 uganda_h_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                            data=uganda_h, seed=123, backtrans.nr = 3,
-                           min.age=20,max.age=67,sex="female", dgts.distr = 2, 
+                           min.age=20,max.age=73,sex="female", dgts.distr = 2, 
                            output.name = "uganda_wom_vitc")
 
 uganda_h_vitc <- subset(uganda_h_vitc, select = c(age, HI))
@@ -292,3 +307,147 @@ uganda_h_vitc <- uganda_h_vitc[order(uganda_h_vitc$age),]
 
 write.csv(uganda_h_vitc, "all_intakes/uganda_w_vitc.csv")
 
+##################################################################
+
+# 13. RUN SPADE FOR RIBOFLAVIN
+
+uganda_h_ribo <- f.spade(frml.ia=ribo~fp(age), frml.if="no.if", 
+                         data=uganda_h, seed=123, backtrans.nr = 3,
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                         output.name = "uganda_wom_ribo")
+
+uganda_h_ribo <- subset(uganda_h_ribo, select = c(age, HI))
+uganda_h_ribo <- uganda_h_ribo[order(uganda_h_ribo$age),]
+
+write.csv(uganda_h_ribo, "all_intakes/uganda_w_ribo.csv")
+
+
+##################################################################
+
+# 14. RUN SPADE FOR NIACIN
+
+uganda_h_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
+                         data=uganda_h, seed=123, backtrans.nr = 3,
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                         output.name = "uganda_wom_niac")
+
+uganda_h_niac <- subset(uganda_h_niac, select = c(age, HI))
+uganda_h_niac <- uganda_h_niac[order(uganda_h_niac$age),]
+
+write.csv(uganda_h_niac, "all_intakes/uganda_w_niac.csv")
+
+##################################################################
+
+# 15. RUN SPADE FOR THIAMIN
+
+uganda_h_thia <- f.spade(frml.ia=thia~fp(age), frml.if="no.if", 
+                         data=uganda_h, seed=123, backtrans.nr = 3,
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                         output.name = "uganda_wom_thia")
+
+uganda_h_thia <- subset(uganda_h_thia, select = c(age, HI))
+uganda_h_thia <- uganda_h_thia[order(uganda_h_thia$age),]
+
+write.csv(uganda_h_thia, "all_intakes/uganda_w_thia.csv")
+
+##################################################################
+
+# 16. RUN SPADE FOR VITAMIN B6
+
+uganda_h_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
+                         data=uganda_h, seed=123, backtrans.nr = 3,
+                         min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                         output.name = "uganda_wom_vitb6")
+
+uganda_h_vitb6 <- subset(uganda_h_vitb6, select = c(age, HI))
+uganda_h_vitb6 <- uganda_h_vitb6[order(uganda_h_vitb6$age),]
+
+write.csv(uganda_h_vitb6, "all_intakes/uganda_w_vitb6.csv")
+
+
+##################################################################
+
+# 17. RUN SPADE FOR FOLATE
+
+uganda_h_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
+                          data=uganda_h, seed=123, backtrans.nr = 3,
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                          output.name = "uganda_wom_fola")
+
+uganda_h_fola <- subset(uganda_h_fola, select = c(age, HI))
+uganda_h_fola <- uganda_h_fola[order(uganda_h_fola$age),]
+
+write.csv(uganda_h_fola, "all_intakes/uganda_w_fola.csv")
+
+
+##################################################################
+
+# 18. RUN SPADE FOR RETINOL
+
+uganda_h_retinol <- f.spade(frml.ia=retinol~fp(age),  frml.if=retinol~cs(age), 
+                          data=uganda_h, seed=123, backtrans.nr = 3,
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                          output.name = "uganda_wom_retinol")
+
+uganda_h_retinol <- subset(uganda_h_retinol, select = c(age, HI))
+uganda_h_retinol <- uganda_h_retinol[order(uganda_h_retinol$age),]
+
+write.csv(uganda_h_retinol, "all_intakes/uganda_w_retinol.csv")
+
+
+##################################################################
+
+# 19. RUN SPADE FOR VITAMIN B6
+
+uganda_h_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
+                          data=uganda_h, seed=123, backtrans.nr = 3,
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                          output.name = "uganda_wom_vitb6")
+
+uganda_h_vitb6 <- subset(uganda_h_vitb6, select = c(age, HI))
+uganda_h_vitb6 <- uganda_h_vitb6[order(uganda_h_vitb6$age),]
+
+write.csv(uganda_h_vitb6, "all_intakes/uganda_w_vitb6.csv")
+
+##################################################################
+
+# 20. RUN SPADE FOR ALPHA CAROTENE
+
+uganda_h_alphacarot <- f.spade(frml.ia=alphacarot~fp(age), frml.if="no.if", 
+                          data=uganda_h, seed=123, backtrans.nr = 3,
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                          output.name = "uganda_wom_alphacarot")
+
+uganda_h_alphacarot <- subset(uganda_h_alphacarot, select = c(age, HI))
+uganda_h_alphacarot <- uganda_h_alphacarot[order(uganda_h_alphacarot$age),]
+
+write.csv(uganda_h_alphacarot, "all_intakes/uganda_w_alphacarot.csv")
+
+##################################################################
+
+# 21. RUN SPADE FOR BETA CAROTENE
+
+uganda_h_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
+                          data=uganda_h, seed=123, backtrans.nr = 3,
+                          min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                          output.name = "uganda_wom_betacarot")
+
+uganda_h_betacarot <- subset(uganda_h_betacarot, select = c(age, HI))
+uganda_h_betacarot <- uganda_h_betacarot[order(uganda_h_betacarot$age),]
+
+write.csv(uganda_h_betacarot, "all_intakes/uganda_w_betacarot.csv")
+
+
+##################################################################
+
+# 22. RUN SPADE FOR BETA CRYPTOXANTHIN
+
+uganda_h_betacrypt <- f.spade(frml.ia=betacrypt~fp(age),  frml.if=betacrypt~cs(age), 
+                              data=uganda_h, seed=123, backtrans.nr = 3,
+                              min.age=20,max.age=73,sex="female", dgts.distr = 2, 
+                              output.name = "uganda_wom_betacrypt")
+
+uganda_h_betacrypt <- subset(uganda_h_betacrypt, select = c(age, HI))
+uganda_h_betacrypt <- uganda_h_betacrypt[order(uganda_h_betacrypt$age),]
+
+write.csv(uganda_h_betacrypt, "all_intakes/uganda_w_betacrypt.csv")
