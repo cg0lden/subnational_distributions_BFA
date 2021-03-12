@@ -64,6 +64,10 @@ file_key <- tibble(filename=intake_files) %>%
                          "betacarot"="Beta carotene",
                          "vita"="Vitamin A",
                          "vite"="Vitamin E",
+                         "vitd"="Vitamin D",
+                         "vitk"="Vitamin K",
+                         "plantomega3"="Plant omega-3 fatty acids",
+                         "omega6"="Omega-6 fatty acids",
                          "alcohol"="Alcohol",
                          "adsugar"="Added sugar",
                          "chol"="Choline",
@@ -76,7 +80,12 @@ file_key <- tibble(filename=intake_files) %>%
                          "se"="Selenium",
                          "satfat"="Saturated fat",
                          "mang"="Manganese",
-                         "sugar"="Sugar")) %>%  
+                         "mufa"="Monounsaturated fat",
+                         "pufa"="Polyunsaturated fat",
+                         "satfat"="Saturated fat",
+                         "tfat"="Trans fat",
+                         "sugar"="Sugar",
+                         "fiber"="Fiber")) %>%  
   #removed red and processed meats
   # Add nutrient units
   mutate(nutrient_units=recode(nutrient, 
@@ -110,7 +119,15 @@ file_key <- tibble(filename=intake_files) %>%
                                "Iodine"="mg/p/d",
                                "Selenium"="mg/p/d",
                                "Manganese"="mg/p/d",
-                               "Sugar"="g/p/d")) 
+                               "Polyunsaturated fat"="g/p/d",
+                               "Monounsaturated fat"="g/p/d",
+                               "Saturated fat"="g/p/d",
+                               "Trans fat"="g/p/d",
+                               "Sugar"="g/p/d",
+                               "Plant omega-3 fatty acids"="g/p/d",
+                               "Omega-6 fatty acids"="g/p/d",
+                               "Vitamin K"="mg/p/d",
+                               "Fiber"="g/p/d")) 
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){

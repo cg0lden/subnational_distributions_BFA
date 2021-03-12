@@ -48,7 +48,7 @@ rom_nut <-  rom %>%
             vitd=sum(vitd_mcg),
             vite=sum(vite_mg),
             omega6=sum(n6_g),
-            foldfe_mcg=sum(foldfe_mcg),
+            fola=sum(foldfe_mcg),
             plantomega3=sum(plant_n3_g),
             tfat=sum(tfa_g),
             chol=sum(chol_mg),
@@ -92,7 +92,7 @@ rom_missings
    }
  }
 
-save(rom_spade, file=here("data", "processed", "rom"), replace)   
+save(rom_spade, file=here("data", "processed","Subnational distributions", "rom"), replace)   
 
 
 
