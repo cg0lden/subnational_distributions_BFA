@@ -7,7 +7,7 @@ library(janitor)
 
 # Load the Zambia data from the Stata file
 
-zambia <- read_dta(here( "data", "raw", "Subnational distributions", "Zambia", "Zambia fg24_omega.dta")) %>% clean_names()
+zambia <- read_dta(here( "data", "raw", "Zambia", "Zambia fg24_omega.dta")) %>% clean_names()
 
 # Calculate the quantity of red meat consumed
 # According to GBD, red meat is "Any intake (in grams per day) of red meat including beef, pork, lamb, and
@@ -22,12 +22,29 @@ summary(zambia)
 # Limit to variables needed for analysis
 zambia_nut <- zambia %>%
   group_by(hid, pid, recall) %>%
+  mutate_all(~replace(., is.na(.), 0)) %>% 
   summarize(vitb12 = sum(vit_b12_mcg),
             iron = sum(iron_mg),
             zinc = sum(zinc_mg),
             vita = sum(vit_a_mcg_rae),
             calc = sum(calcium_mg),
-            omega_3 = sum(omega_3))
+            omega_3 = sum(omega_3),
+            energy=sum(energy_kcal),
+            protein=sum(protein_g),
+            fat=sum(lipid_g),
+            carb=sum(carbohydrt_g),
+            fiber=sum(fiber_td_g),
+            vitc=sum(vit_c_mg),
+            thia=sum(thiamin_mg),
+            ribo=sum(riboflavin_mg),
+            niac=sum(niacin_mg),
+            vitb6=sum(vit_b6_mg),
+            fola=sum(folate_mcg),
+            retinol=sum(retinol_mcg),
+            alphacarot=sum(alpha_carot_mcg),
+            betacarot=sum(beta_carot_mcg),
+            betacrypt=sum(beta_crypt_mcg))
+
 
 
 
@@ -46,9 +63,7 @@ zambia_spade <- zambia_nut %>% left_join(zambia_merge, by=c("hid", "pid", "recal
          pid=as.character(pid)) %>%
   mutate(id=paste0(hid, pid)) %>%
   mutate(mday = recall) %>%
-  ungroup() %>%
-  dplyr::select(id, age, sex, mday, b12, iron, zinc, vita, calc, red_meat, processed_meat, red_processed_meat, omega_3)
-
+  ungroup() 
 zambia_spade$id <- as.integer(zambia_spade$id)
 
 # 5 1-4 years
@@ -103,31 +118,6 @@ for (idid in zambia_missings[, "id"]){
   print(zambia_wom[zambia_wom[, "id"] == idid, ])
 }
 
-#          id age sex mday b12
-#35 103430263  NA   2    1   0
-#36 103430263  27   2    2   0
-#           id age sex mday   b12
-#155 105120253  NA   2    1 12.04
-#           id age sex mday  b12
-#231 106311073  NA   2    1 0.00
-#232 106311073  25   2    2 0.06
-#           id age sex mday b12
-#255 107210733  NA   2    1   0
-#256 107210733  26   2    2   0
-#           id age sex mday b12
-#270 107430143  NA   2    1   0
-#271 107430143  20   2    2   0
-#           id age sex mday b12
-#406 202610183  NA   2    1   0
-#407 202610183  30   2    2   0
-#           id age sex mday b12
-#454 203320513  NA   2    1   0
-#455 203320513  22   2    2   0
-#           id age sex mday   b12
-#571 206340523  NA   2    1  0.25
-#572 206340523  24   2    2 62.14
-#           id age sex mday b12
-#662 208630333  NA   2    1   0
 is.numeric(zambia_wom$age)
 is.numeric(zambia_wom$id)
 
@@ -148,20 +138,7 @@ zambia_wom <- zambia_wom %>% group_by(id) %>%
   ungroup
 
 range(zambia_wom$age)
-# [1]  18 70
 
-
-# Now you get the next error
-#f_check_data: the next columns in the data contain different values per individual
-#
-#[1] "age"
-#Error in f_check_data(f.spade, frml_list = frml_list, data = data, name.data.orig = dt.name,  : 
-#		Correct your call to spade
-
-# This means that some persons have two different ages. This may be caused
-# by the fact that the records contain hte actual age during the 24hours recall
-
-# The next scripts sets the age the the first age (min(age))
 
 ids_data <- unique(zambia_wom$id)
 for (idid in ids_data){
@@ -174,4 +151,4 @@ for (idid in ids_data){
 
 # Now that we have fixed these errors, save the processed data
 
-save(zambia_wom, file=here("data", "processed", "zambia_wom"), replace) 
+save(zambia_wom, file=here("data", "processed", "Subnational distributions", "zambia_wom"), replace) 
