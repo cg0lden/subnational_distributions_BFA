@@ -1,6 +1,7 @@
 # Running SPADE: usa data
 # File created on 11/24/20 by Simone Passarelli
-# All nutrients: b12, iron, vita, zinc, calcium, red meat, processed meat, omega 3
+# Updated by Simone Passarelli on March 17 2021
+
 
 # Load packages
 library(SPADE.RIVMNwCore)
@@ -18,7 +19,11 @@ names(usa_spade)
 
 #remove obs with weights=0
 usa_spade <- subset(usa_spade, weight1 !=0)
+# Remove instance where there are 
 
+
+# number of intakes per person:
+table(usa_spade$mday)
 
 # Make separate datasets for men and women
 usa_wom <- subset(usa_spade, sex==2)
@@ -32,9 +37,6 @@ usa_men <- subset(usa_spade, sex==1)
 # Let's have a look at the highest b12 intakes
 range(usa_wom$age)
 range(usa_men$age)
-
-# number of intakes per person:
-table(table(usa_wom$weight))
 
 # Women
 usa_vitb12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
