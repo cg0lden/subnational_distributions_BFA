@@ -1,5 +1,6 @@
 # NHANES data cleaning for SPADE
 # Created by Simone Passarelli on 11/23/2020
+# Edited by Simone Passarelli on 3/17/21
 
 library(tidyverse)
 library(haven)
@@ -49,7 +50,7 @@ usa_merge <- read_xpt(here("data", "raw", "United States", "DEMO_J.XPT")) %>%
 
 
 usa_nut <- nhanes %>% 
-  group_by(id, mday) %>%
+  group_by(id, mday, weight1) %>%
   summarize(vitb12 = sum(b12a, b12b),
             iron = sum(iron),
             zinc = sum(zinc),
@@ -57,8 +58,6 @@ usa_nut <- nhanes %>%
             calc = sum(calc),
             omega_3 = sum(epa, dha),
             vite=sum(vitef, viteadd),
-            weight1 = weight1,
-            weight2=weight2,
             energy=sum(energy),
             protein=sum(protein),
             carb=sum(carb),

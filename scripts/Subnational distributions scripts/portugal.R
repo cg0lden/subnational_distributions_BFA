@@ -1,53 +1,72 @@
+# Portugal (2015-2016) National data cleaning
+# File created by Simone Passarelli 3/17/21
 # Clean portugal data for subnational distributions
 
 library(tidyverse)
 library(haven)
 library(here)
 library(janitor)
+library(readxl)
 
-# Load the portugal data from the Stata file (coded with the food groups)
+# Load the raw portugal data 
 
-portugal <- read_dta(here( "data", "raw", "portugal", "Base ENSANUT 2016 entrega_11_11_2020_coded.dta")) %>% clean_names()
-names(portugal)
+portugal1 <- read_csv(here( "data", "raw", "portugal", "PRT_IAN-AF_2015-2016_DietData_part1.csv")) %>% clean_names()
+names(portugal1)
 
-portugal_nut <-  portugal %>% 
-  rename(recall = replica, id=folio, age=edad) %>% 
-  group_by(id, recall) %>%
-  summarize(
-    energy=sum(energ_con_1),
-    carb=sum(carbohydrt_con_1),
-    fat=sum(lipid_tot_con_1),
-    protein=sum(protein_con_1),
-    fiber=sum(fiber_td_con_1),
-    alcohol=sum(alcohol_con_1),
-    sugar=sum(sugar_tot_con_1),
-    iron = sum(iron_con_1),
-    mg=sum(magnesium_con_1),
-    phos=sum(phosphorus_con_1),
-    pota=sum(potassium_con_1),
-    na=sum(sodium_con_1),
-    zinc = sum(zinc_con_1),
-    cu=sum(copper_con_1),
-    mang=sum(manganese_con_1),
-    se=sum(selenium_con_1),
-    vitc=sum(vit_c_con_1),
-    thia=sum(thiamin_con_1),
-    ribo=sum(riboflavin_con_1),
-    niac=sum(niacin_con_1),
-    vitb6=sum(vit_b6_con_1),
-    fola=sum(folate_tot_con_1),
-    chol=sum(choline_tot_con_1),
-    b12 = sum(vit_b12_con_1, vit_b12_add_con_1),
-    vita = sum(vit_a_rae_con_1),
-    calc = sum(calcium_con_1),
-    vitk=sum(vit_k_con_1),
-    vite=sum(vit_e_con_1),
-    vitd=sum(vit_d_mcg_con_1),
-    betacarot=sum(beta_carot_con_1),
-    satfat=sum(fa_sat_con_1),
-    mufa=sum(fa_mono_con_1),
-    pufa=sum(fa_poly_con_1),
-    omega_3 = sum(f22d6_con_1, f20d5_con_1)) %>% distinct()
+portugal2 <-read_excel(here( "data", "raw", "portugal", "PRT_IAN-AF_2015-2016_DietData_part2.xlsx")) %>% clean_names()
+names(portugal2)
+
+iddata <- read_csv(here( "data", "raw", "portugal", "PRT_IAN-AF_2015-2016_ParticipantData.csv")) %>% clean_names() %>% 
+  select(id, smpl_weight) %>% rename(weight=smpl_weight)
+names(iddata)
+
+# Data are stored in two separate files for 2015 and 2016: combine them
+portugal <- rbind(portugal1, portugal2) 
+
+# Round the age variable down to nearest year
+portugal$age <- floor(portugal$age)
+
+# see which variables are blank
+summary(portugal)
+
+# Merge in sample weights
+
+portugal_3 <- portugal %>% left_join(iddata)
+
+# rename variables and sum them 
+
+portugal_nut <- portugal_3 %>% 
+  mutate_all(~replace(., is.na(.), 0)) %>% 
+  select(!c(vitk, note, cu, se, iod, n6, plant_n3, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
+  select(!c(recall_d:ingr_amount_proc)) %>% 
+  rename(mday=recall_n) %>% 
+  group_by(id, mday) %>%
+  summarize(vitb12 = sum(vitb12),
+            iron = sum(fe),
+            zinc = sum(zn),
+            vita = sum(vita),
+            calc = sum(ca),
+            vite=sum(vite),
+            energy=sum(energy),
+            protein=sum(totalpro),
+            carb=sum(carb),
+            fiber=sum(fiber),
+            fat=sum(totalfat),
+            satfat=sum(sfa),
+            tfat=sum(tfa),
+            mufa=sum(mufa),
+            pufa=sum(pufa),
+            thia=sum(vitb1),
+            ribo=sum(vitb2),
+            niac=sum(vitb3),
+            vitb6=sum(vitb6),
+            fola=sum(fol),
+            vitd=sum(vitd),
+            vitc=sum(vitc),
+            phos=sum(ph),
+            mg=sum(mg),
+            na=sum(na),
+            pota=sum(k)) %>% distinct() 
 
 # Merge in identifiers, incl age/sex
 portugal_merge <- portugal %>%
