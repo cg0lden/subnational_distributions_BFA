@@ -35,9 +35,9 @@ portugal_3 <- portugal %>% left_join(iddata)
 
 # To look at fish variables
 
-portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code) %>% distinct()
+portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
 
-write_csv(here( "data", "processed", "Portugal", "Portugal_ingredients.csv"))
+write_csv(portugal_fish, here( "data", "raw", "portugal", "Portugal_ingredients.csv"))
 
 
 # rename variables and sum them 
