@@ -7,5 +7,25 @@
 documentation/
 
 data/processed/
-data/raw/
+data/raw/Argentina
+data/raw/Bangladesh
+data/raw/Bolivia
+data/raw/Brazil
+data/raw/Bulgaria
+data/raw/Burkina
+data/raw/Canada
+data/raw/China
+data/raw/India
+data/raw/Italy
+data/raw/Lao
+data/raw/Mexico
+data/raw/Netherlands
+data/raw/Philippines
+data/raw/Romania
+data/raw/Sweden
+data/raw/Uganda
+data/raw/United States
+data/raw/Zambia
+
+
 output/
