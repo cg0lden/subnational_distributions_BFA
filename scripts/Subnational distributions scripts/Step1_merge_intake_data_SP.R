@@ -88,7 +88,13 @@ file_key <- tibble(filename=intake_files) %>%
                          "fiber"="Fiber", 
                          "betacrypt"="Beta-cryptoxanthin",
                          "retinol"="Retinol",
-                         "alphacarot"="Alpha-carotene")) %>%  
+                         "alphacarot"="Alpha-carotene",
+                         "cholest"="Cholesterol",
+                         "lyco"="Lycopene",
+                         "lutzea"="Lutein+zeaxanthin",
+                         "caff"="Caffeine",
+                         "theo"="Theobromine",
+                         "alcohol"="Alcohol")) %>%  
   #removed red and processed meats
   # Add nutrient units
   mutate(nutrient_units=recode(nutrient, 
@@ -108,7 +114,7 @@ file_key <- tibble(filename=intake_files) %>%
                                "Protein"="g/p/d",
                                "Carbohydrate"="g/p/d",
                                "Fat"="g/p/d",
-                               "Beta carotene"="µg/p/d",
+                               "Beta-carotene"="µg/p/d",
                                "Vitamin D"="µg/p/d",
                                "Vitamin E"="mg/p/d",
                                "Alcohol"="g/p/d",
@@ -133,7 +139,13 @@ file_key <- tibble(filename=intake_files) %>%
                                "Fiber"="g/p/d",
                                "Beta-cryptoxanthin"="µg/p/d",
                                "Retinol"="µg/p/d",
-                               "Alpha-carotene"="µg/p/d")) 
+                               "Alpha-carotene"="µg/p/d",
+                               "Cholesterol"= "mg/p/d",
+                               "Lycopene"="µg/p/d",
+                               "Lutein+zeaxanthin"="µg/p/d",
+                               "Caffeine"= "mg/p/d",
+                              "Theobromine"= "mg/p/d",
+                               "Alcohol"="g/p/d")) 
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){

@@ -1,6 +1,6 @@
 # Running SPADE: rom data
 # File created on 12/7/20 by Simone Passarelli
-# All nutrients: b12, iron, vita,  calcium, red meat, omega 3
+# Updated by SP March 2021
 # There is no zinc for rom
 
 # Load packages

@@ -10,7 +10,6 @@ library(here)
 load(here("data", "processed", "Subnational distributions", "zambia_wom"))
 SPADE.OUTPUT.PATH <- (here("output", "Subnational distributions", "Zambia"))
 
-
 ###########################################################
 # 1. RUN SPADE FOR B12
 
