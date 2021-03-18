@@ -29,25 +29,21 @@ portugal$age <- floor(portugal$age)
 # see which variables are blank
 summary(portugal)
 
-# Merge in sample weights
-
-portugal_3 <- portugal %>% left_join(iddata)
-
 # To look at fish variables
 
 portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
 
-write_csv(portugal_fish, here( "data", "raw", "portugal", "Portugal_ingredients.csv"))
+write_csv(portugal_fish, here( "data", "nutrients to add", "Portugal", "Portugal_ingredients.csv"))
 
 
 # rename variables and sum them 
 
-portugal_nut <- portugal_3 %>% 
+portugal_nut <- portugal %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
   select(!c(vitk, note, cu, se, iod, n6, plant_n3, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
   select(!c(recall_d:ingr_amount_proc)) %>% 
   rename(mday=recall_n) %>% 
-  group_by(id, mday) %>%
+  group_by(id, mday, age, sex) %>%
   summarize(vitb12 = sum(vitb12),
             iron = sum(fe),
             zinc = sum(zn),
@@ -75,18 +71,12 @@ portugal_nut <- portugal_3 %>%
             na=sum(na),
             pota=sum(k)) %>% distinct() 
 
-# Merge in identifiers, incl age/sex
-portugal_merge <- portugal %>%
-  rename( age=edad, sex=sexo, recall=replica, id=folio, weight=ponde_f) %>%
-  dplyr::select( age, sex, recall, id, weight)
-
 
 # portugal_merge_2 <-  merge(portugal_merge, portugal_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
 portugal_spade <- portugal_nut %>% 
-  left_join(portugal_merge, by=c("id", "recall")) %>%
-  mutate(mday = recall) %>%
+  left_join(iddata, by=c("id")) %>%
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
@@ -98,16 +88,16 @@ portugal_missings <- portugal_spade[is.na(portugal_spade$age), ] # shows you the
 portugal_missings   
 
 #No missing ages
-
-#Replace weights with weight from day 1
-ids_data <- unique(portugal_spade$id)
-for (idid in ids_data){
-  data.id <- portugal_spade[portugal_spade$id == idid, ]
-  if(nrow(data.id) > 1){
-    portugal_spade[portugal_spade$id == idid,"weight"] <- 
-      min(portugal_spade[portugal_spade$id == idid,"weight"])
-  }
-}
+# 
+# #Replace weights with weight from day 1
+# ids_data <- unique(portugal_spade$id)
+# for (idid in ids_data){
+#   data.id <- portugal_spade[portugal_spade$id == idid, ]
+#   if(nrow(data.id) > 1){
+#     portugal_spade[portugal_spade$id == idid,"weight"] <- 
+#       min(portugal_spade[portugal_spade$id == idid,"weight"])
+#   }
+# }
 
 #Replace any cases where the ages are different for the same individual
 
