@@ -1,4 +1,4 @@
-# brazil National 2014 data cleaning
+# Brazil National 2014 data cleaning
 # File created by Simone Passarelli 3/19/21
 # Clean brazil data for subnational distributions
 
@@ -13,22 +13,13 @@ library(readxl)
 brazil <- read_csv(here( "data", "raw", "brazil", "POF2017_2018_Harvard.csv")) %>% clean_names()
 names(brazil)
 
-iddata <- read_csv(here( "data", "raw", "brazil", "EST_RTU_2014_ParticipantData.csv")) %>% clean_names() %>% 
-  select(id, smpl_weight) %>% rename(weight=smpl_weight)
-names(iddata)
-
-
-# Round the age variable down to nearest year
-brazil$age <- floor(brazil$age)
-
 # see which variables are blank
 summary(brazil)
 
 # To look at fish variables
-
 brazil_fish <- brazil %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
 
-write_csv(brazil_fish, here( "data", "nutrients to add", "brazil", "brazil_ingredients.csv"))
+write_csv(brazil_fish, here( "data", "raw", "Brazil", "brazil_ingredients.csv"))
 
 
 # rename variables and sum them 

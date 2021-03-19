@@ -33,7 +33,7 @@ summary(portugal)
 
 portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
 
-write_csv(portugal_fish, here( "data", "nutrients to add", "Portugal", "Portugal_ingredients.csv"))
+write_csv(portugal_fish, here( "data", "raw", "Portugal", "Portugal_ingredients.csv"))
 
 
 # rename variables and sum them 

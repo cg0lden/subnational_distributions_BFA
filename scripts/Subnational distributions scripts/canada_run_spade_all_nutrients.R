@@ -645,7 +645,7 @@ write.csv(canada_vitd, "all_intakes/canada_m_vitd.csv")
 
 ##################################################################
 
-# 23. RUN SPADE FOR VITAMIN K
+# 23. RUN SPADE FOR VITAMIN C
 
 canada_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                     data=canada_wom, seed=123,  backtrans.nr = 3,
@@ -674,7 +674,7 @@ write.csv(canada_vitc, "all_intakes/canada_m_vitc.csv")
 
 ##################################################################
 
-# 34. RUN SPADE FOR PHOSPHORUS
+# 24. RUN SPADE FOR PHOSPHORUS
 
 canada_phos <- f.spade(frml.ia=phos~fp(age), frml.if="no.if", 
                     data=canada_wom, seed=123,  backtrans.nr = 3,
@@ -703,7 +703,7 @@ write.csv(canada_phos, "all_intakes/canada_m_phos.csv")
 
 ##################################################################
 
-# 35. RUN SPADE FOR MG
+# 25. RUN SPADE FOR MG
 
 canada_mg <- f.spade(frml.ia=mg~fp(age), frml.if="no.if", 
                   data=canada_wom, seed=123,  backtrans.nr = 3,
@@ -732,36 +732,7 @@ write.csv(canada_mg, "all_intakes/canada_m_mg.csv")
 
 ##################################################################
 
-# 36. RUN SPADE FOR COPPER
-
-canada_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
-                  data=canada_wom, seed=123,  backtrans.nr = 3,
-                  dgts.distr = 2, min.age=1, max.age=95,
-                  sex.lab="women",
-                  weights.name = "weight",
-                  output.name = "canada_wom_cu")
-
-canada_cu <- subset(canada_cu, select = c(age, HI))
-canada_cu <- canada_cu[order(canada_cu$age),]
-
-write.csv(canada_cu, "all_intakes/canada_w_cu.csv")
-
-# Men
-canada_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
-                  data=canada_men, seed=123,  backtrans.nr = 3,
-                  dgts.distr = 2, min.age=1, max.age=95,
-                  sex.lab="men",
-                  weights.name = "weight",
-                  output.name = "canada_men_cu")
-
-canada_cu <- subset(canada_cu, select = c(age, HI))
-canada_cu <- canada_cu[order(canada_cu$age),]
-
-write.csv(canada_cu, "all_intakes/canada_m_cu.csv")
-
-##################################################################
-
-# 37. RUN SPADE FOR SODIUM
+# 27. RUN SPADE FOR SODIUM
 
 canada_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
                   data=canada_wom, seed=123,  backtrans.nr = 3,
@@ -790,7 +761,7 @@ write.csv(canada_na, "all_intakes/canada_m_na.csv")
 
 ##################################################################
 
-# 38. RUN SPADE FOR POTASSIUM
+# 28. RUN SPADE FOR POTASSIUM
 
 canada_pota <- f.spade(frml.ia=pota~fp(age), frml.if="no.if", 
                     data=canada_wom, seed=123,  backtrans.nr = 3,
@@ -816,32 +787,3 @@ canada_pota <- subset(canada_pota, select = c(age, HI))
 canada_pota <- canada_pota[order(canada_pota$age),]
 
 write.csv(canada_pota, "all_intakes/canada_m_pota.csv")
-
-##################################################################
-
-# 39. RUN SPADE FOR SELENIUM
-
-canada_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
-                  data=canada_wom, seed=123,  backtrans.nr = 3,
-                  dgts.distr = 2, min.age=1, max.age=95,
-                  sex.lab="women",
-                  weights.name = "weight",
-                  output.name = "canada_wom_se")
-
-canada_se <- subset(canada_se, select = c(age, HI))
-canada_se <- canada_se[order(canada_se$age),]
-
-write.csv(canada_se, "all_intakes/canada_w_se.csv")
-
-# Men
-canada_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
-                  data=canada_men, seed=123,  backtrans.nr = 3,
-                  dgts.distr = 2, min.age=1, max.age=95,
-                  sex.lab="men",
-                  weights.name = "weight",
-                  output.name = "canada_men_se")
-
-canada_se <- subset(canada_se, select = c(age, HI))
-canada_se <- canada_se[order(canada_se$age),]
-
-write.csv(canada_se, "all_intakes/canada_m_se.csv")
