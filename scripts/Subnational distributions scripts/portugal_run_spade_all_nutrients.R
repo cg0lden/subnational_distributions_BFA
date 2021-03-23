@@ -75,7 +75,6 @@ write.csv(portugal_vitb12, "all_intakes/portugal_m_vitb12.csv")
 # 2. RUN SPADE FOR IRON
 # Women
 
-
 portugal_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                     data=portugal_wom, seed=123,  backtrans.nr = 3,
                     dgts.distr = 2, min.age=0, max.age=84,
@@ -193,7 +192,7 @@ write.csv(portugal_calc, "all_intakes/portugal_m_calc.csv")
 ##################################################################
 # 6. RUN SPADE FOR OMEGA 3 
 
-portugal_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if="no.if", 
+portugal_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                        data=portugal_wom, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=84,
                        sex.lab="women",
@@ -206,7 +205,7 @@ portugal_omega_3 <- portugal_omega_3[order(portugal_omega_3$age),]
 write.csv(portugal_omega_3, "all_intakes/portugal_w_omega_3.csv")
 
 # Men
-portugal_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if="no.if", 
+portugal_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                        data=portugal_men, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=0, max.age=84,
                        sex.lab="men",
