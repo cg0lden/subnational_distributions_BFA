@@ -191,7 +191,6 @@ write.csv(portugal_calc, "all_intakes/portugal_m_calc.csv")
 
 
 ##################################################################
-COME BACK TO THIS WHEN FILLED IN
 # 6. RUN SPADE FOR OMEGA 3 
 
 portugal_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if="no.if", 

@@ -13,58 +13,57 @@ library(readxl)
 brazil <- read_csv(here( "data", "raw", "brazil", "POF2017_2018_Harvard.csv")) %>% clean_names()
 names(brazil)
 
+brazil_groups <- brazil %>% select(food_group, food_description) %>% filter(food_group=="Suplementos") %>% distinct()
+
 # see which variables are blank
 summary(brazil)
 
 # To look at fish variables
-brazil_fish <- brazil %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
+brazil_fish <- brazil %>% select(group_code:food_description) %>% distinct()
 
 write_csv(brazil_fish, here( "data", "raw", "Brazil", "brazil_ingredients.csv"))
 
 
 # rename variables and sum them 
 
-brazil_nut <- brazil %>% 
-  mutate_all(~replace(., is.na(.), 0)) %>% 
-  select(!c(vitk, note,  n6, plant_n3, tfa, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
-  select(!c(recall_d:ingr_amount_proc)) %>% 
-  rename(mday=recall_n) %>% 
-  group_by(id, mday, age, sex) %>% summarize(vitb12 = sum(vitb12),
-                                             iron = sum(fe),
-                                             zinc = sum(zn),
-                                             vita = sum(vita),
-                                             calc = sum(ca),
+brazil_nut <- brazil %>% mutate_all(~replace(., is.na(.), 0)) %>% 
+ filter(food_description !="VITAMINAS, MINERAIS E OUTROS") %>% 
+  select(!c(strata_pof, group_code, food_group, cod_item, food_description, method_preparation, meal_occasion, hour, qtd_final, energia_kj, atypical_day)) %>% 
+  rename(mday=day, id=id_num, age=age_years, weight=sample_weight_pof) %>% 
+  group_by(id, mday, age, sex, weight) %>% summarize(energy=sum(energia_kcal),
+                                             protein=sum(ptn),
+                                             carb=sum(chotot),
+                                             fiber=sum(fibra),
+                                             fat=sum(lip),
+                                             cholest=sum(colest),
+                                             satfat=sum(agsat),
+                                             mufa=sum(agmono),
+                                             pufa=sum(agpoli),
+                                             tfat=sum(agtrans),
+                                             vitb12 = sum(cobalamina),
+                                             iron = sum(ferro),
+                                             zinc = sum(zinco),
+                                             vita = sum(vita_rae),
+                                             calc = sum(calcio),
                                              vite=sum(vite),
-                                             energy=sum(energy),
-                                             protein=sum(totalpro),
-                                             carb=sum(carb),
-                                             fiber=sum(fiber),
-                                             fat=sum(totalfat),
-                                             satfat=sum(sfa),
-                                             mufa=sum(mufa),
-                                             pufa=sum(pufa),
-                                             thia=sum(vitb1),
-                                             ribo=sum(vitb2),
-                                             niac=sum(vitb3),
-                                             vitb6=sum(vitb6),
-                                             fola=sum(fol),
+                                             thia=sum(tiamina),
+                                             ribo=sum(riboflavina),
+                                             niac=sum(niacina),
+                                             vitb6=sum(piridoxamina),
+                                             fola=sum(folato),
                                              vitd=sum(vitd),
                                              vitc=sum(vitc),
-                                             phos=sum(ph),
-                                             mg=sum(mg),
-                                             na=sum(na),
-                                             iod=sum(iod),
-                                             se=sum(se),
-                                             cu=sum(cu),
-                                             betacarot=sum(bcarot),
-                                             pota=sum(k)) %>% distinct() 
+                                             phos=sum(fosforo),
+                                             mg=sum(magnesio),
+                                             na=sum(sodio),
+                                             cu=sum(cobre),
+                                             pota=sum(potassio)) %>% distinct() 
 
 
 # brazil_merge_2 <-  merge(brazil_merge, brazil_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
 brazil_spade <- brazil_nut %>% 
-  left_join(iddata, by=c("id")) %>%
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%

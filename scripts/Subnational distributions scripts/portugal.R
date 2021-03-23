@@ -30,17 +30,28 @@ portugal$age <- floor(portugal$age)
 summary(portugal)
 
 # To look at fish variables
+# 
+# portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
+# 
+# write_csv(portugal_fish, here( "data", "raw", "Portugal", "Portugal_ingredients.csv"))
 
-portugal_fish <- portugal %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
+# Merge in aquatic food values
+portugal_omega <- read_excel(here( "data", "raw", "Portugal", "Portugal_ingredients_dha_epa_DV.xlsx")) %>% 
+  select("EPA+DHA", "ingr_descr_eng", "ingr_code") %>% rename("omega_3_100"="EPA+DHA") 
 
-write_csv(portugal_fish, here( "data", "raw", "Portugal", "Portugal_ingredients.csv"))
+#Exclude food supplements 
 
+# Look at ingredients
+food_names <- portugal %>% distinct(ingr_descr_eng, ingr_code) 
 
 # rename variables and sum them 
 
 portugal_nut <- portugal %>% 
+  filter(!(ingr_code > 200200103 & ingr_code <	200209501)) %>% 
+  left_join(portugal_omega, by="ingr_code") %>% 
+  mutate(omega_3=(ingr_amount_unproc*omega_3_100)/100) %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
-  select(!c(vitk, note, cu, se, iod, n6, plant_n3, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
+  select(!c(vitk, note, cu, se, iod, n6, plant_n3, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water, omega_3_100)) %>% 
   select(!c(recall_d:ingr_amount_proc)) %>% 
   rename(mday=recall_n) %>% 
   group_by(id, mday, age, sex) %>%
@@ -69,10 +80,11 @@ portugal_nut <- portugal %>%
             phos=sum(ph),
             mg=sum(mg),
             na=sum(na),
-            pota=sum(k)) %>% distinct() 
+            pota=sum(k),
+            omega_3=sum(omega_3)) %>% distinct() 
 
 
-# portugal_merge_2 <-  merge(portugal_merge, portugal_weights, by.all="id", all.x=T)
+ # portugal_merge_2 <-  merge(portugal_merge, portugal_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
 portugal_spade <- portugal_nut %>% 
