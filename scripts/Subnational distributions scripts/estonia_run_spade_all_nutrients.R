@@ -1,6 +1,6 @@
 # Running SPADE: estonia data
 # Created by Simone Passarelli on March 18 2021
-
+# Updated on March 25 to remove supplements
 
 # Load packages
 library(SPADE.RIVMNwCore)
@@ -12,11 +12,7 @@ SPADE.OUTPUT.PATH <- (here("output", "Subnational distributions", "estonia"))
 ###########################################################
 # Remove missing obs
 summary(estonia_spade)
-estonia_spade <- na.omit(estonia_spade)
-summary(estonia_spade)
 names(estonia_spade)
-
-# No sample weights available in dataset
 
 # number of intakes per person:
 table(estonia_spade$mday)

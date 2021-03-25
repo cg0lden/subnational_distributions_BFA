@@ -1,5 +1,6 @@
 # Estonia National 2014 data cleaning
 # File created by Simone Passarelli 3/18/21
+# Updated to remove supplements on 3/24/21
 # Clean Estonia data for subnational distributions
 
 library(tidyverse)
@@ -13,10 +14,6 @@ library(readxl)
 estonia <- read_excel(here( "data", "raw", "estonia", "EST_RTU_2014_DietData.xlsx")) %>% clean_names()
 names(estonia)
 
-iddata <- read_csv(here( "data", "raw", "estonia", "EST_RTU_2014_ParticipantData.csv")) %>% clean_names() %>% 
-  select(id, smpl_weight) %>% rename(weight=smpl_weight)
-names(iddata)
-
 
 # Round the age variable down to nearest year
 estonia$age <- floor(estonia$age)
@@ -26,14 +23,17 @@ summary(estonia)
 
 # To look at fish variables
 
-estonia_fish <- estonia %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
+estonia_fish <- estonia %>% select(ingr_descr_eng,  ingr_code) %>% filter(!(str_detect(ingr_code, "^S"))) %>% distinct()
 
-write_csv(estonia_fish, here( "data", "nutrients to add", "estonia", "estonia_ingredients.csv"))
+write_csv(estonia_fish, here( "data", "raw", "Estonia", "estonia_ingredients.csv"))
+
+# Filter out supplements
+
 
 
 # rename variables and sum them 
 
-estonia_nut <- estonia %>% 
+estonia_nut <- estonia %>% filter(!(str_detect(ingr_code, "^S"))) %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
   select(!c(vitk, note,  n6, plant_n3, tfa, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
   select(!c(recall_d:ingr_amount_proc)) %>% 
@@ -73,7 +73,6 @@ estonia_nut <- estonia %>%
 
 # Rename and format variables for spade
 estonia_spade <- estonia_nut %>% 
-  left_join(iddata, by=c("id")) %>%
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
@@ -83,18 +82,6 @@ estonia_spade <- estonia_nut %>%
 # Check for missing or differen ages
 estonia_missings <- estonia_spade[is.na(estonia_spade$age), ] # shows you the missings
 estonia_missings   
-
-#No missing ages
-# 
-# #Replace weights with weight from day 1
-# ids_data <- unique(estonia_spade$id)
-# for (idid in ids_data){
-#   data.id <- estonia_spade[estonia_spade$id == idid, ]
-#   if(nrow(data.id) > 1){
-#     estonia_spade[estonia_spade$id == idid,"weight"] <- 
-#       min(estonia_spade[estonia_spade$id == idid,"weight"])
-#   }
-# }
 
 #Replace any cases where the ages are different for the same individual
 

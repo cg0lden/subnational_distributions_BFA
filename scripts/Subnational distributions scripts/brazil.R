@@ -23,6 +23,9 @@ brazil_fish <- brazil %>% select(group_code:food_description) %>% distinct()
 
 write_csv(brazil_fish, here( "data", "raw", "Brazil", "brazil_ingredients.csv"))
 
+# Check for supplements:
+ingredients <- brazil %>% select(food_group, cod_item, food_description) %>% distinct()
+
 
 # rename variables and sum them 
 
