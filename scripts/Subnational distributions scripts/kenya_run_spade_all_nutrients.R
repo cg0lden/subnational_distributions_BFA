@@ -2,7 +2,6 @@
 # File created on 11/24/20 by Simone Passarelli
 # Updated by Simone Passarelli on March 22 2021
 
-
 # Load packages
 library(SPADE.RIVMNwCore)
 library(here)
@@ -11,6 +10,7 @@ library(here)
 load(here("data", "processed", "Subnational distributions", "kenya"))
 SPADE.OUTPUT.PATH <- (here("output", "Subnational distributions", "kenya"))
 ###########################################################
+
 # Remove missing obs
 summary(kenya_spade)
 names(kenya_spade)

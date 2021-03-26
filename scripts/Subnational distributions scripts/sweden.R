@@ -19,13 +19,13 @@ names(sweden2)
 iddata1 <- read_csv(here( "data", "raw", "sweden", "Adults", "SWE_Riksmaten_2010-2011_ParticipantData.csv")) %>% clean_names() %>% 
   select(id, smpl_weight) %>% rename(weight=smpl_weight)
 
-
 iddata2  <- read_csv(here( "data", "raw", "sweden","Children", "SWE_Riksmaten_2003_ParticipantData.csv")) %>% clean_names() %>% 
   select(id, smpl_weight) %>% rename(weight=smpl_weight)
 
 
 # Data are stored in two separate files for 2015 and 2016: combine them
 sweden <- rbind(sweden1, sweden2) 
+iddata <- rbind(iddata1, iddata2)
 
 # Round the age variable down to nearest year
 sweden$age <- floor(sweden$age)
@@ -40,9 +40,11 @@ summary(sweden)
 # write_csv(sweden_fish, here( "data", "raw", "sweden", "sweden_ingredients.csv"))
 
 # Merge in aquatic food values
-sweden_omega <- read_excel(here( "data", "raw", "sweden", "sweden_ingredients_dha_epa_DV.xlsx")) %>% 
-  select("EPA+DHA", "ingr_descr_eng", "ingr_code") %>% rename("omega_3_100"="EPA+DHA") 
+# sweden_omega <- read_excel(here( "data", "raw", "sweden", "sweden_ingredients_dha_epa_DV.xlsx")) %>% 
+#   select("EPA+DHA", "ingr_descr_eng", "ingr_code") %>% rename("omega_3_100"="EPA+DHA") 
 
+
+LEFT OFF HERE
 #Exclude food supplements 
 
 # Look at ingredients
@@ -51,9 +53,6 @@ food_names <- sweden %>% distinct(ingr_descr_eng, ingr_code)
 # rename variables and sum them 
 
 sweden_nut <- sweden %>% 
-  filter(!(ingr_code > 200200103 & ingr_code <	200209501)) %>% 
-  left_join(sweden_omega, by="ingr_code") %>% 
-  mutate(omega_3=(ingr_amount_unproc*omega_3_100)/100) %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
   select(!c(vitk, note, cu, se, iod, n6, plant_n3, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water, omega_3_100)) %>% 
   select(!c(recall_d:ingr_amount_proc)) %>% 

@@ -19,6 +19,8 @@ iddata <- read_csv(here( "data", "raw", "kenya", "KEN_KNMS_2011_ParticipantData.
 names(iddata)
 
 
+
+
 # Round the age variable down to nearest year
 kenya$age <- floor(kenya$age)
 
@@ -109,3 +111,5 @@ save(kenya_spade, file=here("data", "processed","Subnational distributions", "ke
 
 
 
+kenya_unique <- kenya_spade %>% select(id, mday) %>% distinct()
+table(kenya$recall_n)

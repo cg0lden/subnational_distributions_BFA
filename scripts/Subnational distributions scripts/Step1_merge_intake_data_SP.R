@@ -42,6 +42,9 @@ file_key <- tibble(filename=intake_files) %>%
          country=ifelse(grepl("bang", filename), "Bangladesh", country),
          country=ifelse(grepl("rom", filename), "Romania", country),
          country=ifelse(grepl("portugal", filename), "Portugal", country),
+         country=ifelse(grepl("brazil", filename), "Brazil", country),
+         country=ifelse(grepl("kenya", filename), "Kenya", country),
+         country=ifelse(grepl("ethiopia", filename), "Ethiopia", country),
          country=ifelse(grepl("estonia", filename), "Estonia", country),) %>% 
   
   #removed bolivia because it is a "local" dataset only
