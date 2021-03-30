@@ -1,6 +1,6 @@
-# sweden (2010-2011 for adults, 2003 for children) data cleaning
-# File created by Simone Passarelli 3/17/21
-# Clean sweden data for subnational distributions
+# Finland (2007) data cleaning
+# File created by Simone Passarelli 3/29/21
+# Clean finland data for subnational distributions
 
 library(tidyverse)
 library(haven)
@@ -8,43 +8,46 @@ library(here)
 library(janitor)
 library(readxl)
 
-# Load the raw sweden data 
 
-sweden1 <- read_csv(here( "data", "raw", "sweden", "Adults","SWE_Riksmaten_2010-2011_DietData.csv")) %>% clean_names()
-names(sweden1)
+CANT USE FINLAND BECAUSE THEY ONLY PROVIDE MEANS ON GDD, NOT RAW DATA
 
-sweden2 <-read_csv(here( "data", "raw", "sweden", "Children", "SWE_Riksmaten_2003_DietData.csv")) %>% clean_names()
-names(sweden2)
+# Load the raw finland data 
+
+finland <- read_csv(here( "data", "raw", "Finland", "svyc61datac22.csv")) %>% clean_names() %>% 
+  filter(dietfactor=="")
+names(finland)
+
+# Data need to be reshaped and unneeded nutrients filtered out
+
+
 # No sample weights are listed
 
-# Data are stored in two separate files for 2015 and 2016: combine them
-sweden <- rbind(sweden1, sweden2) 
 
 # Round the age variable down to nearest year
-sweden$age <- floor(sweden$age)
+finland$age <- floor(finland$age)
 
 # see which variables are blank
-summary(sweden)
+summary(finland)
 
 # To look at fish variables
 # 
-# sweden_fish <- sweden %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
+# finland_fish <- finland %>% select(ingr_descr_eng, foodex2_ingr_code, ingr_code) %>% distinct()
 # 
-# write_csv(sweden_fish, here( "data", "raw", "sweden", "sweden_ingredients.csv"))
+# write_csv(finland_fish, here( "data", "raw", "finland", "finland_ingredients.csv"))
 
 # Merge in aquatic food values
-# sweden_omega <- read_excel(here( "data", "raw", "sweden", "sweden_ingredients_dha_epa_DV.xlsx")) %>% 
+# finland_omega <- read_excel(here( "data", "raw", "finland", "finland_ingredients_dha_epa_DV.xlsx")) %>% 
 #   select("EPA+DHA", "ingr_descr_eng", "ingr_code") %>% rename("omega_3_100"="EPA+DHA") 
 
 
 #Exclude food supplements 
 
 # Look at ingredients
-food_names <- sweden %>% distinct(ingr_descr_eng, ingr_code) 
+food_names <- finland %>% distinct(ingr_descr_eng, ingr_code) 
 
 # rename variables and sum them 
 
-sweden_nut <- sweden %>% 
+finland_nut <- finland %>% 
   filter(ingr_code > 2384 | ingr_code<2310) %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
   select(!c(vitk, note, cu, iod, n6, plant_n3, tfa, adsugar, plantpro, animalpro, dairypro, water)) %>% 
@@ -85,10 +88,10 @@ sweden_nut <- sweden %>%
             omega_3=sum(seafood_n3)) %>% distinct() 
 
 
-# sweden_merge_2 <-  merge(sweden_merge, sweden_weights, by.all="id", all.x=T)
+# finland_merge_2 <-  merge(finland_merge, finland_weights, by.all="id", all.x=T)
 
 # Rename and format variables for spade
-sweden_spade <- sweden_nut %>% 
+finland_spade <- finland_nut %>% 
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
@@ -96,33 +99,33 @@ sweden_spade <- sweden_nut %>%
 
 
 # Check for missing or differen ages
-sweden_missings <- sweden_spade[is.na(sweden_spade$age), ] # shows you the missings
-sweden_missings   
+finland_missings <- finland_spade[is.na(finland_spade$age), ] # shows you the missings
+finland_missings   
 
 #No missing ages
 # 
 # #Replace weights with weight from day 1
-# ids_data <- unique(sweden_spade$id)
+# ids_data <- unique(finland_spade$id)
 # for (idid in ids_data){
-#   data.id <- sweden_spade[sweden_spade$id == idid, ]
+#   data.id <- finland_spade[finland_spade$id == idid, ]
 #   if(nrow(data.id) > 1){
-#     sweden_spade[sweden_spade$id == idid,"weight"] <- 
-#       min(sweden_spade[sweden_spade$id == idid,"weight"])
+#     finland_spade[finland_spade$id == idid,"weight"] <- 
+#       min(finland_spade[finland_spade$id == idid,"weight"])
 #   }
 # }
 
 #Replace any cases where the ages are different for the same individual
 
-ids_data <- unique(sweden_spade$id)
+ids_data <- unique(finland_spade$id)
 for (idid in ids_data){
-  data.id <- sweden_spade[sweden_spade$id == idid, ]
+  data.id <- finland_spade[finland_spade$id == idid, ]
   if(nrow(data.id) > 1){
-    sweden_spade[sweden_spade$id == idid,"age"] <- 
-      min(sweden_spade[sweden_spade$id == idid,"age"])
+    finland_spade[finland_spade$id == idid,"age"] <- 
+      min(finland_spade[finland_spade$id == idid,"age"])
   }
 }
 
-save(sweden_spade, file=here("data", "processed","Subnational distributions", "sweden"), replace)   
+save(finland_spade, file=here("data", "processed","Subnational distributions", "finland"), replace)   
 
 
 

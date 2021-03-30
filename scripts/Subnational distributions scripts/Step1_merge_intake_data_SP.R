@@ -45,6 +45,7 @@ file_key <- tibble(filename=intake_files) %>%
          country=ifelse(grepl("brazil", filename), "Brazil", country),
          country=ifelse(grepl("kenya", filename), "Kenya", country),
          country=ifelse(grepl("ethiopia", filename), "Ethiopia", country),
+         country=ifelse(grepl("sweden", filename), "sweden", country),
          country=ifelse(grepl("estonia", filename), "Estonia", country),) %>% 
   
   #removed bolivia because it is a "local" dataset only
@@ -100,6 +101,7 @@ file_key <- tibble(filename=intake_files) %>%
                          "lutzea"="Lutein+zeaxanthin",
                          "caff"="Caffeine",
                          "theo"="Theobromine",
+                         "sucrose"="Sucrose",
                          "alcohol"="Alcohol")) %>%  
   #removed red and processed meats
   # Add nutrient units
