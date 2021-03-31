@@ -5,6 +5,9 @@ library(tidyverse)
 library(haven)
 library(here)
 library(janitor)
+library(readxl)
+
+
 
 china_1 <- read_sas(here("data", "raw" , "China", "nutr1_00.sas7bdat")) 
 china_2 <- read_sas(here("data", "raw" , "China", "nutr2_00.sas7bdat"))
@@ -30,8 +33,21 @@ food_codes <- readxl::read_xlsx(here("data", "raw" , "China", "Food code_China.x
   mutate(code = gsub("-", "", code)) %>% 
   mutate(code = as.numeric(code))
 
-# Join in the translated food codes
+# Load in the b_12 data
+china_b12 <- load(here("data", "raw", "China", "china_b12_values"))
 
-china_merge <- left_join(china, food_codes, by="code")
+  clean_names() %>%  mutate(code = gsub("-", "", code)) %>% 
+  mutate(code = as.numeric(code))
+
+
+# Make a file with the translated data and nutrients
+
+china_merge <- left_join(china, food_codes, by="code") %>% 
+  left_join(china_macro) %>% left_join(china_b12, by="code") 
+  
+  
+  
+  save(china_merge, file=here("data", "raw", "China", "china_nutrients"), replace)   
+
 
 
