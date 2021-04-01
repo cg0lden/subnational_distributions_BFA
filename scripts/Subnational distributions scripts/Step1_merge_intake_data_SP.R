@@ -102,7 +102,9 @@ file_key <- tibble(filename=intake_files) %>%
                          "caff"="Caffeine",
                          "theo"="Theobromine",
                          "sucrose"="Sucrose",
-                         "alcohol"="Alcohol")) %>%  
+                         "alcohol"="Alcohol",
+                         "ala"="Alpha-linolenic acid",
+                         "la"="Linoleic acid")) %>%  
   #removed red and processed meats
   # Add nutrient units
   mutate(nutrient_units=recode(nutrient, 
@@ -153,7 +155,10 @@ file_key <- tibble(filename=intake_files) %>%
                                "Lutein+zeaxanthin"="µg/p/d",
                                "Caffeine"= "mg/p/d",
                               "Theobromine"= "mg/p/d",
-                               "Alcohol"="g/p/d")) 
+                               "Alcohol"="g/p/d",
+                              "Sucrose"="g/p/d",
+                              "Alpha-linolenic acid"="g/p/d",
+                              "Linoleic acid"="g/p/d")) 
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){

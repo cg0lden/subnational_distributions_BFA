@@ -34,9 +34,9 @@ food_codes <- readxl::read_xlsx(here("data", "raw" , "China", "Food code_China.x
   mutate(code = as.numeric(code))
 
 # Load in the b_12 data
-china_b12 <- load(here("data", "raw", "China", "china_b12_values"))
+load(here("data", "raw", "China", "china_b12_values"))
 
-  clean_names() %>%  mutate(code = gsub("-", "", code)) %>% 
+china_b12 <- china_b12_values %>%  clean_names() %>%  mutate(code = gsub("-", "", code)) %>% 
   mutate(code = as.numeric(code))
 
 

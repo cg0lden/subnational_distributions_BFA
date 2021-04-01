@@ -430,11 +430,20 @@ china_b12_test <- china_b12_clean %>% filter(is.na(b12)) %>%
   group_by(foodcategory1, ingredient) %>% slice(1)
 
 # On 3/31/31,  Save a dataset with our b12 values filler in per 100g
+
+# For all b12 values
+
+china_b12_values <- china_b12_clean %>% rename(mday=vd, amount=v39, b12_100=b12) %>% 
+  select(code, ingredient, foodcategory1, foodcategory2,  b12_100) %>% 
+  distinct()
+save(china_b12_values, file=here("data", "raw", "China", "china_b12_values"), replace)   
+
+# For fish only
 china_b12_values_fish <- china_b12_clean %>% rename(mday=vd, amount=v39, b12_100=b12) %>% 
   select(code, ingredient, foodcategory1, foodcategory2,  b12_100) %>% filter(foodcategory1=="Fish, shellfish and mollusc") %>% 
   distinct()
   
-  save(china_b12_values_fish, file=here("data", "processed", "china_b12_values"), replace)   
+  save(china_b12_values_fish, file=here("data", "raw", "China", "china_b12_values_fish"), replace)   
 
 # prepare b12 dataset for merging
 china_b12_clean2 <- china_b12_clean %>% rename(mday=vd, amount=v39, b12_100=b12) %>% 
