@@ -70,7 +70,7 @@ netherlands2 <-read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_childre
             vit_b1=sum(vit_b1),
             vit_b2=sum(vit_b2),
             vit_b6=sum(vit_b6),
-            folate=sum(folate),
+            fola=sum(folate),
             vit_b12=sum(vit_b12),
             vit_c=sum(vit_c),
             vit_d=sum(vit_d),
