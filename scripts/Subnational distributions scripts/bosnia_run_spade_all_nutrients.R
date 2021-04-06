@@ -28,11 +28,11 @@ bosnia_men <- subset(bosnia_spade, sex==1)
 # Let's have a look at the highest b12 intakes
 range(bosnia_wom$age)
 range(bosnia_men$age)
-
+is.integer(bosnia_wom$id)
 # Women
 bosnia_vitb12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=18, max.age=90,
                          sex.lab="women",
                          output.name = "bosnia_wom_vitb12")
 
@@ -44,7 +44,7 @@ write.csv(bosnia_vitb12, "all_intakes/bosnia_w_vitb12.csv")
 # Men
 bosnia_vitb12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                          data=bosnia_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=19, max.age=88,
                          sex.lab="men",
                          output.name = "bosnia_men_vitb12")
 
@@ -59,7 +59,7 @@ write.csv(bosnia_vitb12, "all_intakes/bosnia_m_vitb12.csv")
 # Women
 bosnia_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        output.name = "bosnia_wom_iron")
 
@@ -71,7 +71,7 @@ write.csv(bosnia_iron, "all_intakes/bosnia_w_iron.csv")
 # Men
 bosnia_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        output.name = "bosnia_men_iron")
 
@@ -84,7 +84,7 @@ write.csv(bosnia_iron, "all_intakes/bosnia_m_iron.csv")
 # 3. RUN SPADE FOR ZINC
 bosnia_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=18, max.age=90,
                          sex.lab="women",
                          output.name = "bosnia_wom_zinc")
 
@@ -96,7 +96,7 @@ write.csv(bosnia_zinc_w, "all_intakes/bosnia_w_zinc.csv")
 # Men
 bosnia_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=bosnia_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=19, max.age=88,
                          sex.lab="men",
                          output.name = "bosnia_men_zinc")
 
@@ -111,7 +111,7 @@ write.csv(bosnia_zinc_m, "all_intakes/bosnia_m_zinc.csv")
 
 bosnia_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        output.name = "bosnia_wom_vita")
 
@@ -123,7 +123,7 @@ write.csv(bosnia_vita, "all_intakes/bosnia_w_vita.csv")
 # Men
 bosnia_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        output.name = "bosnia_men_vita")
 
@@ -138,7 +138,7 @@ write.csv(bosnia_vita, "all_intakes/bosnia_m_vita.csv")
 
 bosnia_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        output.name = "bosnia_wom_calc")
 
@@ -150,7 +150,7 @@ write.csv(bosnia_calc, "all_intakes/bosnia_w_calc.csv")
 # Men
 bosnia_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        output.name = "bosnia_men_calc")
 
@@ -166,7 +166,7 @@ write.csv(bosnia_calc, "all_intakes/bosnia_m_calc.csv")
 
 bosnia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                           data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=18, max.age=90,
                           sex.lab="women",
                           output.name = "bosnia_wom_omega_3")
 
@@ -178,7 +178,7 @@ write.csv(bosnia_omega_3, "all_intakes/bosnia_w_omega_3.csv")
 # Men
 bosnia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                           data=bosnia_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=19, max.age=88,
                           sex.lab="men",
                           output.name = "bosnia_men_omega_3")
 
@@ -193,7 +193,7 @@ write.csv(bosnia_omega_3, "all_intakes/bosnia_m_omega_3.csv")
 
 bosnia_energy <- f.spade(frml.ia=energy~fp(age), frml.if="no.if", 
                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=18, max.age=90,
                          sex.lab="women",
                          output.name = "bosnia_wom_energy")
 
@@ -205,7 +205,7 @@ write.csv(bosnia_energy, "all_intakes/bosnia_w_energy.csv")
 # Men
 bosnia_energy <- f.spade(frml.ia=energy~fp(age), frml.if="no.if", 
                          data=bosnia_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=19, max.age=88,
                          sex.lab="men",
                          output.name = "bosnia_men_energy")
 
@@ -220,7 +220,7 @@ write.csv(bosnia_energy, "all_intakes/bosnia_m_energy.csv")
 
 bosnia_protein <- f.spade(frml.ia=protein~fp(age), frml.if="no.if", 
                           data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=18, max.age=90,
                           sex.lab="women",
                           output.name = "bosnia_wom_protein")
 
@@ -232,7 +232,7 @@ write.csv(bosnia_protein, "all_intakes/bosnia_w_protein.csv")
 # Men
 bosnia_protein <- f.spade(frml.ia=protein~fp(age), frml.if="no.if", 
                           data=bosnia_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=19, max.age=88,
                           sex.lab="men",
                           output.name = "bosnia_men_protein")
 
@@ -247,7 +247,7 @@ write.csv(bosnia_protein, "all_intakes/bosnia_m_protein.csv")
 
 bosnia_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        output.name = "bosnia_wom_carb")
 
@@ -259,7 +259,7 @@ write.csv(bosnia_carb, "all_intakes/bosnia_w_carb.csv")
 # Men
 bosnia_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        output.name = "bosnia_men_carb")
 
@@ -270,38 +270,11 @@ write.csv(bosnia_carb, "all_intakes/bosnia_m_carb.csv")
 
 ##################################################################
 
-# 10. RUN SPADE FOR sucrose
-
-bosnia_sucrose <- f.spade(frml.ia=sucrose~fp(age), frml.if="no.if", 
-                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
-                          sex.lab="women",
-                          output.name = "bosnia_wom_sucrose")
-
-bosnia_sucrose <- subset(bosnia_sucrose, select = c(age, HI))
-bosnia_sucrose <- bosnia_sucrose[order(bosnia_sucrose$age),]
-
-write.csv(bosnia_sucrose, "all_intakes/bosnia_w_sucrose.csv")
-
-# Men
-bosnia_sucrose <- f.spade(frml.ia=sucrose~fp(age), frml.if="no.if", 
-                          data=bosnia_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
-                          sex.lab="men",
-                          output.name = "bosnia_men_sucrose")
-
-bosnia_sucrose <- subset(bosnia_sucrose, select = c(age, HI))
-bosnia_sucrose <- bosnia_sucrose[order(bosnia_sucrose$age),]
-
-write.csv(bosnia_sucrose, "all_intakes/bosnia_m_sucrose.csv")
-
-##################################################################
-
-# 11. RUN SPADE FOR FIBER
+# 10. RUN SPADE FOR FIBER
 
 bosnia_fiber <- f.spade(frml.ia=fiber~fp(age), frml.if="no.if", 
                         data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=3, max.age=80,
+                        dgts.distr = 2, min.age=18, max.age=90,
                         sex.lab="women",
                         output.name = "bosnia_wom_fiber")
 
@@ -313,7 +286,7 @@ write.csv(bosnia_fiber, "all_intakes/bosnia_w_fiber.csv")
 # Men
 bosnia_fiber <- f.spade(frml.ia=fiber~fp(age), frml.if="no.if", 
                         data=bosnia_men, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=3, max.age=80,
+                        dgts.distr = 2, min.age=19, max.age=88,
                         sex.lab="men",
                         output.name = "bosnia_men_fiber")
 
@@ -324,11 +297,11 @@ write.csv(bosnia_fiber, "all_intakes/bosnia_m_fiber.csv")
 
 ##################################################################
 
-# 12. RUN SPADE FOR FAT
+# 11. RUN SPADE FOR FAT
 
 bosnia_fat <- f.spade(frml.ia=fat~fp(age), frml.if="no.if", 
                       data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                      dgts.distr = 2, min.age=3, max.age=80,
+                      dgts.distr = 2, min.age=18, max.age=90,
                       sex.lab="women",
                       output.name = "bosnia_wom_fat")
 
@@ -340,7 +313,7 @@ write.csv(bosnia_fat, "all_intakes/bosnia_w_fat.csv")
 # Men
 bosnia_fat <- f.spade(frml.ia=fat~fp(age), frml.if="no.if", 
                       data=bosnia_men, seed=123,  backtrans.nr = 3,
-                      dgts.distr = 2, min.age=3, max.age=80,
+                      dgts.distr = 2, min.age=19, max.age=88,
                       sex.lab="men",
                       output.name = "bosnia_men_fat")
 
@@ -351,11 +324,11 @@ write.csv(bosnia_fat, "all_intakes/bosnia_m_fat.csv")
 
 ##################################################################
 
-# 13. RUN SPADE FOR SATFAT
+# 12. RUN SPADE FOR SATFAT
 
 bosnia_satfat <- f.spade(frml.ia=satfat~fp(age), frml.if="no.if", 
                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=18, max.age=90,
                          sex.lab="women",
                          output.name = "bosnia_wom_satfat")
 
@@ -367,7 +340,7 @@ write.csv(bosnia_satfat, "all_intakes/bosnia_w_satfat.csv")
 # Men
 bosnia_satfat <- f.spade(frml.ia=satfat~fp(age), frml.if="no.if", 
                          data=bosnia_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=3, max.age=80,
+                         dgts.distr = 2, min.age=19, max.age=88,
                          sex.lab="men",
                          output.name = "bosnia_men_satfat")
 
@@ -378,11 +351,11 @@ write.csv(bosnia_satfat, "all_intakes/bosnia_m_satfat.csv")
 
 ##################################################################
 
-# 14. RUN SPADE FOR MUFA
+# 13. RUN SPADE FOR MUFA
 
 bosnia_mufa <- f.spade(frml.ia=mufa~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_mufa")
@@ -395,7 +368,7 @@ write.csv(bosnia_mufa, "all_intakes/bosnia_w_mufa.csv")
 # Men
 bosnia_mufa <- f.spade(frml.ia=mufa~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_mufa")
@@ -407,11 +380,11 @@ write.csv(bosnia_mufa, "all_intakes/bosnia_m_mufa.csv")
 
 ##################################################################
 
-# 15. RUN SPADE FOR PUFA
+# 14. RUN SPADE FOR PUFA
 
 bosnia_pufa <- f.spade(frml.ia=pufa~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_pufa")
@@ -424,7 +397,7 @@ write.csv(bosnia_pufa, "all_intakes/bosnia_w_pufa.csv")
 # Men
 bosnia_pufa <- f.spade(frml.ia=pufa~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_pufa")
@@ -436,11 +409,11 @@ write.csv(bosnia_pufa, "all_intakes/bosnia_m_pufa.csv")
 
 ##################################################################
 
-# 16. RUN SPADE FOR THIAMIN
+# 15. RUN SPADE FOR THIAMIN
 
 bosnia_thia <- f.spade(frml.ia=thia~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_thia")
@@ -453,7 +426,7 @@ write.csv(bosnia_thia, "all_intakes/bosnia_w_thia.csv")
 # Men
 bosnia_thia <- f.spade(frml.ia=thia~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_thia")
@@ -465,11 +438,11 @@ write.csv(bosnia_thia, "all_intakes/bosnia_m_thia.csv")
 
 ##################################################################
 
-# 17. RUN SPADE FOR RIBOFLAVIN
+# 16. RUN SPADE FOR RIBOFLAVIN
 
 bosnia_ribo <- f.spade(frml.ia=ribo~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_ribo")
@@ -482,7 +455,7 @@ write.csv(bosnia_ribo, "all_intakes/bosnia_w_ribo.csv")
 # Men
 bosnia_ribo <- f.spade(frml.ia=ribo~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_ribo")
@@ -494,11 +467,11 @@ write.csv(bosnia_ribo, "all_intakes/bosnia_m_ribo.csv")
 
 ##################################################################
 
-# 18. RUN SPADE FOR NIACIN
+# 17. RUN SPADE FOR NIACIN
 
 bosnia_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_niac")
@@ -511,7 +484,7 @@ write.csv(bosnia_niac, "all_intakes/bosnia_w_niac.csv")
 # Men
 bosnia_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_niac")
@@ -523,11 +496,11 @@ write.csv(bosnia_niac, "all_intakes/bosnia_m_niac.csv")
 
 ##################################################################
 
-# 19. RUN SPADE FOR VITAMIN B6
+# 18. RUN SPADE FOR VITAMIN B6
 
 bosnia_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
                         data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=3, max.age=80,
+                        dgts.distr = 2, min.age=18, max.age=90,
                         sex.lab="women",
                         
                         output.name = "bosnia_wom_vitb6")
@@ -540,7 +513,7 @@ write.csv(bosnia_vitb6, "all_intakes/bosnia_w_vitb6.csv")
 # Men
 bosnia_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
                         data=bosnia_men, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=3, max.age=80,
+                        dgts.distr = 2, min.age=19, max.age=88,
                         sex.lab="men",
                         
                         output.name = "bosnia_men_vitb6")
@@ -552,11 +525,11 @@ write.csv(bosnia_vitb6, "all_intakes/bosnia_m_vitb6.csv")
 
 ##################################################################
 
-# 20. RUN SPADE FOR FOLATE
+# 19. RUN SPADE FOR FOLATE
 
 bosnia_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_fola")
@@ -569,7 +542,7 @@ write.csv(bosnia_fola, "all_intakes/bosnia_w_fola.csv")
 # Men
 bosnia_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_fola")
@@ -581,11 +554,11 @@ write.csv(bosnia_fola, "all_intakes/bosnia_m_fola.csv")
 
 ##################################################################
 
-# 21. RUN SPADE FOR VITAMIN D
+# 20. RUN SPADE FOR VITAMIN D
 
 bosnia_vitd <- f.spade(frml.ia=vitd~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_vitd")
@@ -598,7 +571,7 @@ write.csv(bosnia_vitd, "all_intakes/bosnia_w_vitd.csv")
 # Men
 bosnia_vitd <- f.spade(frml.ia=vitd~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_vitd")
@@ -610,11 +583,11 @@ write.csv(bosnia_vitd, "all_intakes/bosnia_m_vitd.csv")
 
 ##################################################################
 
-# 22. RUN SPADE FOR VITAMIN C
+# 21. RUN SPADE FOR VITAMIN C
 
 bosnia_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_vitc")
@@ -627,7 +600,7 @@ write.csv(bosnia_vitc, "all_intakes/bosnia_w_vitc.csv")
 # Men
 bosnia_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_vitc")
@@ -639,11 +612,11 @@ write.csv(bosnia_vitc, "all_intakes/bosnia_m_vitc.csv")
 
 ##################################################################
 
-# 23. RUN SPADE FOR PHOSPHORUS
+# 22. RUN SPADE FOR PHOSPHORUS
 
 bosnia_phos <- f.spade(frml.ia=phos~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_phos")
@@ -656,7 +629,7 @@ write.csv(bosnia_phos, "all_intakes/bosnia_w_phos.csv")
 # Men
 bosnia_phos <- f.spade(frml.ia=phos~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_phos")
@@ -668,11 +641,11 @@ write.csv(bosnia_phos, "all_intakes/bosnia_m_phos.csv")
 
 ##################################################################
 
-# 24. RUN SPADE FOR MG
+# 23. RUN SPADE FOR MG
 
 bosnia_mg <- f.spade(frml.ia=mg~fp(age), frml.if="no.if", 
                      data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=18, max.age=90,
                      sex.lab="women",
                      
                      output.name = "bosnia_wom_mg")
@@ -685,7 +658,7 @@ write.csv(bosnia_mg, "all_intakes/bosnia_w_mg.csv")
 # Men
 bosnia_mg <- f.spade(frml.ia=mg~fp(age), frml.if="no.if", 
                      data=bosnia_men, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=19, max.age=88,
                      sex.lab="men",
                      
                      output.name = "bosnia_men_mg")
@@ -697,11 +670,11 @@ write.csv(bosnia_mg, "all_intakes/bosnia_m_mg.csv")
 
 ##################################################################
 
-# 25. RUN SPADE FOR SODIUM
+# 24. RUN SPADE FOR SODIUM
 
 bosnia_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
                      data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=18, max.age=90,
                      sex.lab="women",
                      
                      output.name = "bosnia_wom_na")
@@ -714,7 +687,7 @@ write.csv(bosnia_na, "all_intakes/bosnia_w_na.csv")
 # Men
 bosnia_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
                      data=bosnia_men, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=19, max.age=88,
                      sex.lab="men",
                      
                      output.name = "bosnia_men_na")
@@ -726,11 +699,11 @@ write.csv(bosnia_na, "all_intakes/bosnia_m_na.csv")
 
 ##################################################################
 
-# 26. RUN SPADE FOR POTASSIUM
+# 25. RUN SPADE FOR POTASSIUM
 
 bosnia_pota <- f.spade(frml.ia=pota~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
                        output.name = "bosnia_wom_pota")
@@ -743,7 +716,7 @@ write.csv(bosnia_pota, "all_intakes/bosnia_w_pota.csv")
 # Men
 bosnia_pota <- f.spade(frml.ia=pota~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
                        output.name = "bosnia_men_pota")
@@ -755,11 +728,11 @@ write.csv(bosnia_pota, "all_intakes/bosnia_m_pota.csv")
 
 ##################################################################
 
-# 27. RUN SPADE FOR VITAMIN E
+# 26. RUN SPADE FOR VITAMIN E
 
 bosnia_vite <- f.spade(frml.ia=vite~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        output.name = "bosnia_wom_vite")
 
@@ -771,7 +744,7 @@ write.csv(bosnia_vite, "all_intakes/bosnia_w_vite.csv")
 # Men
 bosnia_vite <- f.spade(frml.ia=vite~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        output.name = "bosnia_men_vite")
 
@@ -783,11 +756,11 @@ write.csv(bosnia_vite, "all_intakes/bosnia_m_vite.csv")
 
 ##################################################################
 
-# 28. RUN SPADE FOR ALCOHOL
+# 27. RUN SPADE FOR ALCOHOL
 
-bosnia_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if="no.if", 
+bosnia_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if=alcohol ~cs(age),
                           data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=18, max.age=90,
                           sex.lab="women",
                           
                           output.name = "bosnia_wom_alcohol")
@@ -798,9 +771,9 @@ bosnia_alcohol <- bosnia_alcohol[order(bosnia_alcohol$age),]
 write.csv(bosnia_alcohol, "all_intakes/bosnia_w_alcohol.csv")
 
 # Men
-bosnia_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if="no.if", 
+bosnia_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if=alcohol ~cs(age), 
                           data=bosnia_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=3, max.age=80,
+                          dgts.distr = 2, min.age=19, max.age=88,
                           sex.lab="men",
                           
                           output.name = "bosnia_men_alcohol")
@@ -813,11 +786,11 @@ write.csv(bosnia_alcohol, "all_intakes/bosnia_m_alcohol.csv")
 
 ##################################################################
 
-# 29. RUN SPADE FOR SELENIUM
+# 28. RUN SPADE FOR SELENIUM
 
 bosnia_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
                      data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=18, max.age=90,
                      sex.lab="women",
                      
                      output.name = "bosnia_wom_se")
@@ -830,7 +803,7 @@ write.csv(bosnia_se, "all_intakes/bosnia_w_se.csv")
 # Men
 bosnia_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
                      data=bosnia_men, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=3, max.age=80,
+                     dgts.distr = 2, min.age=19, max.age=88,
                      sex.lab="men",
                      
                      output.name = "bosnia_men_se")
@@ -843,32 +816,32 @@ write.csv(bosnia_se, "all_intakes/bosnia_m_se.csv")
 
 ##################################################################
 
-# 30. RUN SPADE FOR CHOLINE
+# 29. RUN SPADE FOR CHOLESTEROL
 
-bosnia_chol <- f.spade(frml.ia=chol~fp(age), frml.if="no.if", 
+bosnia_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
                        data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=18, max.age=90,
                        sex.lab="women",
                        
-                       output.name = "bosnia_wom_chol")
+                       output.name = "bosnia_wom_cholest")
 
-bosnia_chol <- subset(bosnia_chol, select = c(age, HI))
-bosnia_chol <- bosnia_chol[order(bosnia_chol$age),]
+bosnia_cholest <- subset(bosnia_cholest, select = c(age, HI))
+bosnia_cholest <- bosnia_cholest[order(bosnia_cholest$age),]
 
-write.csv(bosnia_chol, "all_intakes/bosnia_w_chol.csv")
+write.csv(bosnia_cholest, "all_intakes/bosnia_w_cholest.csv")
 
 # Men
-bosnia_chol <- f.spade(frml.ia=chol~fp(age), frml.if="no.if", 
+bosnia_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
                        data=bosnia_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=3, max.age=80,
+                       dgts.distr = 2, min.age=19, max.age=88,
                        sex.lab="men",
                        
-                       output.name = "bosnia_men_chol")
+                       output.name = "bosnia_men_cholest")
 
-bosnia_chol <- subset(bosnia_chol, select = c(age, HI))
-bosnia_chol <- bosnia_chol[order(bosnia_chol$age),]
+bosnia_cholest <- subset(bosnia_cholest, select = c(age, HI))
+bosnia_cholest <- bosnia_cholest[order(bosnia_cholest$age),]
 
-write.csv(bosnia_chol, "all_intakes/bosnia_m_chol.csv")
+write.csv(bosnia_cholest, "all_intakes/bosnia_m_cholest.csv")
 
 
 ##################################################################
@@ -877,7 +850,7 @@ write.csv(bosnia_chol, "all_intakes/bosnia_m_chol.csv")
 
 bosnia_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
                             data=bosnia_wom, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=3, max.age=80,
+                            dgts.distr = 2, min.age=18, max.age=90,
                             sex.lab="women",
                             
                             output.name = "bosnia_wom_betacarot")
@@ -890,7 +863,7 @@ write.csv(bosnia_betacarot, "all_intakes/bosnia_w_betacarot.csv")
 # Men
 bosnia_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
                             data=bosnia_men, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=3, max.age=80,
+                            dgts.distr = 2, min.age=19, max.age=88,
                             sex.lab="men",
                             
                             output.name = "bosnia_men_betacarot")
@@ -900,3 +873,118 @@ bosnia_betacarot <- bosnia_betacarot[order(bosnia_betacarot$age),]
 
 write.csv(bosnia_betacarot, "all_intakes/bosnia_m_betacarot.csv")
 
+
+##################################################################
+
+# 32. RUN SPADE FOR OMEGA 6 
+
+bosnia_omega_6 <- f.spade(frml.ia=omega_6~fp(age), frml.if="no.if", 
+                          data=bosnia_wom, seed=123,  backtrans.nr = 3,
+                          dgts.distr = 2, min.age=18, max.age=90,
+                          sex.lab="women",
+                          output.name = "bosnia_wom_omega_6")
+
+bosnia_omega_6 <- subset(bosnia_omega_6, select = c(age, HI))
+bosnia_omega_6 <- bosnia_omega_6[order(bosnia_omega_6$age),]
+
+write.csv(bosnia_omega_6, "all_intakes/bosnia_w_omega_6.csv")
+
+# Men
+bosnia_omega_6 <- f.spade(frml.ia=omega_6~fp(age),frml.if="no.if", 
+                          data=bosnia_men, seed=123,  backtrans.nr = 3,
+                          dgts.distr = 2, min.age=19, max.age=88,
+                          sex.lab="men",
+                          output.name = "bosnia_men_omega_6")
+
+bosnia_omega_6 <- subset(bosnia_omega_6, select = c(age, HI))
+bosnia_omega_6 <- bosnia_omega_6[order(bosnia_omega_6$age),]
+
+write.csv(bosnia_omega_6, "all_intakes/bosnia_m_omega_6.csv")
+
+##################################################################
+
+# 32. RUN SPADE FOR SUGAR
+
+bosnia_sugar <- f.spade(frml.ia=sugar~fp(age), frml.if="no.if", 
+                            data=bosnia_wom, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=18, max.age=90,
+                            sex.lab="women",
+                            
+                            output.name = "bosnia_wom_sugar")
+
+bosnia_sugar <- subset(bosnia_sugar, select = c(age, HI))
+bosnia_sugar <- bosnia_sugar[order(bosnia_sugar$age),]
+
+write.csv(bosnia_sugar, "all_intakes/bosnia_w_sugar.csv")
+
+# Men
+bosnia_sugar <- f.spade(frml.ia=sugar~fp(age), frml.if="no.if", 
+                            data=bosnia_men, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=19, max.age=88,
+                            sex.lab="men",
+                            
+                            output.name = "bosnia_men_sugar")
+
+bosnia_sugar <- subset(bosnia_sugar, select = c(age, HI))
+bosnia_sugar <- bosnia_sugar[order(bosnia_sugar$age),]
+
+write.csv(bosnia_sugar, "all_intakes/bosnia_m_sugar.csv")
+
+
+##################################################################
+
+# 33. RUN SPADE FOR VITAMIN K
+
+bosnia_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
+                            data=bosnia_wom, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=18, max.age=90,
+                            sex.lab="women",
+                            
+                            output.name = "bosnia_wom_vitk")
+
+bosnia_vitk <- subset(bosnia_vitk, select = c(age, HI))
+bosnia_vitk <- bosnia_vitk[order(bosnia_vitk$age),]
+
+write.csv(bosnia_vitk, "all_intakes/bosnia_w_vitk.csv")
+
+# Men
+bosnia_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
+                            data=bosnia_men, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=19, max.age=88,
+                            sex.lab="men",
+                            
+                            output.name = "bosnia_men_vitk")
+
+bosnia_vitk <- subset(bosnia_vitk, select = c(age, HI))
+bosnia_vitk <- bosnia_vitk[order(bosnia_vitk$age),]
+
+write.csv(bosnia_vitk, "all_intakes/bosnia_m_vitk.csv")
+
+##################################################################
+
+# 34. RUN SPADE FOR IODINE
+
+bosnia_iodine <- f.spade(frml.ia=iodine~fp(age), frml.if="no.if", 
+                       data=bosnia_wom, seed=123,  backtrans.nr = 3,
+                       dgts.distr = 2, min.age=18, max.age=90,
+                       sex.lab="women",
+                       
+                       output.name = "bosnia_wom_iodine")
+
+bosnia_iodine <- subset(bosnia_iodine, select = c(age, HI))
+bosnia_iodine <- bosnia_iodine[order(bosnia_iodine$age),]
+
+write.csv(bosnia_iodine, "all_intakes/bosnia_w_iodine.csv")
+
+# Men
+bosnia_iodine <- f.spade(frml.ia=iodine~fp(age), frml.if="no.if", 
+                       data=bosnia_men, seed=123,  backtrans.nr = 3,
+                       dgts.distr = 2, min.age=19, max.age=88,
+                       sex.lab="men",
+                       
+                       output.name = "bosnia_men_iodine")
+
+bosnia_iodine <- subset(bosnia_iodine, select = c(age, HI))
+bosnia_iodine <- bosnia_iodine[order(bosnia_iodine$age),]
+
+write.csv(bosnia_iodine, "all_intakes/bosnia_m_iodine.csv")
