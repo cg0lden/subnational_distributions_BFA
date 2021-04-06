@@ -46,11 +46,13 @@ file_key <- tibble(filename=intake_files) %>%
          country=ifelse(grepl("kenya", filename), "Kenya", country),
          country=ifelse(grepl("ethiopia", filename), "Ethiopia", country),
          country=ifelse(grepl("sweden", filename), "sweden", country),
-         country=ifelse(grepl("estonia", filename), "Estonia", country),) %>% 
+         country=ifelse(grepl("estonia", filename), "Estonia", country),
+         country=ifelse(grepl("netherlands", filename), "Netherlands", country),
+         country=ifelse(grepl("bosnia", filename), "Bosnia", country)) %>% 
   
   #removed bolivia because it is a "local" dataset only
   # Add nutrient
-  mutate(nutrient=gsub(".csv|_m_||_w_|_h_w_|_c_|_w_ad_|mexico|usa|zambia|uganda|phil|lao|china|italy|burkina|bulg|bang|rom|portugal|estonia", "", filename)) %>% 
+  mutate(nutrient=gsub(".csv|_m_||_w_|_h_w_|_c_|_w_ad_|mexico|usa|zambia|uganda|phil|lao|china|italy|burkina|bulg|bang|rom|portugal|estonia|bosnia|netherlands", "", filename)) %>% 
   mutate(nutrient=recode(nutrient,
                          "b12"="Vitamin B-12",
                          "calc"="Calcium",
@@ -158,7 +160,9 @@ file_key <- tibble(filename=intake_files) %>%
                                "Alcohol"="g/p/d",
                               "Sucrose"="g/p/d",
                               "Alpha-linolenic acid"="g/p/d",
-                              "Linoleic acid"="g/p/d")) 
+                              "Linoleic acid"="g/p/d"))  %>% 
+  # Remove random Zambia file
+  filter(filename!="zambia_b12.csv")
 
 # Loop through intake files
 data_orig <- purrr::map_df(intake_files, function(x){

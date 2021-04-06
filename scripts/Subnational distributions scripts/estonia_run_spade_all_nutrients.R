@@ -175,10 +175,10 @@ write.csv(estonia_calc, "all_intakes/estonia_m_calc.csv")
 
 
 ##################################################################
-COME BACK TO THIS WHEN FILLED IN
+
 # 6. RUN SPADE FOR OMEGA 3 
 
-estonia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if="no.if", 
+estonia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                             data=estonia_wom, seed=123,  backtrans.nr = 3,
                             dgts.distr = 2, min.age=11, max.age=74,
                             sex.lab="women",
@@ -191,7 +191,7 @@ estonia_omega_3 <- estonia_omega_3[order(estonia_omega_3$age),]
 write.csv(estonia_omega_3, "all_intakes/estonia_w_omega_3.csv")
 
 # Men
-estonia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if="no.if", 
+estonia_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                             data=estonia_men, seed=123,  backtrans.nr = 3,
                             dgts.distr = 2, min.age=11, max.age=75,
                             sex.lab="men",

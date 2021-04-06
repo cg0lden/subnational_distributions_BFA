@@ -10,11 +10,12 @@ library(readxl)
 
 # Load the raw kenya data 
 
-kenya <- read_csv(here( "data", "raw", "kenya", "KEN_KNMS_2011_DietData.csv")) %>% clean_names()
+kenya <- read_csv(here( "data", "raw", "Kenya", "KEN_KNMS_2011_DietData.csv")) %>% clean_names()
 names(kenya1)
 
-
-iddata <- read_csv(here( "data", "raw", "kenya", "KEN_KNMS_2011_ParticipantData.csv")) %>% clean_names() %>% 
+kenya_omega <- read_excel(here( "data", "raw", "Kenya", "kenya_ingredients_dha_epa.xlsx")) %>% clean_names()
+  
+iddata <- read_csv(here( "data", "raw", "Kenya", "KEN_KNMS_2011_ParticipantData.csv")) %>% clean_names() %>% 
   select(id, smpl_weight) %>% rename(weight=smpl_weight)
 names(iddata)
 

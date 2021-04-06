@@ -11,9 +11,15 @@ library(readxl)
 
 # Load the raw estonia data 
 
-estonia <- read_excel(here( "data", "raw", "estonia", "EST_RTU_2014_DietData.xlsx")) %>% clean_names()
+estonia <- read_excel(here( "data", "raw", "Estonia", "EST_RTU_2014_DietData.xlsx")) %>% clean_names()
 names(estonia)
 
+estonia_omega <- read_excel(here( "data", "raw", "Estonia", "estonia_ingredients_dha_epa.xlsx")) %>% clean_names() %>% 
+  mutate(epa_dha=replace(epa_dha, ingr_descr_eng=="Canned spicy sprat, cleaned, without liquid" | 
+                          ingr_descr_eng=="Canned sprats, in oil" | 
+                           ingr_descr_eng== "Sprat p√¢t√©, canned", 1.3)) %>% 
+  mutate(epa_dha=replace(epa_dha, ingr_descr_eng=="Caviar, black and red", 6.541)) %>% rename(omega_3_100=epa_dha) %>% 
+  select(ingr_code, omega_3_100)
 
 # Round the age variable down to nearest year
 estonia$age <- floor(estonia$age)
@@ -22,10 +28,10 @@ estonia$age <- floor(estonia$age)
 summary(estonia)
 
 # To look at fish variables
-
-estonia_fish <- estonia %>% select(ingr_descr_eng,  ingr_code) %>% filter(!(str_detect(ingr_code, "^S"))) %>% distinct()
-
-write_csv(estonia_fish, here( "data", "raw", "Estonia", "estonia_ingredients.csv"))
+# 
+# estonia_fish <- estonia %>% select(ingr_descr_eng,  ingr_code) %>% filter(!(str_detect(ingr_code, "^S"))) %>% distinct()
+# 
+# write_csv(estonia_fish, here( "data", "raw", "Estonia", "estonia_ingredients.csv"))
 
 # Filter out supplements
 
@@ -34,6 +40,8 @@ write_csv(estonia_fish, here( "data", "raw", "Estonia", "estonia_ingredients.csv
 # rename variables and sum them 
 
 estonia_nut <- estonia %>% filter(!(str_detect(ingr_code, "^S"))) %>% 
+  left_join(estonia_omega, by="ingr_code") %>% 
+  mutate(omega_3=(ingr_amount_unproc*omega_3_100)/100) %>% 
   mutate_all(~replace(., is.na(.), 0)) %>% 
   select(!c(vitk, note,  n6, plant_n3, tfa, chol, adsugar, plantpro, animalpro, dairypro, seafood_n3, water)) %>% 
   select(!c(recall_d:ingr_amount_proc)) %>% 
@@ -66,6 +74,7 @@ estonia_nut <- estonia %>% filter(!(str_detect(ingr_code, "^S"))) %>%
             se=sum(se),
             cu=sum(cu),
             betacarot=sum(bcarot),
+            omega_3=sum(omega_3),
             pota=sum(k)) %>% distinct() 
 
 
