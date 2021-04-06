@@ -440,14 +440,15 @@ netherlands_ribo <- netherlands_ribo[order(netherlands_ribo$age),]
 write.csv(netherlands_ribo, "all_intakes/netherlands_m_ribo.csv")
 
 ##################################################################
-check this one
 # 16. RUN SPADE FOR NIACIN
+niac_notna_w <- netherlands_wom[!is.na(netherlands_wom$niac), ]
+niac_notna_m <- netherlands_men[!is.na(netherlands_men$niac), ]
+
 
 netherlands_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
-                       data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                       data=niac_notna_w, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=80,
                        sex.lab="women",
-                       
                        output.name = "netherlands_wom_niac")
 
 netherlands_niac <- subset(netherlands_niac, select = c(age, HI))
@@ -457,7 +458,7 @@ write.csv(netherlands_niac, "all_intakes/netherlands_w_niac.csv")
 
 # Men
 netherlands_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
-                       data=netherlands_men, seed=123,  backtrans.nr = 3,
+                       data=niac_notna_m, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=80,
                        sex.lab="men",
                        
@@ -500,13 +501,14 @@ write.csv(netherlands_vitb6, "all_intakes/netherlands_m_vitb6.csv")
 ##################################################################
 
 # 18. RUN SPADE FOR FOLATE
-check this one
+
+fola_notna_w <- netherlands_wom[!is.na(netherlands_wom$fola), ]
+fola_notna_m <- netherlands_men[!is.na(netherlands_men$fola), ]
 
 netherlands_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
-                       data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                       data=fola_notna_w, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=80,
                        sex.lab="women",
-                       
                        output.name = "netherlands_wom_fola")
 
 netherlands_fola <- subset(netherlands_fola, select = c(age, HI))
@@ -516,7 +518,7 @@ write.csv(netherlands_fola, "all_intakes/netherlands_w_fola.csv")
 
 # Men
 netherlands_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
-                       data=netherlands_men, seed=123,  backtrans.nr = 3,
+                       data=fola_notna_m, seed=123,  backtrans.nr = 3,
                        dgts.distr = 2, min.age=1, max.age=80,
                        sex.lab="men",
                        
@@ -702,32 +704,32 @@ write.csv(netherlands_vite, "all_intakes/netherlands_m_vite.csv")
 
 ##################################################################
 
-# 25. RUN SPADE FOR ALCOHOL
+# 25. RUN SPADE FOR ala
 
-netherlands_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if=alcohol ~cs(age), 
+netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if=ala ~cs(age), 
                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
                           dgts.distr = 2, min.age=1, max.age=80,
                           sex.lab="women",
                           
-                          output.name = "netherlands_wom_alcohol")
+                          output.name = "netherlands_wom_ala")
 
-netherlands_alcohol <- subset(netherlands_alcohol, select = c(age, HI))
-netherlands_alcohol <- netherlands_alcohol[order(netherlands_alcohol$age),]
+netherlands_ala <- subset(netherlands_ala, select = c(age, HI))
+netherlands_ala <- netherlands_ala[order(netherlands_ala$age),]
 
-write.csv(netherlands_alcohol, "all_intakes/netherlands_w_alcohol.csv")
+write.csv(netherlands_ala, "all_intakes/netherlands_w_ala.csv")
 
 # Men
-netherlands_alcohol <- f.spade(frml.ia=alcohol~fp(age), frml.if=alcohol ~cs(age), 
+netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if=ala ~cs(age), 
                           data=netherlands_men, seed=123,  backtrans.nr = 3,
                           dgts.distr = 2, min.age=1, max.age=80,
                           sex.lab="men",
                           
-                          output.name = "netherlands_men_alcohol")
+                          output.name = "netherlands_men_ala")
 
-netherlands_alcohol <- subset(netherlands_alcohol, select = c(age, HI))
-netherlands_alcohol <- netherlands_alcohol[order(netherlands_alcohol$age),]
+netherlands_ala <- subset(netherlands_ala, select = c(age, HI))
+netherlands_ala <- netherlands_ala[order(netherlands_ala$age),]
 
-write.csv(netherlands_alcohol, "all_intakes/netherlands_m_alcohol.csv")
+write.csv(netherlands_ala, "all_intakes/netherlands_m_ala.csv")
 
 
 ##################################################################
@@ -764,11 +766,14 @@ write.csv(netherlands_se, "all_intakes/netherlands_m_se.csv")
 
 # 27. RUN SPADE FOR BETA CAROTENE
 
+betacarot_notna_w <- netherlands_wom[!is.na(netherlands_wom$betacarot), ]
+betacarot_notna_m <- netherlands_men[!is.na(netherlands_men$betacarot), ]
+
+
 netherlands_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
-                            data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                            data=betacarot_notna_w, seed=123,  backtrans.nr = 3,
                             dgts.distr = 2, min.age=1, max.age=80,
                             sex.lab="women",
-                            
                             output.name = "netherlands_wom_betacarot")
 
 netherlands_betacarot <- subset(netherlands_betacarot, select = c(age, HI))
@@ -778,14 +783,281 @@ write.csv(netherlands_betacarot, "all_intakes/netherlands_w_betacarot.csv")
 
 # Men
 netherlands_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
-                            data=netherlands_men, seed=123,  backtrans.nr = 3,
+                            data=betacarot_notna_m, seed=123,  backtrans.nr = 3,
                             dgts.distr = 2, min.age=1, max.age=80,
                             sex.lab="men",
-                            
                             output.name = "netherlands_men_betacarot")
 
 netherlands_betacarot <- subset(netherlands_betacarot, select = c(age, HI))
 netherlands_betacarot <- netherlands_betacarot[order(netherlands_betacarot$age),]
 
 write.csv(netherlands_betacarot, "all_intakes/netherlands_m_betacarot.csv")
+
+
+##################################################################
+
+# 28. RUN SPADE FOR ALPHA-LINOLENIC ACID
+
+ala_notna_w <- netherlands_wom[!is.na(netherlands_wom$ala), ]
+ala_notna_m <- netherlands_men[!is.na(netherlands_men$ala), ]
+
+
+netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if="no.if", 
+                                 data=ala_notna_w, seed=123,  backtrans.nr = 3,
+                                 dgts.distr = 2, min.age=1, max.age=80,
+                                 sex.lab="women",
+                                 output.name = "netherlands_wom_ala")
+
+netherlands_ala <- subset(netherlands_ala, select = c(age, HI))
+netherlands_ala <- netherlands_ala[order(netherlands_ala$age),]
+
+write.csv(netherlands_ala, "all_intakes/netherlands_w_ala.csv")
+
+# Men
+netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if="no.if", 
+                                 data=ala_notna_m, seed=123,  backtrans.nr = 3,
+                                 dgts.distr = 2, min.age=1, max.age=80,
+                                 sex.lab="men",
+                                 output.name = "netherlands_men_ala")
+
+netherlands_ala <- subset(netherlands_ala, select = c(age, HI))
+netherlands_ala <- netherlands_ala[order(netherlands_ala$age),]
+
+write.csv(netherlands_ala, "all_intakes/netherlands_m_ala.csv")
+
+##################################################################
+
+# 29. RUN SPADE FOR LINOLEIC ACID
+
+la_notna_w <- netherlands_wom[!is.na(netherlands_wom$la), ]
+la_notna_m <- netherlands_men[!is.na(netherlands_men$la), ]
+
+
+netherlands_la <- f.spade(frml.ia=la~fp(age), frml.if="no.if", 
+                           data=la_notna_w, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_la")
+
+netherlands_la <- subset(netherlands_la, select = c(age, HI))
+netherlands_la <- netherlands_la[order(netherlands_la$age),]
+
+write.csv(netherlands_la, "all_intakes/netherlands_w_la.csv")
+
+# Men
+netherlands_la <- f.spade(frml.ia=la~fp(age), frml.if="no.if", 
+                           data=la_notna_m, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_la")
+
+netherlands_la <- subset(netherlands_la, select = c(age, HI))
+netherlands_la <- netherlands_la[order(netherlands_la$age),]
+
+write.csv(netherlands_la, "all_intakes/netherlands_m_la.csv")
+
+
+##################################################################
+
+# 30. RUN SPADE FOR IODINE
+
+iod_notna_w <- netherlands_wom[!is.na(netherlands_wom$iod), ]
+iod_notna_m <- netherlands_men[!is.na(netherlands_men$iod), ]
+
+
+netherlands_iod <- f.spade(frml.ia=iod~fp(age), frml.if="no.if", 
+                           data=iod_notna_w, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_iod")
+
+netherlands_iod <- subset(netherlands_iod, select = c(age, HI))
+netherlands_iod <- netherlands_iod[order(netherlands_iod$age),]
+
+write.csv(netherlands_iod, "all_intakes/netherlands_w_iod.csv")
+
+# Men
+netherlands_iod <- f.spade(frml.ia=iod~fp(age), frml.if="no.if", 
+                           data=iod_notna_m, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_iod")
+
+netherlands_iod <- subset(netherlands_iod, select = c(age, HI))
+netherlands_iod <- netherlands_iod[order(netherlands_iod$age),]
+
+write.csv(netherlands_iod, "all_intakes/netherlands_m_iod.csv")
+
+##################################################################
+
+# 31. RUN SPADE FOR VITAMIN K
+
+vitk_notna_w <- netherlands_wom[!is.na(netherlands_wom$vitk), ]
+vitk_notna_m <- netherlands_men[!is.na(netherlands_men$vitk), ]
+
+
+netherlands_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
+                           data=vitk_notna_w, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_vitk")
+
+netherlands_vitk <- subset(netherlands_vitk, select = c(age, HI))
+netherlands_vitk <- netherlands_vitk[order(netherlands_vitk$age),]
+
+write.csv(netherlands_vitk, "all_intakes/netherlands_w_vitk.csv")
+
+# Men
+netherlands_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
+                           data=vitk_notna_m, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_vitk")
+
+netherlands_vitk <- subset(netherlands_vitk, select = c(age, HI))
+netherlands_vitk <- netherlands_vitk[order(netherlands_vitk$age),]
+
+write.csv(netherlands_vitk, "all_intakes/netherlands_m_vitk.csv")
+
+
+##################################################################
+
+# 32. RUN SPADE FOR CHOLESTEROL
+
+netherlands_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
+                            data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=1, max.age=80,
+                            sex.lab="women",
+                            output.name = "netherlands_wom_cholest")
+
+netherlands_cholest <- subset(netherlands_cholest, select = c(age, HI))
+netherlands_cholest <- netherlands_cholest[order(netherlands_cholest$age),]
+
+write.csv(netherlands_cholest, "all_intakes/netherlands_w_cholest.csv")
+
+# Men
+netherlands_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
+                            data=netherlands_men, seed=123,  backtrans.nr = 3,
+                            dgts.distr = 2, min.age=1, max.age=80,
+                            sex.lab="men",
+                            output.name = "netherlands_men_cholest")
+
+netherlands_cholest <- subset(netherlands_cholest, select = c(age, HI))
+netherlands_cholest <- netherlands_cholest[order(netherlands_cholest$age),]
+
+write.csv(netherlands_cholest, "all_intakes/netherlands_m_cholest.csv")
+
+
+##################################################################
+
+# 33. RUN SPADE FOR SATURATED FAT
+
+netherlands_sfa <- f.spade(frml.ia=sfa~fp(age), frml.if="no.if", 
+                               data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                               dgts.distr = 2, min.age=1, max.age=80,
+                               sex.lab="women",
+                               output.name = "netherlands_wom_sfa")
+
+netherlands_sfa <- subset(netherlands_sfa, select = c(age, HI))
+netherlands_sfa <- netherlands_sfa[order(netherlands_sfa$age),]
+
+write.csv(netherlands_sfa, "all_intakes/netherlands_w_sfa.csv")
+
+# Men
+netherlands_sfa <- f.spade(frml.ia=sfa~fp(age), frml.if="no.if", 
+                               data=netherlands_men, seed=123,  backtrans.nr = 3,
+                               dgts.distr = 2, min.age=1, max.age=80,
+                               sex.lab="men",
+                               output.name = "netherlands_men_sfa")
+
+netherlands_sfa <- subset(netherlands_sfa, select = c(age, HI))
+netherlands_sfa <- netherlands_sfa[order(netherlands_sfa$age),]
+
+write.csv(netherlands_sfa, "all_intakes/netherlands_m_sfa.csv")
+
+##################################################################
+
+# 34. RUN SPADE FOR TRANS FAT
+
+netherlands_tfa <- f.spade(frml.ia=tfa~fp(age), frml.if="no.if", 
+                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_tfa")
+
+netherlands_tfa <- subset(netherlands_tfa, select = c(age, HI))
+netherlands_tfa <- netherlands_tfa[order(netherlands_tfa$age),]
+
+write.csv(netherlands_tfa, "all_intakes/netherlands_w_tfa.csv")
+
+# Men
+netherlands_tfa <- f.spade(frml.ia=tfa~fp(age), frml.if="no.if", 
+                           data=netherlands_men, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_tfa")
+
+netherlands_tfa <- subset(netherlands_tfa, select = c(age, HI))
+netherlands_tfa <- netherlands_tfa[order(netherlands_tfa$age),]
+
+write.csv(netherlands_tfa, "all_intakes/netherlands_m_tfa.csv")
+
+##################################################################
+
+# 35. RUN SPADE FOR TRANS FAT
+
+netherlands_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
+                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_cu")
+
+netherlands_cu <- subset(netherlands_cu, select = c(age, HI))
+netherlands_cu <- netherlands_cu[order(netherlands_cu$age),]
+
+write.csv(netherlands_cu, "all_intakes/netherlands_w_cu.csv")
+
+# Men
+netherlands_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
+                           data=netherlands_men, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_cu")
+
+netherlands_cu <- subset(netherlands_cu, select = c(age, HI))
+netherlands_cu <- netherlands_cu[order(netherlands_cu$age),]
+
+write.csv(netherlands_cu, "all_intakes/netherlands_m_cu.csv")
+
+
+##################################################################
+
+# 36. RUN SPADE FOR SODIUM
+
+na_notna_w <- netherlands_wom[!is.na(netherlands_wom$na), ]
+na_notna_m <- netherlands_men[!is.na(netherlands_men$na), ]
+
+
+netherlands_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
+                           data=na_notna_w, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="women",
+                           output.name = "netherlands_wom_na")
+
+netherlands_na <- subset(netherlands_na, select = c(age, HI))
+netherlands_na <- netherlands_na[order(netherlands_na$age),]
+
+write.csv(netherlands_na, "all_intakes/netherlands_w_na.csv")
+
+# Men
+netherlands_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
+                           data=na_notna_m, seed=123,  backtrans.nr = 3,
+                           dgts.distr = 2, min.age=1, max.age=80,
+                           sex.lab="men",
+                           output.name = "netherlands_men_na")
+
+netherlands_na <- subset(netherlands_na, select = c(age, HI))
+netherlands_na <- netherlands_na[order(netherlands_na$age),]
+
+write.csv(netherlands_na, "all_intakes/netherlands_m_na.csv")
 
