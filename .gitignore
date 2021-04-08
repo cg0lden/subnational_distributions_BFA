@@ -3,35 +3,16 @@
 .RData
 .Ruserdata
 .dta
-documentation/
-data/processed/
-data/raw/Argentina
-data/raw/Bangladesh
-data/raw/Bolivia
-data/raw/Brazil/POF2017_2018_Harvard.csv
-data/raw/Bosnia
-data/raw/Bulgaria
-data/raw/Burkina
-data/raw/Canada
-data/raw/China
-data/raw/India
-data/raw/Italy
-data/raw/Lao
-data/raw/Mexico
-data/raw/Netherlands
-data/raw/Philippines
-data/raw/Romania
-data/raw/Sweden
-data/raw/Uganda
-data/raw/United States
-data/raw/Zambia
-data/raw/Portugal/PRT_IAN-AF_2015-2016_ParticipantData.csv
-data/raw/Portugal/PRT_IAN-AF_2015-2016_DietData_part2.xlsx
-data/raw/Portugal/PRT_IAN-AF_2015-2016_DietData_part1.csv
-data/raw/Portugal/PRT_IAN-AF Pregnant_2015-2016_ParticipantData.csv
-data/raw/Portugal/PRT_IAN-AF Pregnant_2015-2016_DietData.csv
-data/raw/Portugal/Portugal_ingredients.csv
-data/raw/Portugal/GDD-FoodEx2 PRT_IAN-AF_2015-2016_Codebook.xlsx
-all_intakes/
-output/
-old_nhanes/
+
+# Ignore some
+documentation
+all_intakes
+output
+old_nhanes
+
+# Ignore large files
+data/processed
+
+# Ignore raw data
+data/raw
+

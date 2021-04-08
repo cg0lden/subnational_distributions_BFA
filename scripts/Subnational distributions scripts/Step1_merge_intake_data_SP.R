@@ -15,6 +15,10 @@ inputdir <- "/Users/Simone/Dropbox/Github/subnational_distributions/all_intakes"
 outputdir <- "/Users/Simone/Dropbox/Github/subnational_distributions/data/processed/intakes"
 plotdir <- "/Users/Simone/Dropbox/Github/subnational_distributions/data/processed/intakes/Plots"
 
+# Directories (Chris - but these should work on your computer)
+inputdir <- "all_intakes"
+outputdir <- "data/processed"
+plotdir <- "data/figures"
 
 # Merge data
 ################################################################################
@@ -45,7 +49,7 @@ file_key <- tibble(filename=intake_files) %>%
          country=ifelse(grepl("brazil", filename), "Brazil", country),
          country=ifelse(grepl("kenya", filename), "Kenya", country),
          country=ifelse(grepl("ethiopia", filename), "Ethiopia", country),
-         country=ifelse(grepl("sweden", filename), "sweden", country),
+         country=ifelse(grepl("sweden", filename), "Sweden", country),
          country=ifelse(grepl("estonia", filename), "Estonia", country),
          country=ifelse(grepl("netherlands", filename), "Netherlands", country),
          country=ifelse(grepl("bosnia", filename), "Bosnia", country)) %>% 
@@ -253,5 +257,5 @@ data <- data_orig %>%
 ################################################################################
 
 # Export
-saveRDS(data, file=file.path(outputdir, "habitual_nutrient_intakes_by_age_sex_13countries.Rds"))
+saveRDS(data, file=file.path(outputdir, "habitual_nutrient_intakes_by_age_sex_20countries.Rds"))
 
