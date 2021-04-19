@@ -16,12 +16,12 @@ nevotable <- read_sas(here( "data", "raw", "Netherlands", "DNFCS2012_2016","SAS"
 #   clean_names() 
 
 # read in the identifying information
-
+# 4/6/21 added weights
 iddata1 <- read_sas(here( "data", "raw", "Netherlands", "DNFCS2012_2016","SAS", "participant.sas7bdat")) %>% 
-  clean_names() %>% select(p_id, sex, age)
+  clean_names()%>% select(p_id, sex, age, w_demog_season)
 
 iddata2 <- read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_children","SAS", "participant.sas7bdat")) %>% 
-  clean_names()%>% select(p_id, sex, age) %>% mutate(sex=as.numeric(sex))
+  clean_names()%>% select(p_id, sex, age, w_demog_season) %>% mutate(sex=as.numeric(sex))
 
 iddata3 <- read_sas(here( "data", "raw", "Netherlands", "FCS2011_Elderly","SAS", "participant.sas7bdat")) %>% 
   clean_names()%>% select(p_id, sex, age) %>% mutate(sex=as.numeric(sex))
