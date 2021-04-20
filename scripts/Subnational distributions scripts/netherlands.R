@@ -184,6 +184,8 @@ netherlands_spade <- netherlands_nut %>%
   mutate(id=as.integer(id)) %>% distinct()
 
 
+summary(netherlands_spade$id)
+
 # Check for missing or differen ages
 netherlands_missings <- netherlands_spade[is.na(netherlands_spade$age), ] # shows you the missings
 netherlands_missings   

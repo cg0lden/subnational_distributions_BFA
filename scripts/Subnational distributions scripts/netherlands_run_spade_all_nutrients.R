@@ -1,5 +1,6 @@
 # Running SPADE: netherlands data
 # File created on 3/29/21 by Simone Passarelli
+# File updated to add weights on 4/20/21
 
 # Load packages
 library(SPADE.RIVMNwCore)
@@ -32,7 +33,7 @@ range(netherlands_men$age)
 # Women
 netherlands_vitb12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                          data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
+                         dgts.distr = 2, min.age=1, max.age=94,
                          sex.lab="women", weights.name ="weights", 
                          output.name = "netherlands_wom_vitb12")
 
@@ -41,11 +42,13 @@ netherlands_vitb12 <- netherlands_vitb12[order(netherlands_vitb12$age),]
 
 write.csv(netherlands_vitb12, "all_intakes/netherlands_w_vitb12.csv")
 
+table(netherlands_men$age)
+
 # Men
 netherlands_vitb12 <- f.spade(frml.ia=vitb12~fp(age), frml.if="no.if", 
                          data=netherlands_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
-                         sex.lab="women", weights.name ="weights",
+                         dgts.distr = 2, min.age=1, max.age=90,
+                         sex.lab="men", weights.name ="weights",
                          output.name = "netherlands_men_vitb12")
 
 netherlands_vitb12 <- subset(netherlands_vitb12, select = c(age, HI))
@@ -59,7 +62,7 @@ write.csv(netherlands_vitb12, "all_intakes/netherlands_m_vitb12.csv")
 # Women
 netherlands_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_iron")
 
@@ -71,8 +74,8 @@ write.csv(netherlands_iron, "all_intakes/netherlands_w_iron.csv")
 # Men
 netherlands_iron <- f.spade(frml.ia=iron~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        output.name = "netherlands_men_iron")
 
 netherlands_iron <- subset(netherlands_iron, select = c(age, HI))
@@ -84,7 +87,7 @@ write.csv(netherlands_iron, "all_intakes/netherlands_m_iron.csv")
 # 3. RUN SPADE FOR ZINC
 netherlands_zinc_w <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
+                         dgts.distr = 2, min.age=1, max.age=94,
                          sex.lab="women", weights.name ="weights",
                          output.name = "netherlands_wom_zinc")
 
@@ -96,8 +99,8 @@ write.csv(netherlands_zinc_w, "all_intakes/netherlands_w_zinc.csv")
 # Men
 netherlands_zinc_m <- f.spade(frml.ia=zinc~fp(age), frml.if="no.if", 
                          data=netherlands_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
-                         sex.lab="women", weights.name ="weights",
+                         dgts.distr = 2, min.age=1, max.age=90,
+                         sex.lab="men", weights.name ="weights",
                          output.name = "netherlands_men_zinc")
 
 netherlands_zinc_m <- subset(netherlands_zinc_m, select = c(age, HI))
@@ -111,7 +114,7 @@ write.csv(netherlands_zinc_m, "all_intakes/netherlands_m_zinc.csv")
 
 netherlands_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_vita")
 
@@ -123,8 +126,8 @@ write.csv(netherlands_vita, "all_intakes/netherlands_w_vita.csv")
 # Men
 netherlands_vita <- f.spade(frml.ia=vita~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        output.name = "netherlands_men_vita")
 
 netherlands_vita <- subset(netherlands_vita, select = c(age, HI))
@@ -138,7 +141,7 @@ write.csv(netherlands_vita, "all_intakes/netherlands_m_vita.csv")
 
 netherlands_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_calc")
 
@@ -150,8 +153,8 @@ write.csv(netherlands_calc, "all_intakes/netherlands_w_calc.csv")
 # Men
 netherlands_calc <- f.spade(frml.ia=calc~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        output.name = "netherlands_men_calc")
 
 netherlands_calc <- subset(netherlands_calc, select = c(age, HI))
@@ -166,7 +169,7 @@ write.csv(netherlands_calc, "all_intakes/netherlands_m_calc.csv")
 
 netherlands_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
+                          dgts.distr = 2, min.age=1, max.age=94,
                           sex.lab="women", weights.name ="weights",
                           output.name = "netherlands_wom_omega_3")
 
@@ -178,8 +181,8 @@ write.csv(netherlands_omega_3, "all_intakes/netherlands_w_omega_3.csv")
 # Men
 netherlands_omega_3 <- f.spade(frml.ia=omega_3~fp(age), frml.if=omega_3 ~cs(age),
                           data=netherlands_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
-                          sex.lab="women", weights.name ="weights",
+                          dgts.distr = 2, min.age=1, max.age=90,
+                          sex.lab="men", weights.name ="weights",
                           output.name = "netherlands_men_omega_3")
 
 netherlands_omega_3 <- subset(netherlands_omega_3, select = c(age, HI))
@@ -193,7 +196,7 @@ write.csv(netherlands_omega_3, "all_intakes/netherlands_m_omega_3.csv")
 
 netherlands_energy <- f.spade(frml.ia=energy~fp(age), frml.if="no.if", 
                          data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
+                         dgts.distr = 2, min.age=1, max.age=94,
                          sex.lab="women", weights.name ="weights",
                          output.name = "netherlands_wom_energy")
 
@@ -205,8 +208,8 @@ write.csv(netherlands_energy, "all_intakes/netherlands_w_energy.csv")
 # Men
 netherlands_energy <- f.spade(frml.ia=energy~fp(age), frml.if="no.if", 
                          data=netherlands_men, seed=123,  backtrans.nr = 3,
-                         dgts.distr = 2, min.age=1, max.age=80,
-                         sex.lab="women", weights.name ="weights",
+                         dgts.distr = 2, min.age=1, max.age=90,
+                         sex.lab="men", weights.name ="weights",
                          output.name = "netherlands_men_energy")
 
 netherlands_energy <- subset(netherlands_energy, select = c(age, HI))
@@ -220,7 +223,7 @@ write.csv(netherlands_energy, "all_intakes/netherlands_m_energy.csv")
 
 netherlands_protein <- f.spade(frml.ia=protein~fp(age), frml.if="no.if", 
                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
+                          dgts.distr = 2, min.age=1, max.age=94,
                           sex.lab="women", weights.name ="weights",
                           output.name = "netherlands_wom_protein")
 
@@ -232,8 +235,8 @@ write.csv(netherlands_protein, "all_intakes/netherlands_w_protein.csv")
 # Men
 netherlands_protein <- f.spade(frml.ia=protein~fp(age), frml.if="no.if", 
                           data=netherlands_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
-                          sex.lab="women", weights.name ="weights",
+                          dgts.distr = 2, min.age=1, max.age=90,
+                          sex.lab="men", weights.name ="weights",
                           output.name = "netherlands_men_protein")
 
 netherlands_protein <- subset(netherlands_protein, select = c(age, HI))
@@ -247,7 +250,7 @@ write.csv(netherlands_protein, "all_intakes/netherlands_m_protein.csv")
 
 netherlands_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_carb")
 
@@ -259,8 +262,8 @@ write.csv(netherlands_carb, "all_intakes/netherlands_w_carb.csv")
 # Men
 netherlands_carb <- f.spade(frml.ia=carb~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        output.name = "netherlands_men_carb")
 
 netherlands_carb <- subset(netherlands_carb, select = c(age, HI))
@@ -274,7 +277,7 @@ write.csv(netherlands_carb, "all_intakes/netherlands_m_carb.csv")
 
 netherlands_fiber <- f.spade(frml.ia=fiber~fp(age), frml.if="no.if", 
                         data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=1, max.age=80,
+                        dgts.distr = 2, min.age=1, max.age=94,
                         sex.lab="women", weights.name ="weights",
                         output.name = "netherlands_wom_fiber")
 
@@ -286,8 +289,8 @@ write.csv(netherlands_fiber, "all_intakes/netherlands_w_fiber.csv")
 # Men
 netherlands_fiber <- f.spade(frml.ia=fiber~fp(age), frml.if="no.if", 
                         data=netherlands_men, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=1, max.age=80,
-                        sex.lab="women", weights.name ="weights",
+                        dgts.distr = 2, min.age=1, max.age=90,
+                        sex.lab="men", weights.name ="weights",
                         output.name = "netherlands_men_fiber")
 
 netherlands_fiber <- subset(netherlands_fiber, select = c(age, HI))
@@ -301,7 +304,7 @@ write.csv(netherlands_fiber, "all_intakes/netherlands_m_fiber.csv")
 
 netherlands_fat <- f.spade(frml.ia=fat~fp(age), frml.if="no.if", 
                       data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                      dgts.distr = 2, min.age=1, max.age=80,
+                      dgts.distr = 2, min.age=1, max.age=94,
                       sex.lab="women", weights.name ="weights",
                       output.name = "netherlands_wom_fat")
 
@@ -313,8 +316,8 @@ write.csv(netherlands_fat, "all_intakes/netherlands_w_fat.csv")
 # Men
 netherlands_fat <- f.spade(frml.ia=fat~fp(age), frml.if="no.if", 
                       data=netherlands_men, seed=123,  backtrans.nr = 3,
-                      dgts.distr = 2, min.age=1, max.age=80,
-                      sex.lab="women", weights.name ="weights",
+                      dgts.distr = 2, min.age=1, max.age=90,
+                      sex.lab="men", weights.name ="weights",
                       output.name = "netherlands_men_fat")
 
 netherlands_fat <- subset(netherlands_fat, select = c(age, HI))
@@ -329,7 +332,7 @@ write.csv(netherlands_fat, "all_intakes/netherlands_m_fat.csv")
 
 netherlands_mufa <- f.spade(frml.ia=mufa~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_mufa")
@@ -342,8 +345,8 @@ write.csv(netherlands_mufa, "all_intakes/netherlands_w_mufa.csv")
 # Men
 netherlands_mufa <- f.spade(frml.ia=mufa~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_mufa")
 
@@ -358,7 +361,7 @@ write.csv(netherlands_mufa, "all_intakes/netherlands_m_mufa.csv")
 
 netherlands_pufa <- f.spade(frml.ia=pufa~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_pufa")
@@ -371,8 +374,8 @@ write.csv(netherlands_pufa, "all_intakes/netherlands_w_pufa.csv")
 # Men
 netherlands_pufa <- f.spade(frml.ia=pufa~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_pufa")
 
@@ -387,7 +390,7 @@ write.csv(netherlands_pufa, "all_intakes/netherlands_m_pufa.csv")
 
 netherlands_thia <- f.spade(frml.ia=thia~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_thia")
@@ -400,8 +403,8 @@ write.csv(netherlands_thia, "all_intakes/netherlands_w_thia.csv")
 # Men
 netherlands_thia <- f.spade(frml.ia=thia~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_thia")
 
@@ -416,7 +419,7 @@ write.csv(netherlands_thia, "all_intakes/netherlands_m_thia.csv")
 
 netherlands_ribo <- f.spade(frml.ia=ribo~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_ribo")
@@ -429,8 +432,8 @@ write.csv(netherlands_ribo, "all_intakes/netherlands_w_ribo.csv")
 # Men
 netherlands_ribo <- f.spade(frml.ia=ribo~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_ribo")
 
@@ -447,7 +450,7 @@ niac_notna_m <- netherlands_men[!is.na(netherlands_men$niac), ]
 
 netherlands_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
                        data=niac_notna_w, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_niac")
 
@@ -459,8 +462,8 @@ write.csv(netherlands_niac, "all_intakes/netherlands_w_niac.csv")
 # Men
 netherlands_niac <- f.spade(frml.ia=niac~fp(age), frml.if="no.if", 
                        data=niac_notna_m, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_niac")
 
@@ -475,7 +478,7 @@ write.csv(netherlands_niac, "all_intakes/netherlands_m_niac.csv")
 
 netherlands_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
                         data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=1, max.age=80,
+                        dgts.distr = 2, min.age=1, max.age=94,
                         sex.lab="women", weights.name ="weights",
                         
                         output.name = "netherlands_wom_vitb6")
@@ -488,8 +491,8 @@ write.csv(netherlands_vitb6, "all_intakes/netherlands_w_vitb6.csv")
 # Men
 netherlands_vitb6 <- f.spade(frml.ia=vitb6~fp(age), frml.if="no.if", 
                         data=netherlands_men, seed=123,  backtrans.nr = 3,
-                        dgts.distr = 2, min.age=1, max.age=80,
-                        sex.lab="women", weights.name ="weights",
+                        dgts.distr = 2, min.age=1, max.age=90,
+                        sex.lab="men", weights.name ="weights",
                         
                         output.name = "netherlands_men_vitb6")
 
@@ -507,7 +510,7 @@ fola_notna_m <- netherlands_men[!is.na(netherlands_men$fola), ]
 
 netherlands_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
                        data=fola_notna_w, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_fola")
 
@@ -519,8 +522,8 @@ write.csv(netherlands_fola, "all_intakes/netherlands_w_fola.csv")
 # Men
 netherlands_fola <- f.spade(frml.ia=fola~fp(age), frml.if="no.if", 
                        data=fola_notna_m, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_fola")
 
@@ -535,7 +538,7 @@ write.csv(netherlands_fola, "all_intakes/netherlands_m_fola.csv")
 
 netherlands_vitd <- f.spade(frml.ia=vitd~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_vitd")
@@ -548,8 +551,8 @@ write.csv(netherlands_vitd, "all_intakes/netherlands_w_vitd.csv")
 # Men
 netherlands_vitd <- f.spade(frml.ia=vitd~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_vitd")
 
@@ -564,7 +567,7 @@ write.csv(netherlands_vitd, "all_intakes/netherlands_m_vitd.csv")
 
 netherlands_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_vitc")
@@ -577,8 +580,8 @@ write.csv(netherlands_vitc, "all_intakes/netherlands_w_vitc.csv")
 # Men
 netherlands_vitc <- f.spade(frml.ia=vitc~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_vitc")
 
@@ -593,7 +596,7 @@ write.csv(netherlands_vitc, "all_intakes/netherlands_m_vitc.csv")
 
 netherlands_phos <- f.spade(frml.ia=phos~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_phos")
@@ -606,8 +609,8 @@ write.csv(netherlands_phos, "all_intakes/netherlands_w_phos.csv")
 # Men
 netherlands_phos <- f.spade(frml.ia=phos~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_phos")
 
@@ -622,7 +625,7 @@ write.csv(netherlands_phos, "all_intakes/netherlands_m_phos.csv")
 
 netherlands_mg <- f.spade(frml.ia=mg~fp(age), frml.if="no.if", 
                      data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=1, max.age=80,
+                     dgts.distr = 2, min.age=1, max.age=94,
                      sex.lab="women", weights.name ="weights",
                      
                      output.name = "netherlands_wom_mg")
@@ -635,8 +638,8 @@ write.csv(netherlands_mg, "all_intakes/netherlands_w_mg.csv")
 # Men
 netherlands_mg <- f.spade(frml.ia=mg~fp(age), frml.if="no.if", 
                      data=netherlands_men, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=1, max.age=80,
-                     sex.lab="women", weights.name ="weights",
+                     dgts.distr = 2, min.age=1, max.age=90,
+                     sex.lab="men", weights.name ="weights",
                      
                      output.name = "netherlands_men_mg")
 
@@ -651,7 +654,7 @@ write.csv(netherlands_mg, "all_intakes/netherlands_m_mg.csv")
 
 netherlands_pota <- f.spade(frml.ia=pota~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        
                        output.name = "netherlands_wom_pota")
@@ -664,8 +667,8 @@ write.csv(netherlands_pota, "all_intakes/netherlands_w_pota.csv")
 # Men
 netherlands_pota <- f.spade(frml.ia=pota~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        
                        output.name = "netherlands_men_pota")
 
@@ -680,7 +683,7 @@ write.csv(netherlands_pota, "all_intakes/netherlands_m_pota.csv")
 
 netherlands_vite <- f.spade(frml.ia=vite~fp(age), frml.if="no.if", 
                        data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
+                       dgts.distr = 2, min.age=1, max.age=94,
                        sex.lab="women", weights.name ="weights",
                        output.name = "netherlands_wom_vite")
 
@@ -692,8 +695,8 @@ write.csv(netherlands_vite, "all_intakes/netherlands_w_vite.csv")
 # Men
 netherlands_vite <- f.spade(frml.ia=vite~fp(age), frml.if="no.if", 
                        data=netherlands_men, seed=123,  backtrans.nr = 3,
-                       dgts.distr = 2, min.age=1, max.age=80,
-                       sex.lab="women", weights.name ="weights",
+                       dgts.distr = 2, min.age=1, max.age=90,
+                       sex.lab="men", weights.name ="weights",
                        output.name = "netherlands_men_vite")
 
 netherlands_vite <- subset(netherlands_vite, select = c(age, HI))
@@ -708,7 +711,7 @@ write.csv(netherlands_vite, "all_intakes/netherlands_m_vite.csv")
 
 netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if=ala ~cs(age), 
                           data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
+                          dgts.distr = 2, min.age=1, max.age=94,
                           sex.lab="women", weights.name ="weights",
                           
                           output.name = "netherlands_wom_ala")
@@ -721,8 +724,8 @@ write.csv(netherlands_ala, "all_intakes/netherlands_w_ala.csv")
 # Men
 netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if=ala ~cs(age), 
                           data=netherlands_men, seed=123,  backtrans.nr = 3,
-                          dgts.distr = 2, min.age=1, max.age=80,
-                          sex.lab="women", weights.name ="weights",
+                          dgts.distr = 2, min.age=1, max.age=90,
+                          sex.lab="men", weights.name ="weights",
                           
                           output.name = "netherlands_men_ala")
 
@@ -738,7 +741,7 @@ write.csv(netherlands_ala, "all_intakes/netherlands_m_ala.csv")
 
 netherlands_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
                      data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=1, max.age=80,
+                     dgts.distr = 2, min.age=1, max.age=94,
                      sex.lab="women", weights.name ="weights",
                      
                      output.name = "netherlands_wom_se")
@@ -751,8 +754,8 @@ write.csv(netherlands_se, "all_intakes/netherlands_w_se.csv")
 # Men
 netherlands_se <- f.spade(frml.ia=se~fp(age), frml.if="no.if", 
                      data=netherlands_men, seed=123,  backtrans.nr = 3,
-                     dgts.distr = 2, min.age=1, max.age=80,
-                     sex.lab="women", weights.name ="weights",
+                     dgts.distr = 2, min.age=1, max.age=90,
+                     sex.lab=" men", weights.name ="weights",
                      
                      output.name = "netherlands_men_se")
 
@@ -772,7 +775,7 @@ betacarot_notna_m <- netherlands_men[!is.na(netherlands_men$betacarot), ]
 
 netherlands_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
                             data=betacarot_notna_w, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=1, max.age=80,
+                            dgts.distr = 2, min.age=1, max.age=94,
                             sex.lab="women", weights.name ="weights",
                             output.name = "netherlands_wom_betacarot")
 
@@ -784,8 +787,8 @@ write.csv(netherlands_betacarot, "all_intakes/netherlands_w_betacarot.csv")
 # Men
 netherlands_betacarot <- f.spade(frml.ia=betacarot~fp(age), frml.if="no.if", 
                             data=betacarot_notna_m, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=1, max.age=80,
-                            sex.lab="women", weights.name ="weights",
+                            dgts.distr = 2, min.age=1, max.age=90,
+                            sex.lab="men", weights.name ="weights",
                             output.name = "netherlands_men_betacarot")
 
 netherlands_betacarot <- subset(netherlands_betacarot, select = c(age, HI))
@@ -804,7 +807,7 @@ ala_notna_m <- netherlands_men[!is.na(netherlands_men$ala), ]
 
 netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if="no.if", 
                                  data=ala_notna_w, seed=123,  backtrans.nr = 3,
-                                 dgts.distr = 2, min.age=1, max.age=80,
+                                 dgts.distr = 2, min.age=1, max.age=94,
                                  sex.lab="women", weights.name ="weights",
                                  output.name = "netherlands_wom_ala")
 
@@ -816,8 +819,8 @@ write.csv(netherlands_ala, "all_intakes/netherlands_w_ala.csv")
 # Men
 netherlands_ala <- f.spade(frml.ia=ala~fp(age), frml.if="no.if", 
                                  data=ala_notna_m, seed=123,  backtrans.nr = 3,
-                                 dgts.distr = 2, min.age=1, max.age=80,
-                                 sex.lab="women", weights.name ="weights",
+                                 dgts.distr = 2, min.age=1, max.age=90,
+                                 sex.lab="men", weights.name ="weights",
                                  output.name = "netherlands_men_ala")
 
 netherlands_ala <- subset(netherlands_ala, select = c(age, HI))
@@ -835,7 +838,7 @@ la_notna_m <- netherlands_men[!is.na(netherlands_men$la), ]
 
 netherlands_la <- f.spade(frml.ia=la~fp(age), frml.if="no.if", 
                            data=la_notna_w, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_la")
 
@@ -847,8 +850,8 @@ write.csv(netherlands_la, "all_intakes/netherlands_w_la.csv")
 # Men
 netherlands_la <- f.spade(frml.ia=la~fp(age), frml.if="no.if", 
                            data=la_notna_m, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_la")
 
 netherlands_la <- subset(netherlands_la, select = c(age, HI))
@@ -867,7 +870,7 @@ iod_notna_m <- netherlands_men[!is.na(netherlands_men$iod), ]
 
 netherlands_iod <- f.spade(frml.ia=iod~fp(age), frml.if="no.if", 
                            data=iod_notna_w, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_iod")
 
@@ -879,8 +882,8 @@ write.csv(netherlands_iod, "all_intakes/netherlands_w_iod.csv")
 # Men
 netherlands_iod <- f.spade(frml.ia=iod~fp(age), frml.if="no.if", 
                            data=iod_notna_m, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_iod")
 
 netherlands_iod <- subset(netherlands_iod, select = c(age, HI))
@@ -898,7 +901,7 @@ vitk_notna_m <- netherlands_men[!is.na(netherlands_men$vitk), ]
 
 netherlands_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
                            data=vitk_notna_w, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_vitk")
 
@@ -910,8 +913,8 @@ write.csv(netherlands_vitk, "all_intakes/netherlands_w_vitk.csv")
 # Men
 netherlands_vitk <- f.spade(frml.ia=vitk~fp(age), frml.if="no.if", 
                            data=vitk_notna_m, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_vitk")
 
 netherlands_vitk <- subset(netherlands_vitk, select = c(age, HI))
@@ -926,7 +929,7 @@ write.csv(netherlands_vitk, "all_intakes/netherlands_m_vitk.csv")
 
 netherlands_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
                             data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=1, max.age=80,
+                            dgts.distr = 2, min.age=1, max.age=94,
                             sex.lab="women", weights.name ="weights",
                             output.name = "netherlands_wom_cholest")
 
@@ -938,8 +941,8 @@ write.csv(netherlands_cholest, "all_intakes/netherlands_w_cholest.csv")
 # Men
 netherlands_cholest <- f.spade(frml.ia=cholest~fp(age), frml.if="no.if", 
                             data=netherlands_men, seed=123,  backtrans.nr = 3,
-                            dgts.distr = 2, min.age=1, max.age=80,
-                            sex.lab="women", weights.name ="weights",
+                            dgts.distr = 2, min.age=1, max.age=90,
+                            sex.lab="men", weights.name ="weights",
                             output.name = "netherlands_men_cholest")
 
 netherlands_cholest <- subset(netherlands_cholest, select = c(age, HI))
@@ -954,7 +957,7 @@ write.csv(netherlands_cholest, "all_intakes/netherlands_m_cholest.csv")
 
 netherlands_sfa <- f.spade(frml.ia=sfa~fp(age), frml.if="no.if", 
                                data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                               dgts.distr = 2, min.age=1, max.age=80,
+                               dgts.distr = 2, min.age=1, max.age=94,
                                sex.lab="women", weights.name ="weights",
                                output.name = "netherlands_wom_sfa")
 
@@ -966,8 +969,8 @@ write.csv(netherlands_sfa, "all_intakes/netherlands_w_sfa.csv")
 # Men
 netherlands_sfa <- f.spade(frml.ia=sfa~fp(age), frml.if="no.if", 
                                data=netherlands_men, seed=123,  backtrans.nr = 3,
-                               dgts.distr = 2, min.age=1, max.age=80,
-                               sex.lab="women", weights.name ="weights",
+                               dgts.distr = 2, min.age=1, max.age=90,
+                               sex.lab="men", weights.name ="weights",
                                output.name = "netherlands_men_sfa")
 
 netherlands_sfa <- subset(netherlands_sfa, select = c(age, HI))
@@ -981,7 +984,7 @@ write.csv(netherlands_sfa, "all_intakes/netherlands_m_sfa.csv")
 
 netherlands_tfa <- f.spade(frml.ia=tfa~fp(age), frml.if="no.if", 
                            data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_tfa")
 
@@ -993,8 +996,8 @@ write.csv(netherlands_tfa, "all_intakes/netherlands_w_tfa.csv")
 # Men
 netherlands_tfa <- f.spade(frml.ia=tfa~fp(age), frml.if="no.if", 
                            data=netherlands_men, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_tfa")
 
 netherlands_tfa <- subset(netherlands_tfa, select = c(age, HI))
@@ -1008,7 +1011,7 @@ write.csv(netherlands_tfa, "all_intakes/netherlands_m_tfa.csv")
 
 netherlands_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
                            data=netherlands_wom, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_cu")
 
@@ -1020,8 +1023,8 @@ write.csv(netherlands_cu, "all_intakes/netherlands_w_cu.csv")
 # Men
 netherlands_cu <- f.spade(frml.ia=cu~fp(age), frml.if="no.if", 
                            data=netherlands_men, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_cu")
 
 netherlands_cu <- subset(netherlands_cu, select = c(age, HI))
@@ -1040,7 +1043,7 @@ na_notna_m <- netherlands_men[!is.na(netherlands_men$na), ]
 
 netherlands_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
                            data=na_notna_w, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
+                           dgts.distr = 2, min.age=1, max.age=94,
                            sex.lab="women", weights.name ="weights",
                            output.name = "netherlands_wom_na")
 
@@ -1052,8 +1055,8 @@ write.csv(netherlands_na, "all_intakes/netherlands_w_na.csv")
 # Men
 netherlands_na <- f.spade(frml.ia=na~fp(age), frml.if="no.if", 
                            data=na_notna_m, seed=123,  backtrans.nr = 3,
-                           dgts.distr = 2, min.age=1, max.age=80,
-                           sex.lab="women", weights.name ="weights",
+                           dgts.distr = 2, min.age=1, max.age=90,
+                           sex.lab="men", weights.name ="weights",
                            output.name = "netherlands_men_na")
 
 netherlands_na <- subset(netherlands_na, select = c(age, HI))
