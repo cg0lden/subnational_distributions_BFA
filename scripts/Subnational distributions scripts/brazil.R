@@ -27,9 +27,17 @@ write_csv(brazil_fish, here( "data", "raw", "Brazil", "brazil_ingredients.csv"))
 ingredients <- brazil %>% select(food_group, cod_item, food_description) %>% distinct()
 
 
+# Merge in epa+dha file
+brazil_omega <- read_excel(here("data", "raw", "brazil", "brazil_ingredients_trans_dha_epa.xlsx")) %>% 
+  select("EPA+DHA", "cod_item") %>% rename("omega_3_100"="EPA+DHA") 
+
+
 # rename variables and sum them 
 
 brazil_nut <- brazil %>% mutate_all(~replace(., is.na(.), 0)) %>% 
+  left_join(brazil_omega, by="cod_item") %>% 
+  mutate(omega_3=(qtd_final*omega_3_100)/100) %>% 
+  mutate_all(~replace(., is.na(.), 0)) %>% 
  filter(food_description !="VITAMINAS, MINERAIS E OUTROS") %>% 
   select(!c(strata_pof, group_code, food_group, cod_item, food_description, method_preparation, meal_occasion, hour, qtd_final, energia_kj, atypical_day)) %>% 
   rename(mday=day, id=id_num, age=age_years, weight=sample_weight_pof) %>% 
@@ -60,7 +68,8 @@ brazil_nut <- brazil %>% mutate_all(~replace(., is.na(.), 0)) %>%
                                              mg=sum(magnesio),
                                              na=sum(sodio),
                                              cu=sum(cobre),
-                                             pota=sum(potassio)) %>% distinct() 
+                                             pota=sum(potassio),
+                                             omega_3=sum(omega_3)) %>% distinct() 
 
 
 # brazil_merge_2 <-  merge(brazil_merge, brazil_weights, by.all="id", all.x=T)

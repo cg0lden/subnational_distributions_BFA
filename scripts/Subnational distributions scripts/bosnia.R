@@ -9,6 +9,11 @@ library(janitor)
 library(readxl)
 
 # Load the raw bosnia data 
+bosnia_weights <- read_sav(here( "data", "raw", "Bosnia", "weights.sav")) %>% clean_names() %>% 
+  select(finalni_ponder, subject_id) %>% rename(id=subject_id) 
+
+
+
 
 bosnia <- read_sas(here( "data", "raw", "Bosnia", "bhsurvey2017simone.sas7bdat")) %>% clean_names() %>% 
   select(!c(marital:water_2)) %>% select(!c(finalni_ponder:samehouse)) %>% 
@@ -23,12 +28,14 @@ bosnia <- read_sas(here( "data", "raw", "Bosnia", "bhsurvey2017simone.sas7bdat")
   mutate(epa = replace_na(epa, 0)) %>% mutate(dha = replace_na(dha, 0))  %>% mutate(omega_3=(epa+dha)) %>% 
   mutate(sex=case_when(gender=="F" ~ 2,
                        gender=="M" ~ 1)) %>% select(!c(gender, epa, dha)) %>% 
+  # Join in the corrected sample weights
+  left_join(bosnia_weights) %>% rename(weights=finalni_ponder) %>% filter(weights>0) %>% 
   # Rename and format variables for spade
   group_by(id) %>%
   mutate(id = cur_group_id()) %>%
   mutate(id=as.integer(id)) %>% 
   # Make an mday id
-  mutate(mday= row_number())%>% ungroup()
+  mutate(mday= row_number()) %>% ungroup()
 
 
 names(bosnia)

@@ -18,13 +18,14 @@ nevotable <- read_sas(here( "data", "raw", "Netherlands", "DNFCS2012_2016","SAS"
 # read in the identifying information
 # 4/6/21 added weights
 iddata1 <- read_sas(here( "data", "raw", "Netherlands", "DNFCS2012_2016","SAS", "participant.sas7bdat")) %>% 
-  clean_names()%>% select(p_id, sex, age, w_demog_season)
+  clean_names()%>% select(p_id, sex, age, w_demog_season) %>% rename(weights=w_demog_season)
 
 iddata2 <- read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_children","SAS", "participant.sas7bdat")) %>% 
-  clean_names()%>% select(p_id, sex, age, w_demog_season) %>% mutate(sex=as.numeric(sex))
+  clean_names()%>% select(p_id, sex, age, w_demog_season) %>% mutate(sex=as.numeric(sex)) %>% rename(weights=w_demog_season)
 
 iddata3 <- read_sas(here( "data", "raw", "Netherlands", "FCS2011_Elderly","SAS", "participant.sas7bdat")) %>% 
-  clean_names()%>% select(p_id, sex, age) %>% mutate(sex=as.numeric(sex))
+  clean_names() %>% select(p_id, sex, age, w_id_age_sex_municip_season_wknd) %>% mutate(sex=as.numeric(sex)) %>% 
+  rename(weights=w_id_age_sex_municip_season_wknd)
 
 # Load the raw netherlands data 
 
@@ -55,7 +56,7 @@ netherlands2 <-read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_childre
   mutate(b_carotene=NA_real_, la=NA_real_, ala=NA_real_, vitk=NA_real_, iodine=NA_real_, 
          na=NA_real_, vit_b3=NA_real_, type="child") %>% left_join(iddata2) %>% drop_na(ca) %>% 
   rename(mday=m_day) %>% 
-  group_by(p_id, mday, age, type, sex) %>% 
+  group_by(p_id, mday, age, type, sex, weights) %>% 
   summarize(kcal=sum(kcal),
             prot=sum(prot),
             fat=sum(fat),
@@ -70,7 +71,7 @@ netherlands2 <-read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_childre
             vit_b1=sum(vit_b1),
             vit_b2=sum(vit_b2),
             vit_b6=sum(vit_b6),
-            fola=sum(folate),
+            folate=sum(folate),
             vit_b12=sum(vit_b12),
             vit_c=sum(vit_c),
             vit_d=sum(vit_d),
@@ -92,7 +93,7 @@ netherlands2 <-read_sas(here( "data", "raw", "Netherlands", "DNFCS_young_childre
             na=sum(na),
             vit_b3=sum(vit_b3)) %>% 
   #merge in the omega-3 data
-  left_join(child_omega_3, by=c("p_id", "mday"))
+  left_join(child_omega_3, by=c("p_id", "mday")) %>% mutate(mday=as.numeric(mday))
 
 # 2011 elderly
 netherlands3 <-read_sas(here( "data", "raw", "Netherlands", "FCS2011_Elderly", "SAS", "consumption_food_nut_per_day.sas7bdat")) %>% 
@@ -100,7 +101,8 @@ netherlands3 <-read_sas(here( "data", "raw", "Netherlands", "FCS2011_Elderly", "
   select(!c(e_nprot: e_norg_acid)) %>% select(!c(fatty_a, ufa_cis, epa, dha, org_acid, fibre_mj, fe_haem, fe_nonhaem))%>% 
   select(!c(cd_id, enkcal_excl, e_nmj, e_nmj_excl, prot_veg, prot_ani, modisac, polysac, syn_fol, water, foleq, ret, re)) %>% 
   rename(omega_3=marine, phos=ph, kcal=enkcal, carb=carbo, retinol=rae) %>%  
-  mutate(vitk=NA_real_, folate=NA_real_, vit_b3=NA_real_, type="elderly")%>% left_join(iddata3) %>% rename(mday=m_day) 
+  mutate(vitk=NA_real_, folate=NA_real_, vit_b3=NA_real_, type="elderly")%>% left_join(iddata3) %>% 
+  rename(mday=m_day) %>% mutate(mday=as.numeric(mday))
 
 
 
@@ -117,9 +119,11 @@ names(netherlands2)
 names(netherlands3)
 
 #Combine the elderly, adult, and child datasets
-netherlands <- rbind(netherlands1, netherlands2, netherlands3) %>% mutate(mday=as.numeric(mday))
+netherlands <- rbind(netherlands1, netherlands2, netherlands3) 
 
+# Trouble matching names
 
+identical(names(netherlands1), names(netherlands2) )
 
 # see which variables are blank
 summary(netherlands)
@@ -141,6 +145,7 @@ names(netherlands)
 netherlands_nut <- netherlands %>% 
   # mutate_all(~replace(., is.na(.), 0)) %>% 
   rename(vita = retinol,
+         fola=folate,
             calc = ca,
          iron=fe,
             vite=vit_e,
@@ -164,9 +169,16 @@ netherlands_nut <- netherlands %>%
 
 # netherlands_merge_2 <-  merge(netherlands_merge, netherlands_weights, by.all="id", all.x=T)
 
+# Need to update the id numbers because they are redundant
+
+summary(netherlands1$p_id)
+summary(netherlands2$p_id)
+summary(netherlands3$p_id)
+
+# on 4/20/21: I updated the id's to be grouped by dataset type so that they are unique
 # Rename and format variables for spade
 netherlands_spade <- netherlands_nut %>% 
-  group_by(id) %>%
+  group_by(id, type) %>%
   mutate(id = cur_group_id()) %>%
   ungroup() %>%
   mutate(id=as.integer(id)) %>% distinct()
@@ -175,18 +187,6 @@ netherlands_spade <- netherlands_nut %>%
 # Check for missing or differen ages
 netherlands_missings <- netherlands_spade[is.na(netherlands_spade$age), ] # shows you the missings
 netherlands_missings   
-
-#No missing ages
-# 
-# #Replace weights with weight from day 1
-# ids_data <- unique(netherlands_spade$id)
-# for (idid in ids_data){
-#   data.id <- netherlands_spade[netherlands_spade$id == idid, ]
-#   if(nrow(data.id) > 1){
-#     netherlands_spade[netherlands_spade$id == idid,"weight"] <- 
-#       min(netherlands_spade[netherlands_spade$id == idid,"weight"])
-#   }
-# }
 
 #Replace any cases where the ages are different for the same individual
 
@@ -198,6 +198,8 @@ for (idid in ids_data){
       min(netherlands_spade[netherlands_spade$id == idid,"age"])
   }
 }
+
+
 
 save(netherlands_spade, file=here("data", "processed","Subnational distributions", "netherlands"), replace)   
 
