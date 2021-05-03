@@ -14,5 +14,4 @@ old_nhanes
 data/processed
 
 # Ignore raw data
-data/raw
-
+data/raw/Subnational distributions paper data
