@@ -1,0 +1,25 @@
+FAO-WHO Gift data acknowledgment
+BOL-00006
+
+The dataset you are going to download was shared through FAO/WHO GIFT by:
+
+Department of Food Technology, Engineering and Nutrition, Lund University, Sweden
+
+Centro de Alimentos y Productos Naturales, Universidad Mayor de San Sim&oacute;n, Bolivia 
+
+We thank them for their generous contribution.
+
+By downloading these dataset you accept to:
+
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;comply with all applicable laws, including, without limitation, privacy laws, intellectual property laws, anti-spam laws;
+
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; not publicly represent or imply that FAO is participating in, or has sponsored, approved or endorsed the manner or purpose of your use of the database;
+
+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; provide the following acknowledgment to the contributor whenever publishing or presenting publicly this data or its derivatives:&nbsp;
+
+Lazarte, CE. (2014). Nutritional Assessment in a Rural Area of Bolivia. A Study of Zinc and Iron Deficiencies and Bioavailability. Doctoral Dissertation. Department of Food Technology, Engineering and Nutrition, Lund University, Sweden&quot;
+
+Or shortly:
+
+Lazarte CE; 2014
+
