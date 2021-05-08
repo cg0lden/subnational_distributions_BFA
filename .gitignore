@@ -5,10 +5,11 @@
 .dta
 
 # Ignore some
-documentation
-all_intakes
-output
-old_nhanes
+/documentation
+/all_intakes
+/output
+/old_nhanes
+/0_SPADE_OUTPUT
 
 # Ignore large files
 data/processed
