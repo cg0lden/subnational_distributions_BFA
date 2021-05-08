@@ -10,10 +10,8 @@ documentation/
 # Ignore large files
 data/processed/
 
-# Ignore raw data
-data/raw/Subnational distributions paper data
-scripts/Not used
-data/Bangladesh
-data/Zambia
-data/Uganda
-data/Burkina
+scripts/Not used/
+data/Bangladesh/
+data/Zambia/
+data/Uganda/
+data/Burkina/
