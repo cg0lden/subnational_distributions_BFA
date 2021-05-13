@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.dta
+
+# Ignore some
+documentation/
+
+# Ignore large files
+data/processed/
+
+scripts/Not used/
+data/Bangladesh/
+data/Zambia/
+data/Uganda/
+data/Burkina/
